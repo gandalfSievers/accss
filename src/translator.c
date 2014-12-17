@@ -78,7 +78,7 @@ char* concat(const char* format, int count, ...)
     {
         int x = count;
         va_start(ap, count);
-        
+
         while(x--)
         {
             arg = va_arg(ap, char*);
@@ -86,9 +86,9 @@ char* concat(const char* format, int count, ...)
             {
                 len += strlen(arg);
             }
-            
+
         }
-        
+
         buffer = malloc(sizeof(char)*(len+1));
         if (buffer == NULL)
         {
@@ -278,10 +278,10 @@ char* composite(struct astnode* node, int i)
         memoryFailure();
         exit(EXIT_FAILURE);
     }
-    
+
     s[0] = '\0';
     size_t llen = listLength(node->children);
-    for (; i < llen; i++)
+    for(; i < llen; i++)
     {
         char* tmp = _t(node->children[i]);
         size_t slen = strlen(s);
@@ -293,7 +293,7 @@ char* composite(struct astnode* node, int i)
             exit(EXIT_FAILURE);
         }
         s=stmp;
-        
+
         memcpy(&s[slen], tmp, tlen);
 		free(tmp);
         slen+=tlen;
@@ -352,7 +352,7 @@ char* _t(struct astnode* node)
             return simple(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_SIMPLESELECTOR:
         case ACCSSNODETYPE_DIMENSION:
         case ACCSSNODETYPE_SELECTOR:
@@ -369,7 +369,7 @@ char* _t(struct astnode* node)
             return composite(node, 0);
         }
             break;
-            
+
         case ACCSSNODETYPE_CDO:
         case ACCSSNODETYPE_CDC:
         case ACCSSNODETYPE_DECLDELIM:
@@ -379,127 +379,127 @@ char* _t(struct astnode* node)
             return primitive(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_PERCENTAGE:
         {
             return percentage(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_COMMENT:
         {
             return comment(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_CLAZZ:
         {
             return clazz(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_ATKEYWORD:
         {
             return atkeyword(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_SHASH:
         {
             return shash(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_VHASH:
         {
             return vhash(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_ATTRIB:
         {
             return attrib(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_IMPORTANT:
         {
             return important(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_NTHSELECTOR:
         {
             return nthselector(node);
         }
             break;
-            
+
         case  ACCSSNODETYPE_FUNCTION:
         {
             return function(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_DECLARATION:
         {
             return declaration(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_FILTER:
         {
             return msfilter(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_BLOCK:
         {
             return block(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_BRACES:
         {
             return braces(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_ATRULES:
         {
             return atrules(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_ATRULER:
         {
             return atruler(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_PSEUDOE:
         {
             return pseudoe(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_PSEUDOC:
         {
             return pseudoc(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_URI:
         {
             return uri(node);
         }
             break;
-            
+
         case ACCSSNODETYPE_FUNCTIONEXPRESSION:
         {
             return functionExpression(node);
         }
             break;
-            
+
         default:
         {
             return NULL;

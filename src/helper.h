@@ -23,8 +23,14 @@
  * THE SOFTWARE.
  */
 
+#include <stdlib.h>
+ 
 #ifndef accss_helper_h
 #define accss_helper_h
+
+#ifndef SIZE_MAX
+#define SIZE_MAX ((size_t)-1)
+#endif
 
 void memoryFailure();
 char casecmp(const char* str1, const char* str2);

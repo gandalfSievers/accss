@@ -28,6 +28,8 @@
  * THE SOFTWARE.
  */
 
+#include <stdlib.h>
+ 
 #ifndef accss_gettokens_h
 #define accss_gettokens_h
 

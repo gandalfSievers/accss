@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 
+#include <stdlib.h>
+ 
 #ifndef accss_ast_h
 #define accss_ast_h
 

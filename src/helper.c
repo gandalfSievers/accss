@@ -41,27 +41,27 @@ char casecmp(const char* str1, const char* str2)
 {
     size_t i = 0,
     k = 0;
-    
+
     if(strlen(str1) != strlen(str2))
     {
         return 1;
     }
-    
+
     while (str1[i] != '\0' && str2[i] != '\0')
     {
         char a = str1[i];
         char b = str2[i];
-        
+
         if (a >= 97 && a <= 122)
         {
             a -= 32;
         }
-        
+
         if (b >= 97 && b <= 122)
         {
             b -= 32;
         }
-        
+
         if(a != b)
         {
             if(a > b)
@@ -82,7 +82,7 @@ char casecmp(const char* str1, const char* str2)
 char* resizeValue(char* old, const char* new)
 {
     size_t len = strlen(new);
-    
+
     char* tmp = realloc(old, sizeof(char)*(len+1));
     if (tmp == NULL)
     {
@@ -90,9 +90,9 @@ char* resizeValue(char* old, const char* new)
         exit(EXIT_FAILURE);
     }
     old = tmp;
-    
+
     strcpy(old, new);
-    
+
     return old;
 }
 
@@ -105,7 +105,7 @@ char* copyValue(const char* value)
     size_t len = strlen(value);
     char* newValue = malloc(sizeof(char) * (len+1));
     strcpy(newValue, value);
-    
+
     return newValue;
 }
 
@@ -117,20 +117,21 @@ char** copyCharList(char** charList)
     }
     char** tmp = charList;
     size_t len = 0;
-    
+
     while(*tmp != NULL)
     {
         len++;
         tmp++;
     }
+
     char** newlist = malloc(sizeof(char*)*(len+1));
-    
-    for(size_t i = 0;i < len;i++)
+    size_t i = 0;
+    for(;i < len;i++)
     {
         newlist[i] = copyValue(charList[i]);
     }
     newlist[len] = NULL;
-    
+
     return newlist;
 }
 
@@ -160,7 +161,7 @@ size_t charListLength(char** charList)
         return 0;
     }
     size_t len = 0;
-    
+
     while (*charList != NULL)
     {
         len++;
@@ -184,6 +185,6 @@ char* lowerCase(char* string)
         }
         string++;
     }
-    
+
     return start;
 }

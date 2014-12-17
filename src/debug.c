@@ -125,7 +125,8 @@ const char* astnodetypes[] = {
 
 void printASTNode(struct astnode* node, int depth)
 {
-    for(int i =0; i<depth; i++)
+	int i =0;
+    for(; i<depth; i++)
     {
         printf("\t");
     }
@@ -134,21 +135,22 @@ void printASTNode(struct astnode* node, int depth)
     {
         printf(" \"%s\"",node->content);
     }
-    
-    
+
+
     depth++;
     if(node->children != NULL)
     {
         printf("\n");
         struct astnode** tmp = node->children;
-        
+
         while (*tmp != NULL)
         {
             printASTNode(*tmp, depth);
             tmp++;
         }
     }
-    for(int k =0; k<depth; k++)
+	int k =0;
+    for(; k<depth; k++)
     {
         printf("\t");
     }
@@ -159,7 +161,7 @@ void printASTNodeJSON(struct astnode* node, int depth)
 {
 
     printf("{");
-    
+
     printf("'type' : '%s'", astnodetypes[node->type]);
 
 
@@ -195,12 +197,12 @@ void printASTNodeJSON(struct astnode* node, int depth)
         printf("'replaceByShort' : '%i', ",  node->info->replaceByShort);
         printf("'removeByShort' : '%i',", node->info->removeByShort);
         printf("'shortHandKey' : { 'i' : '%lu', 'key' : '%s' }", node->info->shortHandKey.i, node->info->shortHandKey.key != NULL ? node->info->shortHandKey.key : "");
-        
+
         if (node->info->sg != NULL)
         {
             printf(", 'sg' : [");
             char** sg1 = node->info->sg;
-            
+
             while(*sg1 != NULL)
             {
                 if (sg1 != node->info->sg)
@@ -214,7 +216,7 @@ void printASTNodeJSON(struct astnode* node, int depth)
         }
         printf("}");
     }
-    
+
 
     if(node->content != NULL)
     {
@@ -224,13 +226,13 @@ void printASTNodeJSON(struct astnode* node, int depth)
     {
         printf(", 's' : '%s'", node->s);
     }
-    
+
     depth++;
     if(node->children != NULL)
     {
         printf(", 'children' : [");
         struct astnode** tmp = node->children;
-        
+
         while (*tmp != NULL)
         {
             if (tmp != node->children)
@@ -259,7 +261,8 @@ void printASTList(struct astnode** list, char* name)
 
 void printTokens(struct token_info* info)
 {
-    for(size_t i = 0; i < info->len; i++)
+	size_t i = 0;
+    for(; i < info->len; i++)
     {
         struct token* tmp = info->list[i];
         printf("%lu LN:%i Type:%s Right:%zu Value:%s  \n", i, tmp->ln, ttypes[tmp->type], tmp->right, tmp->value);
@@ -271,12 +274,12 @@ void printSide(struct shortSide* side)
     if(side != NULL)
     {
         printf("{'imp' : '%i'", side->imp);
-        
+
         if((side->t != NULL) || (side->t != NULL))
         {
             printf(", ");
         }
-        
+
         if(side->s != NULL)
         {
             printf("'s' : '%s'", side->s);
@@ -288,11 +291,12 @@ void printSide(struct shortSide* side)
                 printf(", ");
             }
             printf("'t' : ");
-            for (size_t i = 0, ilen = listLength(side->t); i<ilen; i++)
+			size_t i = 0, ilen = listLength(side->t);
+            for( ; i<ilen; i++)
             {
                 printASTNodeJSON(side->t[i], 0);
             }
-            
+
         }
         printf("}");
     }
@@ -308,7 +312,7 @@ void printShortList(struct shortHand** sList)
     {
         struct shortHand* sh = *sList;
         sList++;
-        
+
         printf("{");
         if (sh->name != NULL)
         {
@@ -338,7 +342,7 @@ void printShortHands(struct pchar_shorts** list)
     if(list != NULL)
     {
         struct pchar_shorts** psTmp = list;
-        
+
         printf("[");
         while (*psTmp != NULL)
         {

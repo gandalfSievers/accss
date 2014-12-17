@@ -34,17 +34,17 @@
 struct astnode* createASTNodeWithType(char type)
 {
     struct astnode* node = malloc(sizeof(struct astnode));
-    
+
     if(node == NULL)
     {
         memoryFailure();
         exit(EXIT_FAILURE);
     }
-    
+
     memset(node, 0, sizeof(struct astnode));
-    
+
     node->type = type;
-    
+
     return node;
 }
 
@@ -64,8 +64,8 @@ struct astinfo* createASTInfo()
 struct astnode** extractAST(struct astnode** list, size_t index)
 {
     struct astnode* tmp = list[index];
-    
-    for (size_t i = 0, listlen = listLength(list); i< listlen; i++)
+    size_t i = 0, listlen = listLength(list);
+    for(; i< listlen; i++)
     {
         if(i == index)
         {
@@ -87,18 +87,18 @@ struct astnode** pushASTNode(struct astnode** list, struct astnode* newnode)
     {
 
         list = malloc(sizeof(struct astnode*)*2);
-        
+
         if(list == NULL)
         {
             memoryFailure();
             exit(EXIT_FAILURE);
         }
-        
+
         list[0] = newnode;
         list[1] = NULL;
         return list;
     }
-    
+
     size_t size = listLength(list);
     struct astnode** newlist = realloc(list, (sizeof(struct astnode*)*(size+2)));
     if(newlist == NULL)
@@ -107,10 +107,10 @@ struct astnode** pushASTNode(struct astnode** list, struct astnode* newnode)
         exit(EXIT_FAILURE);
     }
     list = newlist;
-    
+
     list[size+1] = list[size];
     list[size] = newnode;
-    
+
     return list;
 
 }
@@ -129,7 +129,7 @@ struct astnode** mergeList(struct astnode** left, struct astnode** right)
     {
         return right;
     }
-    
+
     size_t leftsize = 1;
     struct astnode** tmp = left;
     while(*tmp != NULL)
@@ -137,9 +137,9 @@ struct astnode** mergeList(struct astnode** left, struct astnode** right)
         leftsize++;
         tmp++;
     }
-    
+
     leftsize--;
-    
+
     size_t rightsize = 1;
     tmp = right;
     while(*tmp != NULL)
@@ -147,7 +147,7 @@ struct astnode** mergeList(struct astnode** left, struct astnode** right)
         rightsize++;
         tmp++;
     }
-    
+
     size_t newsize = leftsize+rightsize;
     struct astnode** newlist = realloc(left, (sizeof(struct astnode*) * newsize));
     if(newlist == NULL)
@@ -156,14 +156,15 @@ struct astnode** mergeList(struct astnode** left, struct astnode** right)
         exit(EXIT_FAILURE);
     }
     left = newlist;
-    
-    for(size_t i = leftsize, k=0;i < newsize; i++, k++)
+
+	size_t i = leftsize, k=0;
+    for(;i < newsize; i++, k++)
     {
         left[i] = right[k];
     }
-    
+
     free(right);
-    
+
     return left;
 }
 
@@ -184,7 +185,7 @@ size_t listLength(struct astnode** list)
         listLength++;
         tmp++;
     }
-    
+
     return listLength;
 }
 
@@ -201,7 +202,7 @@ size_t indexof(struct astnode** list, struct astnode* item, char* error)
         *error=1;
         return 0;
     }
-    
+
     size_t index = 0;
     struct astnode** tmp = list;
     while(*tmp != NULL && *tmp != item)
@@ -214,7 +215,7 @@ size_t indexof(struct astnode** list, struct astnode* item, char* error)
         *error=1;
         return 0;
     }
-    
+
     return index;
 }
 
@@ -224,79 +225,79 @@ struct astnode** removeItem(struct astnode** list, size_t start, size_t len)
     {
         return list;
     }
-    
+
     size_t listlen = listLength(list);
-    
+
     if (listlen <= start)
     {
         return list;
     }
-    
+
     size_t newsize = listlen - len;
-    
+
     if(newsize < 1)
     {
         deleteASTList(list);
         return NULL;
     }
-    
+
     size_t ilen = start + len;
-    
+
     if(ilen > listlen)
     {
         return list;
     }
-    
-   
+
+
     struct astnode** newlist = malloc(sizeof(struct astnode*) * (newsize+1));
     if(newlist == NULL)
 	{
         memoryFailure();
         exit(EXIT_FAILURE);
     }
-    
+
     size_t i = 0;
-    for (; i < start; i++)
+    for(; i < start; i++)
     {
         newlist[i] = list[i];
     }
     size_t k = i;
-    
-    for (; i < ilen; i++)
+
+    for(; i < ilen; i++)
     {
     	deleteASTTree(list[i]);
     }
-    
-    for (; k <= newsize; k++, i++)
+
+    for(; k <= newsize; k++, i++)
     {
         newlist[k] = list[i];
     }
-    
+
     free(list);
-    
+
     return newlist;
 }
 
 struct astnode** insertItem(struct astnode** list, size_t start, struct astnode* item)
 {
     size_t listlen = listLength(list);
-    
+
     struct astnode** newlist = realloc(list, sizeof(struct astnode*) * (listlen+2));
     if(newlist == NULL)
 	{
         memoryFailure();
         exit(EXIT_FAILURE);
     }
-    
+
     list = newlist;
-    
-    for (size_t i = listlen; i >= start; i--)
+    size_t i = listlen;
+    for(; i >= start; i--)
     {
         list[i + 1] = list[i];
     }
-    
+
     list[start] = item;
-    
+
     return list;
 }
 
@@ -304,8 +305,8 @@ void deleteASTTree(struct astnode* node)
 {
     if(node->children != NULL)
     {
-        size_t listlen = listLength(node->children);
-        for (size_t i = 0; i < listlen; i++)
+        size_t i = 0, listlen = listLength(node->children);
+        for( ; i < listlen; i++)
         {
             deleteASTTree(node->children[i]);
         }
@@ -341,12 +342,12 @@ void deleteASTTree(struct astnode* node)
         {
             free(node->info->shortHandKey.key);
         }
-        
+
         if(node->info->id != NULL)
         {
             free(node->info->id);
         }
-        
+
         free(node->info);
     }
     free(node);
@@ -369,12 +370,12 @@ void deleteASTList(struct astnode** list)
 struct astnode* copyTree(struct astnode* node)
 {
     struct astnode* copy = createASTNodeWithType(node->type);
-    
+
     if(node->children != NULL)
     {
-        size_t listlen = listLength(node->children);
-        
-        for (size_t i = 0; i < listlen; i++)
+        size_t i = 0, listlen = listLength(node->children);
+
+        for( ; i < listlen; i++)
         {
             copy->children = pushASTNode(copy->children, copyTree(node->children[i]));
         }
@@ -388,7 +389,7 @@ struct astnode* copyTree(struct astnode* node)
         copy->s = copyValue(node->s);
     }
 
-    
+
     if(node->info != NULL)
     {
         copy->info = malloc(sizeof(struct astinfo));
@@ -414,12 +415,12 @@ struct astnode* copyTree(struct astnode* node)
         {
             copy->info->shortHandKey.key = copyValue(node->info->shortHandKey.key);
         }
-        
+
         if(node->info->id != NULL)
         {
             copy->info->id = copyValue(node->info->id);
         }
-        
+
         if (node->info->sg != NULL)
         {
             copy->info->sg = copyCharList(node->info->sg);
@@ -433,12 +434,12 @@ struct astnode** _copyList(struct astnode** list, size_t length, size_t start, s
 {
     struct astnode** newlist = malloc(sizeof(struct astnode*) * (length+2));
     size_t i = 0;
-    for (; start < end; start++, i++)
+    for(; start < end; start++, i++)
     {
         newlist[i] = deep ? copyTree(list[start]) : list[start];
     }
     newlist[i] = NULL;
-    
+
     return newlist;
 }
 struct astnode** sslice(struct astnode** list, long start)
@@ -448,7 +449,7 @@ struct astnode** sslice(struct astnode** list, long start)
 struct astnode** slice(struct astnode** list, long start, long end)
 {
     size_t length = start-end;
-    
+
     return _copyList(list,  length,  start,  end, 0);
 }
 
