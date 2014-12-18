@@ -2631,7 +2631,7 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
                 x->info->id = NULL;
             }
             char buffer[LDBUFFERSIZE];
-            sprintf(buffer, "%ld", i);
+            sprintf(buffer, "%lu", i);
             x->info->id = concat("%s%s%s", 3, path, "/", buffer);
             if (isTBLProp(p))
             {
@@ -3450,7 +3450,7 @@ struct astnode* restructureBlock(struct compdeps* deps, struct astnode* node, ch
             }
 
             char iBuff[LDBUFFERSIZE];
-            sprintf(iBuff, "%ld", i);
+            sprintf(iBuff, "%lu", i);
             x->info->id = concat("%s%s%s", 3, path, "/", iBuff);
 
             struct prop* t = NULL;
@@ -3967,7 +3967,7 @@ struct astnode* walk(struct compdeps* deps, struct astnode* (*rules)(struct comp
         if (t->children != NULL)
         {
             char buffer[LDBUFFERSIZE];
-            int length = sprintf(buffer, "%ld", i);
+            int length = sprintf(buffer, "%lu", i);
             size_t path_len = strlen(path);
             char* newpath = malloc(sizeof(char)*(length+path_len+2));
             if (newpath == NULL)

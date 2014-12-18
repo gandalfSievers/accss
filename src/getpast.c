@@ -970,7 +970,7 @@ size_t checkIdentLowLine(struct token_info* info, size_t pos)
 
     for(; pos < info->len; pos++)
     {
-        struct token* tmp = getTokenByIndex(info, start);
+        struct token* tmp = getTokenByIndex(info, pos);
         if (tmp->type != TOKENTYPE_HYPHENMINUS &&
             tmp->type != TOKENTYPE_DECIMALNUMBER &&
             tmp->type != TOKENTYPE_LOWLINE &&
