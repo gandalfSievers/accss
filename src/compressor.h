@@ -76,9 +76,9 @@ struct shortHand
 {
     char invalid;
     char* name;
-    
+
     char imp;
-    
+
     struct sides
     {
         struct shortSide* top;
@@ -118,6 +118,9 @@ struct compdeps
     unsigned char mergesplitted;
     struct pchar_shorts** shorts2;
     struct pchar_prop** props2;
+    size_t shortGroupID;
+    char*  lastShortSelector;
+    size_t lastShortGroupID;
 };
 
 struct astnode* compress(struct astnode* tree, unsigned char restructure, unsigned char mergesplitted, unsigned char compat);

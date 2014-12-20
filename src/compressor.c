@@ -37,8 +37,7 @@
 #include "translator.h"
 #include "ast.h"
 
-//SIZE_MAX
-#define LDBUFFERSIZE 32
+#define LDBUFFERSIZE sizeof(size_t)
 
 char* getVendorIDFromNode(struct astnode* node);
 
@@ -135,7 +134,7 @@ void freeShortList(struct shortHand** sList)
         free(sh->name);
         struct shortSide* a[] = {sh->sides.top, sh->sides.right, sh->sides.bottom, sh->sides.left};
         char alen = 4;
-		char i = 0;
+        char i = 0;
         for(; i < alen; i++)
         {
             if (a[i] != NULL)
@@ -423,7 +422,7 @@ char addToShort(struct shortHand* sh, char* name, char* sValue, struct astnode**
     }
     else if (casecmp(name, sh->name) == 0)
     {
-		size_t i = 0, ilen = listLength(tValue);
+        size_t i = 0, ilen = listLength(tValue);
         for(; i < ilen; i++)
         {
             struct astnode* x = tValue[i];
@@ -510,7 +509,7 @@ char addToShort(struct shortHand* sh, char* name, char* sValue, struct astnode**
 
         if (alen > 4)
         {
-			int k = 0;
+            int k = 0;
             for(; k<=alen; k++)
             {
                 freeSide(a[alen]);
@@ -580,12 +579,12 @@ char previousNodeType(struct astnode* container, size_t i)
     {
             return container->children[i-1]->type;
     }
-	return 0;
+    return 0;
 }
 
 char nextNodeType(struct astnode* container, size_t i)
 {
-	return i == listLength(container->children) - 1 ? 0 : container->children[i+1]->type;
+    return i == listLength(container->children) - 1 ? 0 : container->children[i+1]->type;
 }
 
 char _cleanComment(char r)
@@ -605,7 +604,7 @@ char _cleanComment(char r)
         case ACCSSNODETYPE_IMPORTANT:
         case ACCSSNODETYPE_NTH:
         case ACCSSNODETYPE_COMBINATOR:
-    	{
+        {
             return 1;
         }
     }
@@ -639,17 +638,17 @@ struct astnode* cleanCharset(struct compdeps* deps, struct astnode* node, char r
     {
         if(node->children[0]->children != NULL)
         {
-    		if (strcmp(node->children[0]->children[0]->content, "charset") == 0)
-    		{
-				size_t i = index;
-            	for(; i > 1; i--)
-     	   		{
-     	       		if (container->children[i]->type != ACCSSNODETYPE_S && container->children[i]->type != ACCSSNODETYPE_COMMENT)
-  		      		{
-                    	return NULL;
-    	            }
-    			}
-        	}
+            if (strcmp(node->children[0]->children[0]->content, "charset") == 0)
+            {
+                size_t i = index;
+                for(; i > 1; i--)
+                {
+                    if (container->children[i]->type != ACCSSNODETYPE_S && container->children[i]->type != ACCSSNODETYPE_COMMENT)
+                    {
+                        return NULL;
+                    }
+                }
+            }
         }
     }
     return node;
@@ -660,25 +659,25 @@ struct astnode* cleanImport(struct compdeps* deps, struct astnode* node, char ru
     char  x;
     if(index > 0)
     {
-		size_t i = index - 1;
-		for(; i > 1; i--)
-		{
-			x = container->children[i]->type;
-			if (x != ACCSSNODETYPE_S && x != ACCSSNODETYPE_COMMENT)
-			{
-				if (x == ACCSSNODETYPE_ATRULES)
-				{
-					char* content = container->children[i]->children[0]->children[0]->content;
-					if (casecmp(content, "import") != 0 && casecmp(content, "charset"))
-					{
-						return NULL;
-					}
-				} else
-				{
-					return NULL;
-				}
-			}
-		}
+        size_t i = index - 1;
+        for(; i > 1; i--)
+        {
+            x = container->children[i]->type;
+            if (x != ACCSSNODETYPE_S && x != ACCSSNODETYPE_COMMENT)
+            {
+                if (x == ACCSSNODETYPE_ATRULES)
+                {
+                    char* content = container->children[i]->children[0]->children[0]->content;
+                    if (casecmp(content, "import") != 0 && casecmp(content, "charset"))
+                    {
+                        return NULL;
+                    }
+                } else
+                {
+                    return NULL;
+                }
+            }
+        }
     }
     return node;
 }
@@ -917,7 +916,7 @@ struct astnode* compressIdentColor(struct compdeps* deps, struct astnode* node, 
     if(container->type == ACCSSNODETYPE_VALUE || container->type == ACCSSNODETYPE_FUNCTIONBODY)
     {
         char rep = 0;
-    	if(casecmp(node->content, "yellow") == 0)
+        if(casecmp(node->content, "yellow") == 0)
         {
             node->content = resizeValue(node->content, "ff0");
             rep++;
@@ -1048,7 +1047,7 @@ struct astnode* compressHashColor(struct compdeps* deps, struct astnode* node, c
 
 struct astnode* compressFunctionColor(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
-	char* v[3] = { NULL, NULL, NULL };
+    char* v[3] = { NULL, NULL, NULL };
 
     if (strcmp(node->children[0]->content, "rgb") == 0)
     {
@@ -1056,7 +1055,7 @@ struct astnode* compressFunctionColor(struct compdeps* deps, struct astnode* nod
         size_t len = listLength(body);
 
         char vvalid = 1;
-		int i = 0, k = 0;
+        int i = 0, k = 0;
         for(; i < len; i++)
         {
 
@@ -1094,7 +1093,7 @@ struct astnode* compressFunctionColor(struct compdeps* deps, struct astnode* nod
 
             if(vi1 < 256 && vi2 < 256 && vi3 < 256)
             {
-            	sprintf(h, "%02x%02x%02x", vi1, vi2, vi3);
+                sprintf(h, "%02x%02x%02x", vi1, vi2, vi3);
 
                 struct astnode* vhash = createASTNodeWithType(ACCSSNODETYPE_VHASH);
 
@@ -1234,7 +1233,7 @@ struct astnode* compressFont(struct compdeps* deps, struct astnode* node, char r
     if (strcmp(decl->children[0]->content, "font") == 0 && listLength(value->children))
     {
         size_t vlen = listLength(value->children);
-		size_t i = vlen - 1;
+        size_t i = vlen - 1;
 
         for(; i+1 > 0; i--)
         {
@@ -1250,24 +1249,24 @@ struct astnode* compressFont(struct compdeps* deps, struct astnode* node, char r
                 {
                     if(i > 0)
                     {
-                    	struct astnode* t = value->children[i - 1];
-                    	if (t->type == ACCSSNODETYPE_OPERATOR && strcmp(t->content, "/") == 0)
-                    	{
-                        	value->children = removeItem(value->children, --i, 2);
-                    	}
-                    	else
-                    	{
-                        	value->children = removeItem(value->children, i, 1);
-                    	}
-               	     	if(i  > 1 && listLength(value->children) > 0)
-               	     	{
-                	    	struct astnode* t2 = value->children[i - 1];
+                        struct astnode* t = value->children[i - 1];
+                        if (t->type == ACCSSNODETYPE_OPERATOR && strcmp(t->content, "/") == 0)
+                        {
+                            value->children = removeItem(value->children, --i, 2);
+                        }
+                        else
+                        {
+                            value->children = removeItem(value->children, i, 1);
+                        }
+                        if(i  > 1 && listLength(value->children) > 0)
+                        {
+                            struct astnode* t2 = value->children[i - 1];
 
-                  	 	 	if (t2->type == ACCSSNODETYPE_S)
-                  	 	 	{
-                    		    value->children = removeItem(value->children, --i, 1);
-                    		}
-                    	}
+                            if (t2->type == ACCSSNODETYPE_S)
+                            {
+                                value->children = removeItem(value->children, --i, 1);
+                            }
+                        }
                     }
                     else
                     {
@@ -1283,11 +1282,11 @@ struct astnode* compressFont(struct compdeps* deps, struct astnode* node, char r
 
                     if(i - 1 > 0 && listLength(value->children) > 0)
                     {
-                    	struct astnode* t2 = value->children[i - 1];
-                   	 	if (t2->type == ACCSSNODETYPE_S)
-                    	{
-                    	    value->children = removeItem(value->children, --i, 1);
-                    	}
+                        struct astnode* t2 = value->children[i - 1];
+                        if (t2->type == ACCSSNODETYPE_S)
+                        {
+                            value->children = removeItem(value->children, --i, 1);
+                        }
                     }
                 }
             }
@@ -1325,7 +1324,7 @@ struct astnode* compressBackground(struct compdeps* deps, struct astnode* node, 
             return node;
         }
 
-		size_t i = vlen - 1;
+        size_t i = vlen - 1;
         for(; i+1 > 0; i--)
         {
             struct astnode* x = value->children[i];
@@ -1337,11 +1336,11 @@ struct astnode* compressBackground(struct compdeps* deps, struct astnode* node, 
                     value->children = removeItem(value->children, i, 1);
                     if(i > 1 && listLength(value->children) > 0)
                     {
-                    	struct astnode* t2 = value->children[i - 1];
-                   	 	if (t2->type == ACCSSNODETYPE_S)
-                    	{
-                    	    value->children = removeItem(value->children, --i, 1);
-                    	}
+                        struct astnode* t2 = value->children[i - 1];
+                        if (t2->type == ACCSSNODETYPE_S)
+                        {
+                            value->children = removeItem(value->children, --i, 1);
+                        }
                     }
                 }
             }
@@ -1370,7 +1369,7 @@ struct astnode* cleanEmpty(struct compdeps* deps, struct astnode* node, char rul
     switch(rule)
     {
         case ACCSSNODETYPE_RULESET:
-    	{
+        {
             if(listLength(node->children) < 2)
             {
                 return NULL;
@@ -1386,7 +1385,7 @@ struct astnode* cleanEmpty(struct compdeps* deps, struct astnode* node, char rul
         case ACCSSNODETYPE_ATRULER:
         {
             if (!listLength(node->children[listLength(node->children) - 1]->children))
-        	{
+            {
                 return NULL;
             }
         }
@@ -1477,12 +1476,12 @@ char notFPElements(const char* content)
 char freezeNeeded (struct astnode* selector)
 {
     struct astnode* ss;
-	size_t i = 0, ilen=listLength(selector->children);
+    size_t i = 0, ilen=listLength(selector->children);
 
     for(; i < ilen; i++)
     {
         ss = selector->children[i];
-		size_t j = 0, jlen = listLength(ss->children);
+        size_t j = 0, jlen = listLength(ss->children);
         for(; j < jlen; j++)
         {
             switch (ss->children[j]->type)
@@ -1497,11 +1496,11 @@ char freezeNeeded (struct astnode* selector)
                 }
                     break;
                 case ACCSSNODETYPE_PSEUDOE:
-            	{
+                {
                     char* content = ss->children[j]->children[0]->type == ACCSSNODETYPE_IDENT ? ss->children[j]->children[0]->content : ss->children[j]->children[0]->children[0]->content;
                     if (!(notFPElements(content)))
                     {
-                    	return 1;
+                        return 1;
                     }
                 }
                     break;
@@ -1580,7 +1579,7 @@ int comp(const void* a, const void* b)
 
 char* selectorSignature(struct astnode* selector)
 {
- 	size_t ilen = ilen=listLength(selector->children);
+    size_t ilen = ilen=listLength(selector->children);
     char** a = malloc(sizeof(char*)*ilen);
     if (a == NULL)
     {
@@ -1588,7 +1587,7 @@ char* selectorSignature(struct astnode* selector)
         exit(EXIT_FAILURE);
     }
     memset(a, 0, sizeof(char)*ilen);
-	size_t i = 0;
+    size_t i = 0;
 
     for(; i < ilen; i++)
     {
@@ -1602,7 +1601,7 @@ char* selectorSignature(struct astnode* selector)
 
 char containsPseudo(struct astnode* sselector)
 {
-	size_t j = 0, jlen=listLength(sselector->children);
+    size_t j = 0, jlen=listLength(sselector->children);
     for(; j < jlen; j++)
     {
         switch (sselector->children[j]->type)
@@ -1625,7 +1624,7 @@ char containsPseudo(struct astnode* sselector)
 
 char* composePseudoID(struct astnode* selector)
 {
- 	size_t ilen = ilen=listLength(selector->children);
+    size_t ilen = ilen=listLength(selector->children);
     char** a = malloc(sizeof(char*)*ilen);
     if (a == NULL)
     {
@@ -1648,17 +1647,17 @@ char* composePseudoID(struct astnode* selector)
     {
         if(k != ilen)
         {
-    		char** atmp = realloc(a, k*sizeof(char*));
+            char** atmp = realloc(a, k*sizeof(char*));
             if(atmp == NULL)
             {
                 memoryFailure();
                 exit(EXIT_FAILURE);
             }
             a = atmp;
-    	}
+        }
 
         qsort(a, k, sizeof(char*), &comp);
-    	return joinAndFreeCharArray(a, k, ",", 0);
+        return joinAndFreeCharArray(a, k, ",", 0);
     }
     else
     {
@@ -1691,7 +1690,7 @@ char* pseudoSelectorSignature(struct astnode* selector, char dontAppendExcludeMa
     for( ; i < ilen; i++)
     {
         ss = selector->children[i];
-		size_t j = 0, jlen = listLength(ss->children);
+        size_t j = 0, jlen = listLength(ss->children);
 
         for( ; j < jlen; j++)
         {
@@ -1729,28 +1728,28 @@ char* pseudoSelectorSignature(struct astnode* selector, char dontAppendExcludeMa
 
     if(k != 0)
     {
-    	if(alen != k)
-    	{
-    		char** b = realloc(a, k*sizeof(char*));
+        if(alen != k)
+        {
+            char** b = realloc(a, k*sizeof(char*));
             if (b == NULL)
             {
                 memoryFailure();
                 exit(EXIT_FAILURE);
             }
             a = b;
-    	}
+        }
 
-    	qsort(a, k, sizeof(char*), &comp);
-    	char* s = joinAndFreeCharArray(a, k, ",", 0);
+        qsort(a, k, sizeof(char*), &comp);
+        char* s = joinAndFreeCharArray(a, k, ",", 0);
 
-    	if (!dontAppendExcludeMark && wasExclude)
-    	{
-        	char buffer[2] = {'1', '\0'};
-        	char* stmp = concat("%s%s", 2, s, buffer);
-        	free(s);
-        	s = stmp;
-    	}
-    	return s;
+        if (!dontAppendExcludeMark && wasExclude)
+        {
+            char buffer[2] = {'1', '\0'};
+            char* stmp = concat("%s%s", 2, s, buffer);
+            free(s);
+            s = stmp;
+        }
+        return s;
     }
     else
     {
@@ -1767,31 +1766,31 @@ void markSimplePseudo(struct astnode* selector)
 
     if (ilen > 0 )
     {
-    	char** sg = malloc(sizeof(char*)*(ilen+1));
+        char** sg = malloc(sizeof(char*)*(ilen+1));
         if (sg == NULL)
         {
             memoryFailure();
             exit(EXIT_FAILURE);
         }
         sg[ilen] = NULL;
-		size_t i = 0;
+        size_t i = 0;
 
-    	for( ; i < ilen; i++)
-    	{
+        for( ; i < ilen; i++)
+        {
             ss = selector->children[i];
             sg[i] = copyValue(ss->s);
         }
-		size_t x = 0;
+        size_t x = 0;
         for( ; x < ilen; x++)
         {
-        	ss = selector->children[x];
-        	if(ss->info == NULL)
-        	{
+            ss = selector->children[x];
+            if(ss->info == NULL)
+            {
                 ss->info = createASTInfo();
-        	}
-        	ss->info->pseudo = containsPseudo(ss);
-        	ss->info->sg = copyCharList(sg);
-    	}
+            }
+            ss->info->pseudo = containsPseudo(ss);
+            ss->info->sg = copyCharList(sg);
+        }
         freeCharList(sg);
     }
 }
@@ -1887,7 +1886,7 @@ char** getHash(struct astnode** nodes)
 
     char** r = malloc(sizeof(char*)*(ilen+1));
     if(r == NULL)
-	{
+    {
         memoryFailure();
         exit(EXIT_FAILURE);
     }
@@ -1951,12 +1950,12 @@ char okToJoinByProperties(struct astnode* r0, struct astnode*  r1)
     struct astinfo* i0 = r0->info, *i1 = r1->info;
 
     if((i0->freezeID == NULL && i1->freezeID == NULL)
-    	||
-    	(
-     		(i0->freezeID != NULL && i1->freezeID != NULL)
-         	&&
-         	strcmp(i0->freezeID, i1->freezeID)
-     	)
+        ||
+        (
+            (i0->freezeID != NULL && i1->freezeID != NULL)
+            &&
+            strcmp(i0->freezeID, i1->freezeID)
+        )
     )
     {
         return 1;
@@ -1964,11 +1963,11 @@ char okToJoinByProperties(struct astnode* r0, struct astnode*  r1)
 
     if((i0->pseudoID == NULL && i1->pseudoID == NULL)
        ||
-    	(
-        	(i0->pseudoID != NULL && i1->pseudoID != NULL)
-         	&&
-         	strcmp(i0->pseudoID, i1->pseudoID)
-		)
+        (
+            (i0->pseudoID != NULL && i1->pseudoID != NULL)
+            &&
+            strcmp(i0->pseudoID, i1->pseudoID)
+        )
     )
     {
         return 1;
@@ -2261,7 +2260,7 @@ struct analyze* analyze(unsigned char compat, struct astnode* r1, struct astnode
 
     if (r1->type != r2->type)
     {
-    	return r;
+        return r;
     }
 
     if(compat == ACCSSOPTION_NONE)
@@ -2397,7 +2396,7 @@ void cleanSelector(struct astnode* node)
         char* s = node->children[i]->s;
         if(stringInHash(h,  s))
         {
-			node->children = removeItem(node->children, i, 1);
+            node->children = removeItem(node->children, i, 1);
             i--;
             ilen = listLength(node->children);
         }
@@ -2435,7 +2434,7 @@ struct astnode* rejoinRuleset(struct compdeps* deps, struct astnode* node, char 
 
     if (!listLength(tb))
     {
-    	return NULL;
+        return NULL;
     }
 
     char* pSig = p->info != NULL ? p->info->pseudoSignature : NULL;
@@ -2570,9 +2569,6 @@ char* pathUp(const char* path)
 
 struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
-    static char* lastShortSelector = NULL;
-    static size_t lastShortGroupID = 0;
-
     char* selector = NULL;
     char freeze = 0;
     char* freezeID = NULL;
@@ -2582,7 +2578,7 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
     {
         selector = copyValue(container->children[0]->children[0]->s);
         freeze = container->info->freeze;
-		freezeID = container->info->freezeID;
+        freezeID = container->info->freezeID;
         shortGroupID = container->info->shortGroupID;
     }
     else
@@ -2645,7 +2641,7 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
                 size_t shortsI = sL == 0 ? 0 : sL - 1;
 
 
-                if ((deps->mergesplitted) || (!lastShortSelector || (selector != NULL && strcmp(selector, lastShortSelector) == 0) || shortGroupID == lastShortGroupID))
+                if ((deps->mergesplitted) || (!deps->lastShortSelector || (selector != NULL && strcmp(selector, deps->lastShortSelector) == 0) || shortGroupID == deps->lastShortGroupID))
                 {
                     if (sL)
                     {
@@ -2691,8 +2687,8 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
 
                 free(key);
 
-                lastShortSelector = resizeValue(lastShortSelector, selector);
-                lastShortGroupID = shortGroupID;
+                deps->lastShortSelector = resizeValue(deps->lastShortSelector, selector);
+                deps->lastShortGroupID = shortGroupID;
             }
         }
     }
@@ -2702,14 +2698,13 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
     return node;
 }
 
-void disjoin (struct astnode* container)
+void disjoin (struct compdeps* deps, struct astnode* container)
 {
 
     if(container != NULL)
     {
         struct astnode** sr = NULL;
 
-        static size_t shortGroupID = 0;
         size_t i = listLength(container->children) - 1;
         for(; i+1 > 0; i--)
         {
@@ -2718,7 +2713,7 @@ void disjoin (struct astnode* container)
             {
                 if (t->type == ACCSSNODETYPE_RULESET)
                 {
-                    t->info->shortGroupID = shortGroupID++;
+                    t->info->shortGroupID = deps->shortGroupID++;
                     struct astnode* s = t->children[0];
                     if (listLength(s->children) > 1)
                     {
@@ -2742,7 +2737,7 @@ void disjoin (struct astnode* container)
                 }
                 else if (t->type == ACCSSNODETYPE_ATRULER || t->type == ACCSSNODETYPE_STYLESHEET)
                 {
-                    disjoin(t);
+                    disjoin(deps, t);
                 }
             }
         }
@@ -2967,7 +2962,8 @@ char* buildPPre(char* pre, char* p, struct astnode** v, struct astnode* d, char 
     char* fp = freeze ? copyValue("ft:") : copyValue("ff:");
     char* vID = NULL;
 
-    size_t vlen = listLength(v), i = 0;
+    size_t vlen = listLength(v);
+    size_t i = 0;
     for( ; i < vlen; i++)
     {
         if (vID == NULL)
@@ -2975,7 +2971,7 @@ char* buildPPre(char* pre, char* p, struct astnode** v, struct astnode* d, char 
             vID = getVendorIDFromNode(v[i]);
         }
     }
-    char* ret = concat("%s%s%s%s", 5, fp, pre, p, (vID !=NULL ? vID : "")  );
+    char* ret = concat("%s%s%s%s", 4, fp, pre, p, (vID !=NULL ? vID : "")  );
     if(vID != NULL)
     {
         free(vID);
@@ -3360,7 +3356,7 @@ char needless(char* name, struct pchar_prop** props, char* pre, char imp,struct 
     free(n);
     if ((x = nlTable(prop)) != NULL)
     {
-		size_t i = 0, xlen = charListLength(x);
+        size_t i = 0, xlen = charListLength(x);
         for( ; i < xlen; i++)
         {
             char* hvx = concat("%s%s%s", 3, hackstr, vendor != NULL ? vendor : "", x[i]);
@@ -3387,6 +3383,12 @@ char needless(char* name, struct pchar_prop** props, char* pre, char imp,struct 
 
 struct astnode* restructureBlock(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
+    size_t tlen = listLength(node->children);
+    if(tlen == 0)
+    {
+        return node;
+    }
+
     struct pchar_prop** props = NULL;
     char isPseudo = 0;
     char* selector = NULL;
@@ -3418,7 +3420,8 @@ struct astnode* restructureBlock(struct compdeps* deps, struct astnode* node, ch
     char* pathup = pathUp(path);
     char* pre = concat("%s%s%s%s", 4, pathup , "/", selector, "/" );
     free(pathup);
-    size_t tlen = listLength(node->children), i = tlen - 1;
+
+    size_t i = tlen - 1;
 
     for( ; i+1 > 0; i--)
     {
@@ -3426,6 +3429,7 @@ struct astnode* restructureBlock(struct compdeps* deps, struct astnode* node, ch
 
         if (x->type == ACCSSNODETYPE_DECLARATION)
         {
+
             struct astnode** v = x->children[1]->children;
             size_t vlen = listLength(v);
             if(!vlen)
@@ -3456,6 +3460,7 @@ struct astnode* restructureBlock(struct compdeps* deps, struct astnode* node, ch
             struct prop* t = NULL;
             if (!dontRestructure(deps->compat, x) && (t = getProp(props, ppre)) != NULL)
             {
+
                 if ((isPseudo && strcmp(freezeID,t->freezeID) == 0) || // pseudo from equal selectors group
                     (!isPseudo && strcmp(pseudoID, t->pseudoID) == 0) || // not pseudo from equal pseudo signature group
                     (isPseudo && strcmp(pseudoID, t->pseudoID) == 0 && hashInHash(sg, t->sg))) // pseudo from covered selectors group
@@ -3475,6 +3480,7 @@ struct astnode* restructureBlock(struct compdeps* deps, struct astnode* node, ch
                         node->children = removeItem(node->children, i, 1);
                     }
                 }
+
             }
             else if (needless(p, props, pre, imp, v, x, freeze))
             {
@@ -3482,6 +3488,7 @@ struct astnode* restructureBlock(struct compdeps* deps, struct astnode* node, ch
             }
             else if(!dontRestructure(deps->compat, x))
             {
+
                 props = addProp(props, createProp(node, imp, x->info->id, sg, freeze, path, freezeID, pseudoID), ppre);
                 if (conttype == ACCSSNODETYPE_RULESET)
                 {
@@ -3659,7 +3666,7 @@ struct astnode* restructureRuleset(struct compdeps* deps, struct astnode* node, 
 
 struct astnode* delimSelectors(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
-	size_t j = listLength(node->children) - 1;
+    size_t j = listLength(node->children) - 1;
     for( ; j > 0; j--)
     {
         node->children = insertItem(node->children, j, createASTNodeWithType(ACCSSNODETYPE_DELIM));
@@ -3668,7 +3675,7 @@ struct astnode* delimSelectors(struct compdeps* deps, struct astnode* node, char
 }
 struct astnode* delimBlocks(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
-	size_t j = listLength(node->children) - 1;
+    size_t j = listLength(node->children) - 1;
     for( ; j > 0; j--)
     {
         node->children = insertItem(node->children, j, createASTNodeWithType(ACCSSNODETYPE_DECLDELIM));
@@ -4024,7 +4031,9 @@ struct astnode* compress(struct astnode* tree, unsigned char restructure, unsign
     deps.mergesplitted = mergesplitted;
     deps.props2 = NULL;
     deps.shorts2 = NULL;
-
+    deps.shortGroupID = 0;
+    deps.lastShortSelector = NULL;
+    deps.lastShortGroupID = 0;
 
     x = walk(&deps, &ccrules, x, "/0");
     x = walk(&deps, &crules, x, "/0");
@@ -4047,11 +4056,9 @@ struct astnode* compress(struct astnode* tree, unsigned char restructure, unsign
 
         //TODO rejoin before disjoin?
     //    x = walk(&deps, &rjrules, x, "/0");
-        disjoin(x);
+        disjoin(&deps, x);
 
         x = walk(&deps, &msrules, x, "/0");
-
-
 
         x = walk(&deps, &csrules, x, "/0");
 
