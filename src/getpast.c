@@ -38,7 +38,6 @@
 #include "gettokens.h"
 #include "debug.h"
 
-
 void markSC(struct token_info* info);
 void throwError(const char* s, int currentBlockLN);
 
@@ -236,7 +235,6 @@ struct astnode* getAtrules(struct token_info* info, size_t* pos);
 
 struct astnode* getStylesheet(struct token_info* info, size_t* pos, char* error);
 
-
 void markSC(struct token_info* info)
 {
     size_t ws = 0,
@@ -249,7 +247,7 @@ void markSC(struct token_info* info)
     for(; i < info->len; i++)
     {
         t = getTokenByIndex(info, i);
-        switch (t->type)
+        switch(t->type)
         {
             case TOKENTYPE_SPACE:
             case TOKENTYPE_TAB:
@@ -258,12 +256,12 @@ void markSC(struct token_info* info)
                 t->ws = 1;
                 t->sc = 1;
 
-                if (!isws)
+                if(!isws)
                 {
                     ws = i;
                     isws=1;
                 }
-                if (!issc)
+                if(!issc)
                 {
                     sc = i;
                     issc= 1;
@@ -272,7 +270,7 @@ void markSC(struct token_info* info)
             break;
             case TOKENTYPE_COMMENTML:
             {
-                if (isws)
+                if(isws)
                 {
                     struct token* tmp = getTokenByIndex(info, ws);
                     tmp->ws_last = i - 1;
@@ -285,7 +283,7 @@ void markSC(struct token_info* info)
             break;
             default:
             {
-                if (isws)
+                if(isws)
                 {
                     struct token* tmp = getTokenByIndex(info, ws);
                     tmp->ws_last = i - 1;
@@ -293,23 +291,24 @@ void markSC(struct token_info* info)
                     isws = 0;
                 }
 
-                if (issc)
+                if(issc)
                 {
                     struct token* tmp = getTokenByIndex(info, sc);
                     tmp->sc_last = i - 1;
                     sc=0;
-                	issc=0;
+                    issc=0;
                 }
             }
         }
     }
 
-    if (isws)
+    if(isws)
     {
         struct token* tmp = getTokenByIndex(info, ws);
         tmp->ws_last = i - 1;
     }
-    if (issc)
+
+    if(issc)
     {
         struct token* tmp = getTokenByIndex(info, sc);
         tmp->sc_last = i - 1;
@@ -323,10 +322,11 @@ void throwError(const char* s, int currentBlockLN)
 
 char* joinValues(struct token_info* info, size_t start, size_t finish)
 {
-    if (finish >= info->len)
+    if(finish >= info->len)
     {
         return NULL;
     }
+
     size_t len = 0;
     char* s = NULL;
     size_t i = start;
@@ -339,15 +339,14 @@ char* joinValues(struct token_info* info, size_t start, size_t finish)
         if(slen > 0)
         {
             char* stmp = realloc(s, sizeof(char)*(slen+len+1));
-            if (stmp == NULL)
+            if(stmp == NULL)
             {
                 memoryFailure();
                 exit(EXIT_FAILURE);
             }
+
             s = stmp;
-
             memcpy(&s[len], tmp->value, slen);
-
             len += slen;
             s[len] = '\0';
         }
@@ -361,30 +360,30 @@ size_t checkSC(struct token_info* info, size_t pos)
     size_t l = 0,
     lsc = 0;
 
-    while (pos < info->len)
+    while(pos < info->len)
     {
-        if ((l = checkS(info, pos)) != 0)
+        if((l = checkS(info, pos)) != 0)
         {
             pos += l;
             lsc += l;
         }
-        else if ((l = checkComment(info, pos)) != 0)
+        else if((l = checkComment(info, pos)) != 0)
         {
             pos += l;
             lsc += l;
         }
-		else
+        else
         {
             break;
         }
     }
 
-    if (lsc)
+    if(lsc)
     {
         return lsc;
     }
 
-    if (pos >= info->len)
+    if(pos >= info->len)
     {
         return 0;
     }
@@ -395,7 +394,7 @@ size_t checkSC(struct token_info* info, size_t pos)
 size_t checkS(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->ws)
+    if(tmp->ws)
     {
         return tmp->ws_last - pos + 1;
     }
@@ -406,7 +405,7 @@ size_t checkS(struct token_info* info, size_t pos)
 size_t checkComment(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->type == TOKENTYPE_COMMENTML)
+    if(tmp->type == TOKENTYPE_COMMENTML)
     {
         return 1;
     }
@@ -414,15 +413,14 @@ size_t checkComment(struct token_info* info, size_t pos)
     return 0;;
 }
 
-
 size_t checkSimpleselector(struct token_info* info, size_t pos)
 {
     size_t start = pos,
     l = 0;
 
-    while (pos < info->len)
+    while(pos < info->len)
     {
-        if ((l = _checkSimpleSelector(info, pos)) != 0)
+        if((l = _checkSimpleSelector(info, pos)) != 0)
         {
             pos += l;
         }
@@ -432,12 +430,12 @@ size_t checkSimpleselector(struct token_info* info, size_t pos)
         }
     }
 
-    if (pos - start)
+    if(pos - start)
     {
         return pos - start;
     }
 
-    if (pos >= info->len)
+    if(pos >= info->len)
     {
         return 0;
     }
@@ -492,24 +490,24 @@ size_t checkSelector(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if (pos < info->len)
+    if(pos < info->len)
     {
         do
         {
-    	    l = checkSimpleselector(info, pos);
-    	    if (l == 0)
-			{
-            	l = checkDelim(info, pos);
-            	if( l == 0)
-            	{
-            	    break;
-            	}
-        	}
+            l = checkSimpleselector(info, pos);
+            if(l == 0)
+            {
+                l = checkDelim(info, pos);
+                if(l == 0)
+                {
+                    break;
+                }
+            }
 
             pos += l;
         }while(1);
 
-		size_t i = start;
+        size_t i = start;
         for(; i < pos; i++)
         {
             struct token* tmp = getTokenByIndex(info, i);
@@ -526,7 +524,7 @@ size_t checkNthselector(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if ((l = checkNthf(info, pos)) != 0 )
+    if((l = checkNthf(info, pos)) != 0 )
     {
         pos += l;
     }
@@ -536,7 +534,7 @@ size_t checkNthselector(struct token_info* info, size_t pos)
     }
 
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->type != TOKENTYPE_LEFTPARENTHESIS || !tmp->right)
+    if(tmp->type != TOKENTYPE_LEFTPARENTHESIS || !tmp->right)
     {
         return 0;
     }
@@ -546,17 +544,17 @@ size_t checkNthselector(struct token_info* info, size_t pos)
     tmp = getTokenByIndex(info, pos++);
     size_t rp = tmp->right;
 
-    while (pos < rp)
+    while(pos < rp)
     {
-        if ((l = checkSC(info, pos)) != 0)
+        if((l = checkSC(info, pos)) != 0)
         {
             pos += l;
         }
-        else if ((l = checkUnary(info, pos)) != 0)
+        else if((l = checkUnary(info, pos)) != 0)
         {
             pos += l;
         }
-        else if ((l = checkNth(info, pos)) != 0)
+        else if((l = checkNth(info, pos)) != 0)
         {
             pos += l;
         }
@@ -575,7 +573,7 @@ size_t checkNthf(struct token_info* info, size_t pos)
     l = 0;
 
     struct token*tmp = getTokenByIndex(info, pos++);
-    if (tmp->type != TOKENTYPE_COLON)
+    if(tmp->type != TOKENTYPE_COLON)
     {
         return 0;
     }
@@ -584,16 +582,16 @@ size_t checkNthf(struct token_info* info, size_t pos)
 
     tmp = getTokenByIndex(info, pos++);
     struct token* next = getTokenByIndex(info, pos++);
-    if ((strcmp(tmp->value, "nth") != 0) || (strcmp(next->value, "-") != 0))
+    if((strcmp(tmp->value, "nth") != 0) || (strcmp(next->value, "-") != 0))
     {
         return 0;
     }
-    l += 2;
 
+    l += 2;
     tmp = getTokenByIndex(info, pos);
 
     char found = 0;
-    if (strcmp(tmp->value, "child") == 0)
+    if(strcmp(tmp->value, "child") == 0)
     {
         found=1;
         l += 1;
@@ -601,33 +599,35 @@ size_t checkNthf(struct token_info* info, size_t pos)
     else
     {
 
-    	char* value = joinValues(info, pos, pos+2);
-    	if (strcmp(value, "last-child") == 0)
-    	{
-            found = 1;
-        	l += 3;
-    	}
-        else if (strcmp(value, "of-type") == 0)
+        char* value = joinValues(info, pos, pos+2);
+        if(strcmp(value, "last-child") == 0)
         {
             found = 1;
-        	l += 3;
-    	}
+            l += 3;
+        }
+        else if(strcmp(value, "of-type") == 0)
+        {
+            found = 1;
+            l += 3;
+        }
         else
         {
             free(value);
             value = joinValues(info, pos, pos+4);
-            if (strcmp(value, "last-of-type") == 0)
-        	{
-            	found = 1;
-        		l += 5;
-    		}
+            if(strcmp(value, "last-of-type") == 0)
+            {
+                found = 1;
+                l += 5;
+            }
         }
         free(value);
     }
+
     if(!found)
     {
         return 0;
     }
+
     tmp = getTokenByIndex(info, start+1);
     tmp->nthf_last = start + l - 1;
 
@@ -637,9 +637,11 @@ size_t checkNthf(struct token_info* info, size_t pos)
 size_t checkNth(struct token_info* info, size_t pos)
 {
     size_t l = checkNth1(info, pos);
-    if (l != 0) {
+    if(l != 0)
+    {
         return l;
     }
+
     return checkNth2(info, pos);
 }
 
@@ -650,13 +652,13 @@ size_t checkNth1(struct token_info* info, size_t pos)
     for(; pos < info->len; pos++)
     {
         struct token* tmp = getTokenByIndex(info, pos);
-        if (tmp->type != TOKENTYPE_DECIMALNUMBER && (strcmp(tmp->value, "n") != 0 ))
+        if(tmp->type != TOKENTYPE_DECIMALNUMBER && (strcmp(tmp->value, "n") != 0 ))
         {
             break;
         }
     }
 
-    if (pos != start)
+    if(pos != start)
     {
         struct token* tmp = getTokenByIndex(info, pos);
 
@@ -670,7 +672,7 @@ size_t checkNth1(struct token_info* info, size_t pos)
 size_t checkNth2(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if ( (strcmp(tmp->value, "even") == 0)  || (strcmp(tmp->value, "odd") == 0) )
+    if((strcmp(tmp->value, "even") == 0)  || (strcmp(tmp->value, "odd") == 0) )
     {
         return 1;
     }
@@ -682,12 +684,13 @@ size_t checkUnary(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
 
-    if ( pos < info->len
-        && (tmp->type == TOKENTYPE_HYPHENMINUS || tmp->type == TOKENTYPE_PLUSSIGN)
-        )
+    if(pos < info->len
+      && (tmp->type == TOKENTYPE_HYPHENMINUS || tmp->type == TOKENTYPE_PLUSSIGN)
+      )
     {
         return 1;
     }
+
     return 0;
 }
 
@@ -695,9 +698,10 @@ size_t checkCombinator(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
 
-    if (tmp->type == TOKENTYPE_PLUSSIGN ||
-        tmp->type ==  TOKENTYPE_GREATERTHANSIGN ||
-        tmp->type == TOKENTYPE_TILDE)
+    if(tmp->type == TOKENTYPE_PLUSSIGN
+      || tmp->type ==  TOKENTYPE_GREATERTHANSIGN
+      || tmp->type == TOKENTYPE_TILDE
+      )
     {
         return 1;
     }
@@ -708,12 +712,12 @@ size_t checkCombinator(struct token_info* info, size_t pos)
 size_t checkAttrib(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->type != TOKENTYPE_LEFTSQUAREBRACKET)
+    if(tmp->type != TOKENTYPE_LEFTSQUAREBRACKET)
     {
         return 0;
     }
 
-    if (!tmp->right)
+    if(!tmp->right)
     {
         return 0;
     }
@@ -729,39 +733,12 @@ size_t checkAttrib1(struct token_info* info, size_t pos)
 
     size_t l = checkSC(info, pos);
 
-    if (l != 0)
+    if(l != 0)
     {
         pos += l;
     }
-    if ((l = checkIdent(info, pos)) != 0)
-    {
-    	pos += l;
-	}
-    else
-    {
-        return 0;
-    }
 
-    if ((l = checkSC(info, pos)) != 0)
-    {
-    	pos += l;
-	}
-
-    if ((l = checkAttrselector(info, pos)) != 0)
-    {
-    	pos += l;
-	}
-    else
-    {
-        return 0;
-    }
-
-    if ((l = checkSC(info, pos)) != 0)
-    {
-    	pos += l;
-	}
-
-    if ((l = checkIdent(info, pos)) != 0 || (l = checkString(info, pos)) != 0)
+    if((l = checkIdent(info, pos)) != 0)
     {
         pos += l;
     }
@@ -770,13 +747,41 @@ size_t checkAttrib1(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if ((l = checkSC(info, pos)) != 0)
+    if((l = checkSC(info, pos)) != 0)
     {
-    	pos += l;
-	}
+        pos += l;
+    }
+
+    if((l = checkAttrselector(info, pos)) != 0)
+    {
+        pos += l;
+    }
+    else
+    {
+        return 0;
+    }
+
+    if((l = checkSC(info, pos)) != 0)
+    {
+        pos += l;
+    }
+
+    if((l = checkIdent(info, pos)) != 0 || (l = checkString(info, pos)) != 0)
+    {
+        pos += l;
+    }
+    else
+    {
+        return 0;
+    }
+
+    if((l = checkSC(info, pos)) != 0)
+    {
+        pos += l;
+    }
 
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->type == TOKENTYPE_RIGHTSQUAREBRACKET)
+    if(tmp->type == TOKENTYPE_RIGHTSQUAREBRACKET)
     {
         return pos - start;
     }
@@ -792,23 +797,23 @@ size_t checkAttrib2(struct token_info* info, size_t pos)
 
     size_t l = checkSC(info, pos);
 
-    if (l != 0)
+    if(l != 0)
     {
         pos += l;
     }
 
-    if ((l = checkIdent(info, pos)) != 0)
+    if((l = checkIdent(info, pos)) != 0)
     {
-    	pos += l;
-	}
+        pos += l;
+    }
 
-    if ((l = checkSC(info, pos)) != 0)
+    if((l = checkSC(info, pos)) != 0)
     {
-    	pos += l;
-	}
+        pos += l;
+    }
 
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->type == TOKENTYPE_RIGHTSQUAREBRACKET)
+    if(tmp->type == TOKENTYPE_RIGHTSQUAREBRACKET)
     {
         return pos - start;
     }
@@ -819,17 +824,18 @@ size_t checkAttrib2(struct token_info* info, size_t pos)
 size_t checkAttrselector(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->type == TOKENTYPE_EQUALSSIGN)
-    {
-        return 1;
-    }
-    struct token* tmp1 = getTokenByIndex(info, pos+1);
-    if (tmp->type == TOKENTYPE_VERTICALLINE && (!tmp1 || tmp1->type != TOKENTYPE_EQUALSSIGN))
+    if(tmp->type == TOKENTYPE_EQUALSSIGN)
     {
         return 1;
     }
 
-    if (!tmp1 || tmp1->type != TOKENTYPE_EQUALSSIGN)
+    struct token* tmp1 = getTokenByIndex(info, pos+1);
+    if(tmp->type == TOKENTYPE_VERTICALLINE && (!tmp1 || tmp1->type != TOKENTYPE_EQUALSSIGN))
+    {
+        return 1;
+    }
+
+    if(!tmp1 || tmp1->type != TOKENTYPE_EQUALSSIGN)
     {
         return 0;
     }
@@ -865,18 +871,18 @@ size_t checkPseudoe(struct token_info* info, size_t pos)
     size_t l = 0;
 
     struct token* tmp = getTokenByIndex(info, pos++);
-    if (tmp->type != TOKENTYPE_COLON)
+    if(tmp->type != TOKENTYPE_COLON)
     {
         return 0;
     }
 
     tmp = getTokenByIndex(info, pos++);
-    if (tmp->type != TOKENTYPE_COLON)
+    if(tmp->type != TOKENTYPE_COLON)
     {
         return 0;
     }
 
-    if ((l = checkIdent(info, pos)) != 0)
+    if((l = checkIdent(info, pos)) != 0)
     {
         return l + 2;
     }
@@ -889,12 +895,12 @@ size_t checkPseudoc(struct token_info* info, size_t pos)
     size_t l = 0;
 
     struct token* tmp = getTokenByIndex(info, pos++);
-    if (tmp->type != TOKENTYPE_COLON)
+    if(tmp->type != TOKENTYPE_COLON)
     {
         return 0;
     }
 
-    if (((l = checkFunction(info, pos)) != 0) || ((l = checkIdent(info, pos)) != 0))
+    if(((l = checkFunction(info, pos)) != 0) || ((l = checkIdent(info, pos)) != 0))
     {
         return l + 1;
     }
@@ -904,7 +910,7 @@ size_t checkPseudoc(struct token_info* info, size_t pos)
 
 size_t checkIdent(struct token_info* info, size_t pos)
 {
-    if (pos >= info->len)
+    if(pos >= info->len)
     {
         return 0;
     }
@@ -913,15 +919,16 @@ size_t checkIdent(struct token_info* info, size_t pos)
     char wasIdent = 0;
 
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->type == TOKENTYPE_LOWLINE)
+    if(tmp->type == TOKENTYPE_LOWLINE)
     {
         return checkIdentLowLine(info, pos);
     }
 
-    if (tmp->type == TOKENTYPE_HYPHENMINUS ||
-        tmp->type == TOKENTYPE_IDENTIFIER ||
-        tmp->type == TOKENTYPE_DOLLARSIGN ||
-        tmp->type == TOKENTYPE_ASTERISK)
+    if(tmp->type == TOKENTYPE_HYPHENMINUS
+      || tmp->type == TOKENTYPE_IDENTIFIER
+      || tmp->type == TOKENTYPE_DOLLARSIGN
+      || tmp->type == TOKENTYPE_ASTERISK
+      )
     {
         pos++;
     }
@@ -936,12 +943,13 @@ size_t checkIdent(struct token_info* info, size_t pos)
     for(; pos < info->len; pos++)
     {
         tmp = getTokenByIndex(info, pos);
-        if (tmp->type != TOKENTYPE_HYPHENMINUS &&
-            tmp->type != TOKENTYPE_LOWLINE)
+        if(tmp->type != TOKENTYPE_HYPHENMINUS
+          && tmp->type != TOKENTYPE_LOWLINE
+          )
         {
-            if (tmp->type != TOKENTYPE_IDENTIFIER &&
-                (tmp->type != TOKENTYPE_DECIMALNUMBER || !wasIdent)
-                )
+            if(tmp->type != TOKENTYPE_IDENTIFIER
+              && (tmp->type != TOKENTYPE_DECIMALNUMBER || !wasIdent)
+              )
             {
                 break;
             }
@@ -951,8 +959,9 @@ size_t checkIdent(struct token_info* info, size_t pos)
             }
         }
     }
+
     tmp = getTokenByIndex(info, start);
-    if (!wasIdent && tmp->type != TOKENTYPE_ASTERISK)
+    if(!wasIdent && tmp->type != TOKENTYPE_ASTERISK)
     {
         return 0;
     }
@@ -971,14 +980,16 @@ size_t checkIdentLowLine(struct token_info* info, size_t pos)
     for(; pos < info->len; pos++)
     {
         struct token* tmp = getTokenByIndex(info, pos);
-        if (tmp->type != TOKENTYPE_HYPHENMINUS &&
-            tmp->type != TOKENTYPE_DECIMALNUMBER &&
-            tmp->type != TOKENTYPE_LOWLINE &&
-            tmp->type != TOKENTYPE_IDENTIFIER)
+        if(tmp->type != TOKENTYPE_HYPHENMINUS
+          && tmp->type != TOKENTYPE_DECIMALNUMBER
+          && tmp->type != TOKENTYPE_LOWLINE
+          && tmp->type != TOKENTYPE_IDENTIFIER
+          )
         {
             break;
         }
     }
+
     struct token* tmp = getTokenByIndex(info, start);
     tmp->ident_last = pos - 1;
 
@@ -988,12 +999,12 @@ size_t checkIdentLowLine(struct token_info* info, size_t pos)
 size_t checkDelim(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (pos < info->len && tmp->type == TOKENTYPE_COMMA)
+    if(pos < info->len && tmp->type == TOKENTYPE_COMMA)
     {
         return 1;
     }
 
-    if (pos >= info->len)
+    if(pos >= info->len)
     {
         return 0;
     }
@@ -1006,14 +1017,14 @@ size_t checkClazz(struct token_info* info, size_t pos)
     size_t l = 0;
 
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->clazz_l)
+    if(tmp->clazz_l)
     {
         return tmp->clazz_l;
-	}
+    }
 
-    if (tmp->type == TOKENTYPE_FULLSTOP)
+    if(tmp->type == TOKENTYPE_FULLSTOP)
     {
-        if ((l = checkIdent(info, pos + 1)) != 0)
+        if((l = checkIdent(info, pos + 1)) != 0)
         {
             tmp->clazz_l = l + 1;
             return l + 1;
@@ -1026,14 +1037,14 @@ size_t checkClazz(struct token_info* info, size_t pos)
 size_t checkShash(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->type != TOKENTYPE_NUMBERSIGN)
+    if(tmp->type != TOKENTYPE_NUMBERSIGN)
     {
         return 0;
     }
 
     size_t l = checkNmName(info, pos + 1);
 
-    if (l)
+    if(l)
     {
         return l + 1;
     }
@@ -1046,10 +1057,11 @@ size_t checkNmName(struct token_info* info, size_t pos)
     size_t start = pos;
     struct token* tmp = getTokenByIndex(info, pos);
 
-    if (tmp->type == TOKENTYPE_HYPHENMINUS ||
-        tmp->type == TOKENTYPE_LOWLINE ||
-        tmp->type == TOKENTYPE_IDENTIFIER ||
-        tmp->type == TOKENTYPE_DECIMALNUMBER)
+    if(tmp->type == TOKENTYPE_HYPHENMINUS
+      || tmp->type == TOKENTYPE_LOWLINE
+      || tmp->type == TOKENTYPE_IDENTIFIER
+      || tmp->type == TOKENTYPE_DECIMALNUMBER
+      )
     {
         pos++;
     }
@@ -1061,14 +1073,16 @@ size_t checkNmName(struct token_info* info, size_t pos)
     for(; pos < info->len; pos++)
     {
         tmp = getTokenByIndex(info, pos);
-        if (tmp->type != TOKENTYPE_HYPHENMINUS ||
-            tmp->type != TOKENTYPE_LOWLINE ||
-            tmp->type != TOKENTYPE_IDENTIFIER ||
-            tmp->type != TOKENTYPE_DECIMALNUMBER)
+        if(tmp->type != TOKENTYPE_HYPHENMINUS
+          || tmp->type != TOKENTYPE_LOWLINE
+          || tmp->type != TOKENTYPE_IDENTIFIER
+          || tmp->type != TOKENTYPE_DECIMALNUMBER
+          )
         {
             break;
         }
     }
+
     tmp = getTokenByIndex(info, start);
     tmp->nm_name_last = pos - 1;
 
@@ -1079,7 +1093,7 @@ size_t checkNamespace(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
 
-    if (tmp->type == TOKENTYPE_VERTICALLINE)
+    if(tmp->type == TOKENTYPE_VERTICALLINE)
     {
         return 1;
     }
@@ -1090,7 +1104,7 @@ size_t checkNamespace(struct token_info* info, size_t pos)
 size_t checkBlock(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (pos < info->len && tmp->type == TOKENTYPE_LEFTCURLYBRACKET)
+    if(pos < info->len && tmp->type == TOKENTYPE_LEFTCURLYBRACKET)
     {
         return tmp->right - pos + 1;
     }
@@ -1102,20 +1116,20 @@ size_t checkAtrule(struct token_info* info, size_t pos)
 {
     size_t l = 0;
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->atrule_type != 0)
+    if(tmp->atrule_type != 0)
     {
         return tmp->atrule_l;
     }
 
-    if ((l = checkAtruler(info, pos)) != 0 )
+    if((l = checkAtruler(info, pos)) != 0 )
     {
         tmp->atrule_type = 1;
     }
-    else if ((l = checkAtruleb(info, pos)) != 0)
+    else if((l = checkAtruleb(info, pos)) != 0)
     {
         tmp->atrule_type = 2;
     }
-    else if ((l = checkAtrules(info, pos)) != 0 )
+    else if((l = checkAtrules(info, pos)) != 0 )
     {
         tmp->atrule_type = 3;
     }
@@ -1134,7 +1148,7 @@ size_t checkAtruleb(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if ((l = checkAtkeyword(info,pos)) != 0)
+    if((l = checkAtkeyword(info,pos)) != 0)
     {
         pos += l;
     }
@@ -1143,12 +1157,12 @@ size_t checkAtruleb(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if ((l = checkTsets(info, pos)) != 0)
+    if((l = checkTsets(info, pos)) != 0)
     {
         pos += l;
     }
 
-    if ((l = checkBlock(info, pos)) != 0)
+    if((l = checkBlock(info, pos)) != 0)
     {
         pos+= l;
     }
@@ -1165,7 +1179,7 @@ size_t checkAtrules(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if ((l = checkAtkeyword(info,pos)) != 0)
+    if((l = checkAtkeyword(info,pos)) != 0)
     {
         pos += l;
     }
@@ -1174,18 +1188,18 @@ size_t checkAtrules(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if ((l = checkTsets(info, pos)) != 0)
+    if((l = checkTsets(info, pos)) != 0)
     {
         pos += l;
     }
 
-    if (pos >= info->len)
+    if(pos >= info->len)
     {
         return pos - start;
     }
 
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->type == TOKENTYPE_SEMICOLON)
+    if(tmp->type == TOKENTYPE_SEMICOLON)
     {
         pos++;
     }
@@ -1202,7 +1216,7 @@ size_t checkAtruler(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if ((l = checkAtkeyword(info, pos)) != 0)
+    if((l = checkAtkeyword(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1211,13 +1225,13 @@ size_t checkAtruler(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if ((l = checkAtrulerq(info, pos)) != 0)
+    if((l = checkAtrulerq(info, pos)) != 0)
     {
         pos += l;
     }
 
     struct token* tmp = getTokenByIndex(info, pos);
-    if (pos < info->len && tmp->type == TOKENTYPE_LEFTCURLYBRACKET)
+    if(pos < info->len && tmp->type == TOKENTYPE_LEFTCURLYBRACKET)
     {
         pos++;
     }
@@ -1226,13 +1240,13 @@ size_t checkAtruler(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if ((l = checkAtrulers(info, pos)) != 0)
+    if((l = checkAtrulers(info, pos)) != 0)
     {
         pos += l;
     }
 
     tmp = getTokenByIndex(info, pos);
-    if (pos < info->len && tmp->type == TOKENTYPE_RIGHTCURLYBRACKET)
+    if(pos < info->len && tmp->type == TOKENTYPE_RIGHTCURLYBRACKET)
     {
         pos++;
     }
@@ -1249,15 +1263,15 @@ size_t checkAtkeyword(struct token_info* info, size_t pos)
     size_t l = 0;
 
     struct token* tmp = getTokenByIndex(info, pos++);
-    if (tmp->type != TOKENTYPE_COMMERCIALAT)
+    if(tmp->type != TOKENTYPE_COMMERCIALAT)
     {
         return 0;
     }
 
-    if ((l = checkIdent(info, pos)) != 0)
+    if((l = checkIdent(info, pos)) != 0)
     {
         return l + 1;
-	}
+    }
 
     return 0;
 }
@@ -1272,19 +1286,20 @@ size_t checkAtrulers(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if ((l = checkSC(info, pos)) != 0)
+    if((l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
 
-    while ((l = checkRuleset(info, pos)) != 0 || (l = checkAtrule(info, pos)) != 0 || (l = checkSC(info, pos)) != 0)
+    while((l = checkRuleset(info, pos)) != 0 || (l = checkAtrule(info, pos)) != 0 || (l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
+
     struct token* tmp = getTokenByIndex(info, pos);
     tmp->atrulers_end = 1;
 
-    if ((l = checkSC(info, pos)) != 0)
+    if((l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1318,7 +1333,7 @@ size_t checkTsets(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    while ((l = checkTset(info, pos)) != 0)
+    while((l = checkTset(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1329,14 +1344,14 @@ size_t checkTsets(struct token_info* info, size_t pos)
 size_t checkVhash(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (pos >= info->len || tmp->type != TOKENTYPE_NUMBERSIGN)
+    if(pos >= info->len || tmp->type != TOKENTYPE_NUMBERSIGN)
     {
         return 0;
     }
 
     size_t l = checkNmName2(info, pos + 1);
 
-    if (l != 0)
+    if(l != 0)
     {
         return l + 1;
     }
@@ -1347,11 +1362,11 @@ size_t checkVhash(struct token_info* info, size_t pos)
 size_t checkNmName2(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->type == TOKENTYPE_IDENTIFIER)
+    if(tmp->type == TOKENTYPE_IDENTIFIER)
     {
         return 1;
     }
-    else if (tmp->type != TOKENTYPE_DECIMALNUMBER)
+    else if(tmp->type != TOKENTYPE_DECIMALNUMBER)
     {
         return 0;
     }
@@ -1361,7 +1376,7 @@ size_t checkNmName2(struct token_info* info, size_t pos)
     tmp = getTokenByIndex(info, pos);
     if(tmp != NULL)
     {
-    	if (tmp->type != TOKENTYPE_IDENTIFIER)
+        if(tmp->type != TOKENTYPE_IDENTIFIER)
         {
             return 1;
         }
@@ -1419,10 +1434,9 @@ size_t checkAny(struct token_info* info, size_t pos)
 size_t checkBraces(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (pos >= info->len ||
-        (tmp->type != TOKENTYPE_LEFTPARENTHESIS &&
-         tmp->type != TOKENTYPE_LEFTSQUAREBRACKET)
-        )
+    if(pos >= info->len
+      || (tmp->type != TOKENTYPE_LEFTPARENTHESIS && tmp->type != TOKENTYPE_LEFTSQUAREBRACKET)
+      )
     {
         return 0;
     }
@@ -1433,9 +1447,9 @@ size_t checkBraces(struct token_info* info, size_t pos)
 size_t checkString(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (pos < info->len &&
-        (tmp->type == TOKENTYPE_STRINGSQ || tmp->type == TOKENTYPE_STRINGDQ)
-        )
+    if(pos < info->len
+      && (tmp->type == TOKENTYPE_STRINGSQ || tmp->type == TOKENTYPE_STRINGDQ)
+      )
     {
         return 1;
     }
@@ -1447,13 +1461,13 @@ size_t checkPercentage(struct token_info* info, size_t pos)
 {
     size_t x = checkNumber(info, pos);
 
-    if ( x == 0 || (x && pos + x >= info->len))
+    if(x == 0 || (x && pos + x >= info->len))
     {
         return 0;
     }
 
     struct token* tmp = getTokenByIndex(info, pos + x);
-    if (tmp->type == TOKENTYPE_PERCENTSIGN)
+    if(tmp->type == TOKENTYPE_PERCENTSIGN)
     {
         return x + 1;
     }
@@ -1466,12 +1480,12 @@ size_t checkDimension(struct token_info* info, size_t pos)
     size_t ln = checkNumber(info, pos),
     li;
 
-    if (!ln || (ln && pos + ln >= info->len))
+    if(!ln || (ln && pos + ln >= info->len))
     {
         return 0;
     }
 
-    if ((li = checkNmName2(info, pos + ln)))
+    if((li = checkNmName2(info, pos + ln)))
     {
         return ln + li;
     }
@@ -1482,42 +1496,42 @@ size_t checkDimension(struct token_info* info, size_t pos)
 size_t checkNumber(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (pos < info->len && tmp->number_l)
+    if(pos < info->len && tmp->number_l)
     {
-    	return tmp->number_l;
+        return tmp->number_l;
     }
 
     struct token* tmp1 = getTokenByIndex(info, pos + 1);
     struct token* tmp2 = getTokenByIndex(info, pos + 2);
-    if (pos < info->len && tmp->type == TOKENTYPE_DECIMALNUMBER &&
-        (!tmp1 ||
-         (tmp1 && tmp1->type != TOKENTYPE_FULLSTOP))
-        )
+    if(pos < info->len && tmp->type == TOKENTYPE_DECIMALNUMBER
+      && (!tmp1 || (tmp1 && tmp1->type != TOKENTYPE_FULLSTOP))
+      )
     {
         return (tmp->number_l = 1);
     }
-    if (pos < info->len &&
-        tmp->type == TOKENTYPE_DECIMALNUMBER &&
-        tmp1 && tmp1->type == TOKENTYPE_FULLSTOP &&
-        (!tmp2 || (tmp2->type != TOKENTYPE_DECIMALNUMBER))
-        )
+
+    if(pos < info->len
+      && tmp->type == TOKENTYPE_DECIMALNUMBER
+      && tmp1 && tmp1->type == TOKENTYPE_FULLSTOP
+      && (!tmp2 || (tmp2->type != TOKENTYPE_DECIMALNUMBER))
+      )
     {
         return (tmp->number_l = 2);
     }
 
-    if (pos < info->len &&
-        tmp->type == TOKENTYPE_FULLSTOP &&
-        tmp1 && tmp1->type == TOKENTYPE_DECIMALNUMBER
-        )
+    if(pos < info->len
+      && tmp->type == TOKENTYPE_FULLSTOP
+      && tmp1 && tmp1->type == TOKENTYPE_DECIMALNUMBER
+      )
     {
         return (tmp->number_l = 2);
     }
 
-    if (pos < info->len &&
-        tmp->type == TOKENTYPE_DECIMALNUMBER &&
-        tmp1 && tmp1->type == TOKENTYPE_FULLSTOP &&
-        tmp2 && tmp2->type == TOKENTYPE_DECIMALNUMBER
-        )
+    if(pos < info->len
+      && tmp->type == TOKENTYPE_DECIMALNUMBER
+      && tmp1 && tmp1->type == TOKENTYPE_FULLSTOP
+      && tmp2 && tmp2->type == TOKENTYPE_DECIMALNUMBER
+      )
     {
         return (tmp->number_l = 3);
     }
@@ -1531,12 +1545,13 @@ size_t checkUri(struct token_info* info, size_t pos)
 
     struct token* tmp = getTokenByIndex(info, pos++);
 
-    if (pos < info->len && strcmp(tmp->value, "url") != 0)
+    if(pos < info->len && strcmp(tmp->value, "url") != 0)
     {
         return 0;
     }
+
     tmp = getTokenByIndex(info, pos);
-    if (!tmp || tmp->type != TOKENTYPE_LEFTPARENTHESIS)
+    if(!tmp || tmp->type != TOKENTYPE_LEFTPARENTHESIS)
     {
         return 0;
     }
@@ -1548,12 +1563,13 @@ size_t checkFunctionExpression(struct token_info* info, size_t pos)
 {
     size_t start = pos;
     struct token* tmp = getTokenByIndex(info, pos++);
-    if (!tmp || strcmp(tmp->value, "expression") != 0)
+    if(!tmp || strcmp(tmp->value, "expression") != 0)
     {
         return 0;
     }
+
     tmp = getTokenByIndex(info, pos);
-    if (!tmp || tmp->type != TOKENTYPE_LEFTPARENTHESIS)
+    if(!tmp || tmp->type != TOKENTYPE_LEFTPARENTHESIS)
     {
         return 0;
     }
@@ -1567,7 +1583,7 @@ size_t checkFunction(struct token_info* info, size_t pos)
     size_t start = pos,
     l = checkIdent(info, pos);
 
-    if (l == 0)
+    if(l == 0)
     {
         return 0;
     }
@@ -1575,7 +1591,7 @@ size_t checkFunction(struct token_info* info, size_t pos)
     pos += l;
     struct token* tmp = getTokenByIndex(info, pos);
 
-    if (pos >= info->len || tmp->type != TOKENTYPE_LEFTPARENTHESIS)
+    if(pos >= info->len || tmp->type != TOKENTYPE_LEFTPARENTHESIS)
     {
         return 0;
     }
@@ -1586,11 +1602,13 @@ size_t checkFunction(struct token_info* info, size_t pos)
 size_t checkOperator(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (pos < info->len &&
-        (tmp->type == TOKENTYPE_SOLIDUS ||
-         tmp->type == TOKENTYPE_COMMA ||
-         tmp->type == TOKENTYPE_COLON ||
-         tmp->type == TOKENTYPE_EQUALSSIGN))
+    if(pos < info->len
+      && (tmp->type == TOKENTYPE_SOLIDUS
+         || tmp->type == TOKENTYPE_COMMA
+         || tmp->type == TOKENTYPE_COLON
+         || tmp->type == TOKENTYPE_EQUALSSIGN
+         )
+      )
     {
         return 1;
     }
@@ -1603,20 +1621,20 @@ size_t checkUri1(struct token_info* info, size_t pos)
     size_t start = pos,
     l = checkSC(info, pos);
 
-    if (l != 0)
+    if(l != 0)
     {
-    	pos += l;
+        pos += l;
     }
 
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->type != TOKENTYPE_STRINGDQ && tmp->type != TOKENTYPE_STRINGSQ)
+    if(tmp->type != TOKENTYPE_STRINGDQ && tmp->type != TOKENTYPE_STRINGSQ)
     {
         return 0;
     }
 
     pos++;
 
-    if ((l = checkSC(info, pos)) != 0)
+    if((l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1632,11 +1650,12 @@ size_t checkExcluding(struct token_info* info, size_t pos)
     {
         struct token* tmp = getTokenByIndex(info, pos);
         pos++;
-        if (tmp->type == TOKENTYPE_SPACE
-            || tmp->type == TOKENTYPE_TAB
-            || tmp->type == TOKENTYPE_NEWLINE
-            || tmp->type == TOKENTYPE_LEFTPARENTHESIS
-            || tmp->type == TOKENTYPE_RIGHTPARENTHESIS)
+        if(tmp->type == TOKENTYPE_SPACE
+          || tmp->type == TOKENTYPE_TAB
+          || tmp->type == TOKENTYPE_NEWLINE
+          || tmp->type == TOKENTYPE_LEFTPARENTHESIS
+          || tmp->type == TOKENTYPE_RIGHTPARENTHESIS
+          )
         {
             break;
         }
@@ -1652,17 +1671,17 @@ size_t checkRuleset(struct token_info* info, size_t pos)
 
     struct token* tmp = getTokenByIndex(info, start);
 
-    if (tmp->ruleset_l != 0)
+    if(tmp->ruleset_l != 0)
     {
         return tmp->ruleset_l;
     }
 
-    while ((l = checkSelector(info, pos)) != 0)
+    while((l = checkSelector(info, pos)) != 0)
     {
         pos += l;
     }
 
-    if ((l = checkBlock(info, pos)) != 0)
+    if((l = checkBlock(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1684,7 +1703,7 @@ size_t checkRuleset(struct token_info* info, size_t pos)
 size_t checkUnknown(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (pos < info->len && tmp->type == TOKENTYPE_COMMENTSL)
+    if(pos < info->len && tmp->type == TOKENTYPE_COMMENTSL)
     {
         return 1;
     }
@@ -1696,20 +1715,20 @@ size_t checkBlockdecl(struct token_info* info, size_t pos)
 {
     size_t l = 0;
     struct token* tmp = getTokenByIndex(info, pos);
-    if ((l = _checkBlockdecl0(info, pos)) != 0)
+    if((l = _checkBlockdecl0(info, pos)) != 0)
     {
         tmp->bd_type = 1;
 
     }
-    else if ((l = _checkBlockdecl1(info, pos)) != 0)
+    else if((l = _checkBlockdecl1(info, pos)) != 0)
     {
         tmp->bd_type = 2;
     }
-    else if ((l = _checkBlockdecl2(info, pos)) != 0)
+    else if((l = _checkBlockdecl2(info, pos)) != 0)
     {
         tmp->bd_type = 3;
     }
-    else if ((l = _checkBlockdecl3(info, pos)) != 0)
+    else if((l = _checkBlockdecl3(info, pos)) != 0)
     {
         tmp->bd_type = 4;
     }
@@ -1726,13 +1745,13 @@ size_t _checkBlockdecl0(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if ((l = checkSC(info, pos)) != 0)
+    if((l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
 
     struct token* tmp = getTokenByIndex(info, pos);
-    if ((l = checkFilter(info, pos)) != 0)
+    if((l = checkFilter(info, pos)) != 0)
     {
         tmp->bd_filter = 1;
         pos += l;
@@ -1747,7 +1766,7 @@ size_t _checkBlockdecl0(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if (pos < info->len && (l = checkDecldelim(info, pos)) != 0)
+    if(pos < info->len && (l = checkDecldelim(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1756,7 +1775,7 @@ size_t _checkBlockdecl0(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if ((l = checkSC(info, pos)) != 0)
+    if((l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1769,18 +1788,18 @@ size_t _checkBlockdecl1(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if ((l = checkSC(info, pos)) != 0)
+    if((l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
 
     struct token* tmp = getTokenByIndex(info, pos);
-    if ((l = checkFilter(info, pos)) != 0)
+    if((l = checkFilter(info, pos)) != 0)
     {
         tmp->bd_filter = 1;
         pos += l;
     }
-    else if ((l = checkDeclaration(info, pos)) != 0)
+    else if((l = checkDeclaration(info, pos)) != 0)
     {
         tmp->bd_decl = 1;
         pos += l;
@@ -1790,7 +1809,7 @@ size_t _checkBlockdecl1(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if ((l = checkSC(info, pos)) != 0)
+    if((l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1803,12 +1822,12 @@ size_t _checkBlockdecl2(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if ((l = checkSC(info, pos)) != 0)
+    if((l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
 
-    if ((l = checkDecldelim(info, pos)) != 0)
+    if((l = checkDecldelim(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1817,7 +1836,7 @@ size_t _checkBlockdecl2(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if ((l = checkSC(info, pos)) != 0)
+    if((l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1835,7 +1854,7 @@ size_t checkFilter(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if ((l = checkFilterp(info, pos)) != 0)
+    if((l = checkFilterp(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1845,7 +1864,7 @@ size_t checkFilter(struct token_info* info, size_t pos)
     }
 
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->type == TOKENTYPE_COLON)
+    if(tmp->type == TOKENTYPE_COLON)
     {
         pos++;
     }
@@ -1854,7 +1873,7 @@ size_t checkFilter(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if ((l = checkFilterv(info, pos)) != 0)
+    if((l = checkFilterv(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1871,10 +1890,10 @@ size_t checkFilterp(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if (pos < info->len)
+    if(pos < info->len)
     {
         struct token* tmp = getTokenByIndex(info, pos);
-        if (strcmp(tmp->value, "filter") == 0)
+        if(strcmp(tmp->value, "filter") == 0)
         {
             l = 1;
         }
@@ -1882,7 +1901,7 @@ size_t checkFilterp(struct token_info* info, size_t pos)
         {
             char* x = joinValues(info, pos, pos+1);
 
-            if (strcmp(x, "-filter") == 0 || strcmp(x, "_filter") == 0 || strcmp(x, "*filter") == 0)
+            if(strcmp(x, "-filter") == 0 || strcmp(x, "_filter") == 0 || strcmp(x, "*filter") == 0)
             {
                 l = 2;
             }
@@ -1891,7 +1910,7 @@ size_t checkFilterp(struct token_info* info, size_t pos)
                 free(x);
                 x = joinValues(info, pos, pos+3);
 
-                if (strcmp(x, "-ms-filter") == 0)
+                if(strcmp(x, "-ms-filter") == 0)
                 {
                     l = 4;
                 }
@@ -1909,7 +1928,7 @@ size_t checkFilterp(struct token_info* info, size_t pos)
 
         pos += l;
 
-        if ((checkSC(info, pos)) != 0)
+        if((checkSC(info, pos)) != 0)
         {
             pos += l;
         }
@@ -1924,7 +1943,7 @@ size_t checkFilterv(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if ((l = checkProgid(info, pos)) != 0)
+    if((l = checkProgid(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1933,7 +1952,7 @@ size_t checkFilterv(struct token_info* info, size_t pos)
         return 0;
     }
 
-    while ((l = checkProgid(info, pos)) != 0)
+    while((l = checkProgid(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1941,12 +1960,12 @@ size_t checkFilterv(struct token_info* info, size_t pos)
     struct token* tmp = getTokenByIndex(info, start);
     tmp->last_progid = pos;
 
-    if (pos < info->len && (l = checkSC(info, pos)) != 0)
+    if(pos < info->len && (l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
 
-    if (pos < info->len && (l = checkImportant(info, pos)) != 0)
+    if(pos < info->len && (l = checkImportant(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1960,12 +1979,12 @@ size_t checkProgid(struct token_info* info, size_t pos)
     l = 0;
     char* x = NULL;
 
-    if ((l = checkSC(info, pos)) != 0)
+    if((l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
     x = joinValues(info, pos, pos+5);
-    if ( x != NULL && strcmp(x, "progid:DXImageTransform.Microsoft.") == 0)
+    if(x != NULL && strcmp(x, "progid:DXImageTransform.Microsoft.") == 0)
     {
         free(x);
         pos += 6;
@@ -1976,7 +1995,7 @@ size_t checkProgid(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if ((l = checkIdent(info, pos)) != 0)
+    if((l = checkIdent(info, pos)) != 0)
     {
         pos += l;
     }
@@ -1985,13 +2004,13 @@ size_t checkProgid(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if ((l = checkSC(info, pos)) != 0)
+    if((l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
 
     struct token* tmp = getTokenByIndex(info, pos);
-    if (tmp->type == TOKENTYPE_LEFTPARENTHESIS)
+    if(tmp->type == TOKENTYPE_LEFTPARENTHESIS)
     {
         struct token* tmpStart = getTokenByIndex(info, start);
         tmpStart->progid_end = tmp->right;
@@ -2002,7 +2021,7 @@ size_t checkProgid(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if ((l = checkSC(info, pos)) != 0)
+    if((l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
@@ -2016,20 +2035,22 @@ size_t checkImportant(struct token_info* info, size_t pos)
     l = 0;
     struct token* tmp = getTokenByIndex(info, pos);
     pos++;
-    if (tmp->type != TOKENTYPE_EXCLAMATIONMARK)
+    if(tmp->type != TOKENTYPE_EXCLAMATIONMARK)
     {
         return 0;
     }
-    if ((l = checkSC(info, pos)) != 0)
+
+    if((l = checkSC(info, pos)) != 0)
     {
         pos += l;
     }
 
     tmp = getTokenByIndex(info, pos);
-    if (casecmp(tmp->value, "important") != 0)
+    if(casecmp(tmp->value, "important") != 0)
     {
         return 0;
     }
+
     return pos - start + 1;
 }
 
@@ -2038,7 +2059,7 @@ size_t checkDeclaration(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if ((l = checkProperty(info, pos)) != 0)
+    if((l = checkProperty(info, pos)) != 0)
     {
         pos += l;
     }
@@ -2048,7 +2069,7 @@ size_t checkDeclaration(struct token_info* info, size_t pos)
     }
 
     struct token* tmp = getTokenByIndex(info, pos);
-    if (pos < info->len && tmp->type == TOKENTYPE_COLON)
+    if(pos < info->len && tmp->type == TOKENTYPE_COLON)
     {
         pos++;
     }
@@ -2057,7 +2078,7 @@ size_t checkDeclaration(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if ((l = checkValue(info, pos)) != 0)
+    if((l = checkValue(info, pos)) != 0)
     {
         pos += l;
     }
@@ -2072,7 +2093,7 @@ size_t checkDeclaration(struct token_info* info, size_t pos)
 size_t checkDecldelim(struct token_info* info, size_t pos)
 {
     struct token* tmp = getTokenByIndex(info, pos);
-    if (pos < info->len && tmp->type == TOKENTYPE_SEMICOLON)
+    if(pos < info->len && tmp->type == TOKENTYPE_SEMICOLON)
     {
         return 1;
     }
@@ -2085,7 +2106,7 @@ size_t checkProperty(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if ((l = checkIdent(info, pos)) != 0)
+    if((l = checkIdent(info, pos)) != 0)
     {
         pos += l;
     }
@@ -2093,7 +2114,7 @@ size_t checkProperty(struct token_info* info, size_t pos)
     {
         return 0;
     }
-    if ((l = checkSC(info, pos)) != 0 )
+    if((l = checkSC(info, pos)) != 0 )
     {
         pos += l;
     }
@@ -2106,9 +2127,9 @@ size_t checkValue(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    while (pos < info->len)
+    while(pos < info->len)
     {
-        if ((l = _checkValue(info, pos)) != 0)
+        if((l = _checkValue(info, pos)) != 0)
         {
             pos += l;
         }
@@ -2118,7 +2139,7 @@ size_t checkValue(struct token_info* info, size_t pos)
         }
     }
 
-    if (pos - start)
+    if(pos - start)
     {
         return pos - start;
     }
@@ -2165,24 +2186,24 @@ size_t checkStyleSheet(struct token_info* info, size_t pos)
     size_t start = pos;
     size_t l = 0;
 
-    while (pos < info->len)
+    while(pos < info->len)
     {
-        if ((l = checkSC(info, pos)))
+        if((l = checkSC(info, pos)))
         {
             pos += l;
         }
         else
         {
             struct token* tmp = getTokenByIndex(info, pos);
-            if ((l = checkAtrule(info, pos)))
+            if((l = checkAtrule(info, pos)))
             {
                 pos += l;
             }
-            else if ((l = checkRuleset(info, pos)))
+            else if((l = checkRuleset(info, pos)))
             {
                 pos += l;
             }
-            else if ((l = checkUnknown(info, pos)))
+            else if((l = checkUnknown(info, pos)))
             {
                 pos += l;
             }
@@ -2218,19 +2239,20 @@ struct astnode* getComment(struct token_info* info, size_t* pos)
 
     size_t len = strlen(tmp->value);
 
-    if (tmp->value[len - 2] == '*' && tmp->value[len - 1] == '/')
+    if(tmp->value[len - 2] == '*' && tmp->value[len - 1] == '/')
     {
         len -= 4;
     }
+
     char* s = malloc(sizeof(char)*(len+1));
-    if (s == NULL)
+    if(s == NULL)
     {
         memoryFailure();
         exit(EXIT_FAILURE);
     }
+
     memcpy(s, &tmp->value[2], len);
     s[len] = '\0';
-
     newnode->content = s;
 
     (*pos)++;
@@ -2242,16 +2264,16 @@ struct astnode** getSC(struct token_info* info, size_t* pos)
 {
     struct astnode** sc = NULL;
 
-    while (*pos < info->len)
+    while(*pos < info->len)
     {
-        if (checkS(info, *pos) != 0)
+        if(checkS(info, *pos) != 0)
         {
             sc = pushASTNode(sc, getS(info, pos));
         }
-        else if (checkComment(info, *pos) != 0)
+        else if(checkComment(info, *pos) != 0)
         {
             sc = pushASTNode(sc, getComment(info, pos));
-    	}
+        }
         else
         {
             break;
@@ -2265,7 +2287,7 @@ struct astnode* getRuleset(struct token_info* info, size_t* pos)
 {
     struct astnode* ruleset = createASTNodeWithType(ACCSSNODETYPE_RULESET);
 
-    while (*pos < info->len && !(checkBlock(info, *pos)) && checkSelector(info, *pos))
+    while(*pos < info->len && !(checkBlock(info, *pos)) && checkSelector(info, *pos))
     {
         ruleset->children = pushASTNode(ruleset->children, getSelector(info, pos));
     }
@@ -2283,7 +2305,7 @@ struct astnode* getSelector(struct token_info* info, size_t* pos)
 
     checkSelector(info, *pos);
 
-    while (*pos <= tmp->selector_end)
+    while(*pos <= tmp->selector_end)
     {
         selector->children = pushASTNode(selector->children, (checkDelim(info, *pos) != 0 ? getDelim(info, pos) : getSimpleSelector(info, pos)));
     }
@@ -2295,8 +2317,7 @@ struct astnode* getSimpleSelector(struct token_info* info, size_t* pos)
 {
     struct astnode* simpleselector = createASTNodeWithType(ACCSSNODETYPE_SIMPLESELECTOR);
 
-
-    while (*pos < info->len && _checkSimpleSelector(info, *pos))
+    while(*pos < info->len && _checkSimpleSelector(info, *pos))
     {
         simpleselector->children = mergeList(simpleselector->children, _getSimpleSelector(info, pos));
     }
@@ -2306,42 +2327,43 @@ struct astnode* getSimpleSelector(struct token_info* info, size_t* pos)
 
 struct astnode** _getSimpleSelector(struct token_info* info, size_t* pos)
 {
-    if ((checkNthselector(info, *pos)) != 0)
+    if((checkNthselector(info, *pos)) != 0)
     {
         return pushASTNode(NULL, getNthselector(info, pos));
     }
-    else if ((checkCombinator(info, *pos)) != 0)
+    else if((checkCombinator(info, *pos)) != 0)
     {
         return pushASTNode(NULL, getCombinator(info, pos));
     }
-    else if ((checkAttrib(info, *pos)) != 0)
+    else if((checkAttrib(info, *pos)) != 0)
     {
         return pushASTNode(NULL, getAttrib(info, pos));
     }
-    else if ((checkPseudo(info, *pos)) != 0)
+    else if((checkPseudo(info, *pos)) != 0)
     {
         return pushASTNode(NULL, getPseudo(info, pos));
     }
-    else if ((checkClazz(info, *pos)) != 0)
+    else if((checkClazz(info, *pos)) != 0)
     {
         return pushASTNode(NULL, getClazz(info, pos));
     }
-    else if ((checkShash(info, *pos)) != 0)
+    else if((checkShash(info, *pos)) != 0)
     {
         return pushASTNode(NULL,getShash(info, pos));
     }
-    else if ((checkAny(info, *pos)) != 0)
+    else if((checkAny(info, *pos)) != 0)
     {
         return pushASTNode(NULL, getAny(info, pos));
     }
-    else if ((checkSC(info, *pos)) != 0)
+    else if((checkSC(info, *pos)) != 0)
     {
         return getSC(info, pos);
     }
-    else if ((checkNamespace(info, *pos)) != 0)
+    else if((checkNamespace(info, *pos)) != 0)
     {
         return pushASTNode(NULL, getNamespace(info, pos));
     }
+
     return NULL;
 }
 
@@ -2369,17 +2391,17 @@ struct astnode* getNthselector(struct token_info* info, size_t* pos)
     (*pos)++;
 
     struct token* tmp;
-    while (((tmp = getTokenByIndex(info, *pos)) != NULL) && tmp->type != TOKENTYPE_RIGHTPARENTHESIS)
+    while(((tmp = getTokenByIndex(info, *pos)) != NULL) && tmp->type != TOKENTYPE_RIGHTPARENTHESIS)
     {
-        if ((checkSC(info, *pos)) != 0)
+        if((checkSC(info, *pos)) != 0)
         {
             ns->children = mergeList(ns->children, getSC(info, pos));
         }
-        else if ((checkUnary(info, *pos)) != 0)
+        else if((checkUnary(info, *pos)) != 0)
         {
             ns->children = pushASTNode(ns->children, getUnary(info, pos));
         }
-        else if ((checkNth(info, *pos)) != 0)
+        else if((checkNth(info, *pos)) != 0)
         {
             ns->children = pushASTNode(ns->children, getNth(info, pos));
         }
@@ -2409,7 +2431,7 @@ struct astnode* getNth(struct token_info* info, size_t* pos)
     struct astnode* n = createASTNodeWithType(ACCSSNODETYPE_NTH);
 
     struct token* tmp = getTokenByIndex(info, *pos);
-    if (tmp->nth_last)
+    if(tmp->nth_last)
     {
         n->content = joinValues(info, *pos, tmp->nth_last);
         *pos = tmp->nth_last + 1;
@@ -2446,14 +2468,16 @@ struct astnode* getCombinator(struct token_info* info, size_t* pos)
 }
 struct astnode* getAttrib(struct token_info* info, size_t* pos)
 {
-    if ((checkAttrib1(info, *pos)) != 0)
+    if((checkAttrib1(info, *pos)) != 0)
     {
         return getAttrib1(info, pos);
     }
-    if ((checkAttrib2(info, *pos)) != 0 )
+
+    if((checkAttrib2(info, *pos)) != 0 )
     {
         return getAttrib2(info, pos);
     }
+
     return NULL;
 }
 
@@ -2507,9 +2531,8 @@ struct astnode* getAttrselector(struct token_info* info, size_t* pos)
 {
     struct astnode* attrselector = createASTNodeWithType(ACCSSNODETYPE_ATTRSELECTOR);
 
-
     struct token* tmp = getTokenByIndex(info, *pos +1);
-    if (tmp && tmp->type == TOKENTYPE_EQUALSSIGN)
+    if(tmp && tmp->type == TOKENTYPE_EQUALSSIGN)
     {
         attrselector->content = joinValues(info, *pos, *pos+1);
         (*pos)++;
@@ -2519,6 +2542,7 @@ struct astnode* getAttrselector(struct token_info* info, size_t* pos)
         tmp = getTokenByIndex(info, *pos);
         attrselector->content = copyValue(tmp->value);
     }
+
     (*pos)++;
 
     return attrselector;
@@ -2538,14 +2562,16 @@ struct astnode* getString(struct token_info* info, size_t* pos)
 
 struct astnode* getPseudo(struct token_info* info, size_t* pos)
 {
-    if ((checkPseudoe(info, *pos))!= 0)
+    if((checkPseudoe(info, *pos))!= 0)
     {
         return getPseudoe(info,pos);
     }
-    if ((checkPseudoc(info, *pos)) != 0)
+
+    if((checkPseudoc(info, *pos)) != 0)
     {
         return getPseudoc(info, pos);
     }
+
     return NULL;
 }
 
@@ -2592,13 +2618,13 @@ struct astnode* getFunctionBody(struct token_info* info, size_t* pos)
     struct astnode* body = createASTNodeWithType(ACCSSNODETYPE_FUNCTIONBODY);
 
     struct token* tmp;
-    while ((tmp = getTokenByIndex(info, *pos)) != NULL && tmp->type != TOKENTYPE_RIGHTPARENTHESIS)
+    while((tmp = getTokenByIndex(info, *pos)) != NULL && tmp->type != TOKENTYPE_RIGHTPARENTHESIS)
     {
-        if ((checkTset(info, *pos)) != 0)
+        if((checkTset(info, *pos)) != 0)
         {
             body->children = mergeList(body->children, getTset(info, pos));
         }
-        else if ((checkClazz(info, *pos)) != 0)
+        else if((checkClazz(info, *pos)) != 0)
         {
             body->children = pushASTNode(body->children, getClazz(info, pos));
         }
@@ -2617,15 +2643,15 @@ struct astnode* getNotFunctionBody(struct token_info* info, size_t* pos)
     struct astnode* body = createASTNodeWithType(ACCSSNODETYPE_FUNCTIONBODY);
 
     struct token* tmp;
-    while ((tmp = getTokenByIndex(info, *pos)) != NULL && tmp->type != TOKENTYPE_RIGHTPARENTHESIS)
+    while((tmp = getTokenByIndex(info, *pos)) != NULL && tmp->type != TOKENTYPE_RIGHTPARENTHESIS)
     {
-        if ((checkSimpleselector(info, *pos)) != 0)
+        if((checkSimpleselector(info, *pos)) != 0)
         {
             body->children = pushASTNode(body->children, getSimpleSelector(info, pos));
         }
         else
         {
-            if (checkOperator(info, *pos))
+            if(checkOperator(info, *pos))
             {
                  body->children = pushASTNode(body->children, getOperator(info, pos));
             }
@@ -2643,20 +2669,20 @@ struct astnode* getNotFunctionBody(struct token_info* info, size_t* pos)
 
 struct astnode** getTset(struct token_info* info, size_t* pos)
 {
-    if ((checkVhash(info, *pos)) != 0)
+    if((checkVhash(info, *pos)) != 0)
     {
         return pushASTNode(NULL, getVhash(info, pos));
     }
 
-    else if ((checkAny(info, *pos)) != 0)
+    else if((checkAny(info, *pos)) != 0)
     {
         return pushASTNode(NULL, getAny(info, pos));
     }
-    else if ((checkSC(info, *pos)) != 0)
+    else if((checkSC(info, *pos)) != 0)
     {
         return getSC(info, pos);
     }
-    else if ((checkOperator(info, *pos)) != 0)
+    else if((checkOperator(info, *pos)) != 0)
     {
         return pushASTNode(NULL, getOperator(info, pos));
     }
@@ -2684,7 +2710,7 @@ char* getNmName2(struct token_info* info, size_t* pos)
     (*pos)++;
     struct token* tmp1 = getTokenByIndex(info, *pos);
 
-    if (tmp->type == TOKENTYPE_DECIMALNUMBER &&
+    if(tmp->type == TOKENTYPE_DECIMALNUMBER &&
         *pos < info->len &&
         tmp1->type == TOKENTYPE_IDENTIFIER
         )
@@ -2692,7 +2718,7 @@ char* getNmName2(struct token_info* info, size_t* pos)
         size_t l2 = strlen(tmp1->value);
 
         s = malloc(sizeof(char)*(l + l2 +1));
-        if (s == NULL)
+        if(s == NULL)
         {
             memoryFailure();
             exit(EXIT_FAILURE);
@@ -2707,11 +2733,12 @@ char* getNmName2(struct token_info* info, size_t* pos)
     else
     {
         s = malloc(sizeof(char)*(l +1));
-        if (s == NULL)
+        if(s == NULL)
         {
             memoryFailure();
             exit(EXIT_FAILURE);
         }
+
         strcpy(s, tmp->value);
     }
 
@@ -2720,43 +2747,43 @@ char* getNmName2(struct token_info* info, size_t* pos)
 
 struct astnode* getAny(struct token_info* info, size_t* pos)
 {
-    if ((checkBraces(info, *pos)) != 0)
+    if((checkBraces(info, *pos)) != 0)
     {
         return getBraces(info, pos);
     }
-    else if ((checkString(info, *pos)) != 0)
+    else if((checkString(info, *pos)) != 0)
     {
         return getString(info, pos);
     }
-    else if ((checkPercentage(info, *pos)) != 0)
+    else if((checkPercentage(info, *pos)) != 0)
     {
         return getPercentage(info, pos);
     }
-    else if ((checkDimension(info, *pos)) != 0)
+    else if((checkDimension(info, *pos)) != 0)
     {
         return getDimension(info, pos);
     }
-    else if ((checkNumber(info, *pos)) != 0)
+    else if((checkNumber(info, *pos)) != 0)
     {
         return getNumber(info, pos);
     }
-    else if ((checkUri(info, *pos)) != 0)
+    else if((checkUri(info, *pos)) != 0)
     {
         return getUri(info, pos);
     }
-    else if ((checkFunctionExpression(info, *pos)) != 0)
+    else if((checkFunctionExpression(info, *pos)) != 0)
     {
         return getFunctionExpression(info, pos);
     }
-    else if ((checkFunction(info, *pos)) != 0)
+    else if((checkFunction(info, *pos)) != 0)
     {
         return getFunction(info, pos);
     }
-    else if ((checkIdent(info, *pos)) != 0)
+    else if((checkIdent(info, *pos)) != 0)
     {
         return getIdent(info, pos);
     }
-    else if ((checkUnary(info, *pos)) != 0)
+    else if((checkUnary(info, *pos)) != 0)
     {
         return getUnary(info, pos);
     }
@@ -2774,7 +2801,7 @@ struct astnode* getBraces(struct token_info* info, size_t* pos)
     braces->children = getTsets(info, pos);
 
     braces->content = malloc(sizeof(char)*3);
-    if (braces->content == NULL)
+    if(braces->content == NULL)
     {
         memoryFailure();
         exit(EXIT_FAILURE);
@@ -2817,7 +2844,6 @@ struct astnode* getNumber(struct token_info* info, size_t* pos)
 
     size_t l = tmp->number_l;
 
-
     struct astnode* number = createASTNodeWithType(ACCSSNODETYPE_NUMBER);
 
     number->content = joinValues(info, *pos, *pos+l-1);
@@ -2832,7 +2858,7 @@ struct astnode** getTsets(struct token_info* info, size_t* pos)
     struct astnode** tsets = NULL;
     struct astnode** x = NULL;
 
-    while ((x = getTset(info, pos)) != NULL)
+    while((x = getTset(info, pos)) != NULL)
     {
         tsets = mergeList(tsets, x);
     }
@@ -2847,7 +2873,6 @@ struct astnode* getDimension(struct token_info* info, size_t* pos)
     struct astnode* ident = createASTNodeWithType(ACCSSNODETYPE_IDENT);
     ident->content = getNmName2(info, pos);
 
-
     struct astnode* dimension = createASTNodeWithType(ACCSSNODETYPE_DIMENSION);
 
     dimension->children = pushASTNode(dimension->children, n);
@@ -2856,12 +2881,11 @@ struct astnode* getDimension(struct token_info* info, size_t* pos)
     return dimension;
 }
 
-
 struct astnode* getUri(struct token_info* info, size_t* pos)
 {
    *pos += 2;
 
-    if ((checkUri1(info, *pos)) != 0)
+    if((checkUri1(info, *pos)) != 0)
     {
         struct astnode* uri = createASTNodeWithType(ACCSSNODETYPE_URI);
         uri->children = mergeList(uri->children, getSC(info, pos));
@@ -2874,9 +2898,8 @@ struct astnode* getUri(struct token_info* info, size_t* pos)
     }
     else
     {
-       struct astnode* uri = createASTNodeWithType(ACCSSNODETYPE_URI);
+        struct astnode* uri = createASTNodeWithType(ACCSSNODETYPE_URI);
         uri->children = mergeList(uri->children, getSC(info, pos));
-
 
         size_t l = checkExcluding(info, *pos);
 
@@ -2976,9 +2999,9 @@ struct astnode* getBlock(struct token_info* info, size_t* pos)
 
     (*pos)++;
 
-    while (*pos < end)
+    while(*pos < end)
     {
-        if ((checkBlockdecl(info, *pos)) != 0)
+        if((checkBlockdecl(info, *pos)) != 0)
         {
             block->children = mergeList(block->children, getBlockdecl(info, pos));
         }
@@ -2994,11 +3017,10 @@ struct astnode* getBlock(struct token_info* info, size_t* pos)
     return block;
 }
 
-
 struct astnode** getBlockdecl(struct token_info* info, size_t* pos)
 {
     struct token* tmp = getTokenByIndex(info, *pos);
-    switch (tmp->bd_type)
+    switch(tmp->bd_type)
     {
         case 1:
         {
@@ -3023,7 +3045,6 @@ struct astnode** getBlockdecl(struct token_info* info, size_t* pos)
     return NULL;
 }
 
-
 struct astnode** _getBlockdecl0(struct token_info* info, size_t* pos)
 {
     struct astnode** list = NULL;
@@ -3037,7 +3058,6 @@ struct astnode** _getBlockdecl0(struct token_info* info, size_t* pos)
 
     return list;
 }
-
 
 struct astnode** _getBlockdecl1(struct token_info* info, size_t* pos)
 {
@@ -3059,10 +3079,8 @@ struct astnode** _getBlockdecl2(struct token_info* info, size_t* pos)
 
     list = mergeList(list, getSC(info, pos));
 
-
     list = pushASTNode(list, getDecldelim(info, pos));
     list = mergeList(list, getSC(info, pos));
-
 
     return list;
 }
@@ -3089,16 +3107,17 @@ struct astnode* getFilterv(struct token_info* info, size_t* pos)
 
     struct token* tmp = getTokenByIndex(info, *pos);
 
-    while (*pos < tmp->last_progid)
+    while(*pos < tmp->last_progid)
     {
         filterv->children = pushASTNode(filterv->children, getProgid(info, pos));
     }
 
-    if (checkSC(info, *pos) != 0) {
+    if(checkSC(info, *pos) != 0)
+    {
         filterv->children = mergeList(filterv->children, getSC(info, pos));
     }
 
-    if (*pos < info->len && checkImportant(info, *pos) != 0)
+    if(*pos < info->len && checkImportant(info, *pos) != 0)
     {
         filterv->children = pushASTNode(filterv->children, getImportant(info, pos));
     }
@@ -3200,7 +3219,7 @@ struct astnode* getValue(struct token_info* info, size_t* pos)
 {
     struct astnode* property = createASTNodeWithType(ACCSSNODETYPE_VALUE);
 
-    while (*pos < info->len && _checkValue(info, *pos))
+    while(*pos < info->len && _checkValue(info, *pos))
     {
         property->children = mergeList(property->children, _getValue(info, pos));
     }
@@ -3209,31 +3228,31 @@ struct astnode* getValue(struct token_info* info, size_t* pos)
 }
 struct astnode** _getValue(struct token_info* info, size_t* pos)
 {
-    if (checkSC(info, *pos) != 0)
+    if(checkSC(info, *pos) != 0)
     {
         return getSC(info, pos);
     }
-    else if (checkVhash(info, *pos) != 0)
+    else if(checkVhash(info, *pos) != 0)
     {
         return pushASTNode(NULL, getVhash(info, pos));
     }
-    else if (checkAny(info, *pos) != 0)
+    else if(checkAny(info, *pos) != 0)
     {
         return pushASTNode(NULL, getAny(info, pos));
     }
-    else if (checkBlock(info, *pos) != 0)
+    else if(checkBlock(info, *pos) != 0)
     {
         return pushASTNode(NULL, getBlock(info, pos));
     }
-    else if (checkAtkeyword(info, *pos) != 0)
+    else if(checkAtkeyword(info, *pos) != 0)
     {
         return pushASTNode(NULL, getAtkeyword(info, pos));
     }
-    else if (checkOperator(info, *pos) != 0)
+    else if(checkOperator(info, *pos) != 0)
     {
         return pushASTNode(NULL, getOperator(info, pos));
     }
-    else if (checkImportant(info, *pos) != 0)
+    else if(checkImportant(info, *pos) != 0)
     {
         return pushASTNode(NULL, getImportant(info, pos));
     }
@@ -3252,11 +3271,10 @@ struct astnode* getAtkeyword(struct token_info* info, size_t* pos)
     return atkeyword;
 }
 
-
 struct astnode* getAtrule(struct token_info* info, size_t* pos)
 {
     struct token* tmp = getTokenByIndex(info, *pos);
-    switch (tmp->atrule_type)
+    switch(tmp->atrule_type)
     {
         case 1: return getAtruler(info, pos);
         case 2: return getAtruleb(info, pos);
@@ -3307,13 +3325,13 @@ struct astnode* getAtrulers(struct token_info* info, size_t* pos)
     atrulers->children = mergeList(atrulers->children, getSC(info, pos));
 
     struct token* tmp = NULL;
-    while ((tmp = getTokenByIndex(info, *pos)) != NULL && !tmp->atrulers_end)
+    while((tmp = getTokenByIndex(info, *pos)) != NULL && !tmp->atrulers_end)
     {
-        if (checkSC(info, *pos) != 0)
+        if(checkSC(info, *pos) != 0)
         {
             atrulers->children = mergeList(atrulers->children, getSC(info, pos));
         }
-        else if (checkRuleset(info, *pos) != 0)
+        else if(checkRuleset(info, *pos) != 0)
         {
             atrulers->children = pushASTNode(atrulers->children, getRuleset(info, pos));
         }
@@ -3356,9 +3374,9 @@ struct astnode* getStylesheet(struct token_info* info, size_t* pos, char* error)
 {
     struct astnode* stylesheet = createASTNodeWithType(ACCSSNODETYPE_STYLESHEET);
 
-    while (*pos < info->len)
+    while(*pos < info->len)
     {
-        if (checkSC(info, *pos) != 0)
+        if(checkSC(info, *pos) != 0)
         {
             stylesheet->children = mergeList(stylesheet->children, getSC(info, pos));
         }
@@ -3389,7 +3407,6 @@ struct astnode* getStylesheet(struct token_info* info, size_t* pos, char* error)
 
     return stylesheet;
 }
-
 
 struct astnode* getAST(struct token_info* info, char _needInfo,  char* error)
 {

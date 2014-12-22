@@ -122,10 +122,9 @@ const char* astnodetypes[] = {
     "ACCSSNODETYPE_FUNCTIONEXPRESSION",
     "ACCSSNODETYPE_UNKNOWN" };
 
-
 void printASTNode(struct astnode* node, int depth)
 {
-	int i =0;
+    int i =0;
     for(; i<depth; i++)
     {
         printf("\t");
@@ -136,24 +135,25 @@ void printASTNode(struct astnode* node, int depth)
         printf(" \"%s\"",node->content);
     }
 
-
     depth++;
     if(node->children != NULL)
     {
         printf("\n");
         struct astnode** tmp = node->children;
 
-        while (*tmp != NULL)
+        while(*tmp != NULL)
         {
             printASTNode(*tmp, depth);
             tmp++;
         }
     }
-	int k =0;
+
+    int k =0;
     for(; k<depth; k++)
     {
         printf("\t");
     }
+
     printf("]\n");
 }
 
@@ -164,7 +164,6 @@ void printASTNodeJSON(struct astnode* node, int depth)
 
     printf("'type' : '%s'", astnodetypes[node->type]);
 
-
     if(node->info != NULL)
     {
         printf(", 'info' : {");
@@ -172,12 +171,14 @@ void printASTNodeJSON(struct astnode* node, int depth)
         {
             printf("'freezeID' : '%s'", node->info->freezeID);
         }
+
         if(node->info->pseudoID != NULL)
         {
             if(node->info->freezeID != NULL)
             {
                 printf(", ");
             }
+
             printf("'pseudoID' : '%s'", node->info->pseudoID);
         }
         if(node->info->pseudoSignature != NULL)
@@ -186,29 +187,33 @@ void printASTNodeJSON(struct astnode* node, int depth)
             {
                 printf(", ");
             }
+
             printf("'pseudoSignature' : '%s'", node->info->pseudoSignature);
         }
+
         if(node->info->freezeID != NULL || node->info->pseudoID != NULL || node->info->pseudoSignature != NULL)
         {
             printf(", ");
         }
+
         printf("'freeze' : '%i', ", node->info->freeze);
         printf("'pseudo' : '%i', ",  node->info->pseudo);;
         printf("'replaceByShort' : '%i', ",  node->info->replaceByShort);
         printf("'removeByShort' : '%i',", node->info->removeByShort);
         printf("'shortHandKey' : { 'i' : '%lu', 'key' : '%s' }", node->info->shortHandKey.i, node->info->shortHandKey.key != NULL ? node->info->shortHandKey.key : "");
 
-        if (node->info->sg != NULL)
+        if(node->info->sg != NULL)
         {
             printf(", 'sg' : [");
             char** sg1 = node->info->sg;
 
             while(*sg1 != NULL)
             {
-                if (sg1 != node->info->sg)
+                if(sg1 != node->info->sg)
                 {
                     printf(", ");
                 }
+
                 printf("'%s'", *sg1);
                 sg1++;
             }
@@ -217,11 +222,11 @@ void printASTNodeJSON(struct astnode* node, int depth)
         printf("}");
     }
 
-
     if(node->content != NULL)
     {
         printf(", 'content' : '%s'", node->content);
     }
+
     if(node->s != NULL)
     {
         printf(", 's' : '%s'", node->s);
@@ -233,12 +238,13 @@ void printASTNodeJSON(struct astnode* node, int depth)
         printf(", 'children' : [");
         struct astnode** tmp = node->children;
 
-        while (*tmp != NULL)
+        while(*tmp != NULL)
         {
-            if (tmp != node->children)
+            if(tmp != node->children)
             {
                 printf(",");
             }
+
             printASTNodeJSON(*tmp, depth);
             tmp++;
         }
@@ -252,7 +258,7 @@ void printASTList(struct astnode** list, char* name)
 {
     struct astnode** tmp = list;
     printf("======= %s AST List =======\n\n", name);
-    while ((*tmp)->type != 0)
+    while((*tmp)->type != 0)
     {
         printASTNode(*tmp, 0);
         tmp++;
@@ -261,7 +267,7 @@ void printASTList(struct astnode** list, char* name)
 
 void printTokens(struct token_info* info)
 {
-	size_t i = 0;
+    size_t i = 0;
     for(; i < info->len; i++)
     {
         struct token* tmp = info->list[i];
@@ -284,15 +290,17 @@ void printSide(struct shortSide* side)
         {
             printf("'s' : '%s'", side->s);
         }
+
         if(side->t != NULL)
         {
             if(side->s != NULL)
             {
                 printf(", ");
             }
+
             printf("'t' : ");
-			size_t i = 0, ilen = listLength(side->t);
-            for( ; i<ilen; i++)
+            size_t i = 0, ilen = listLength(side->t);
+            for(; i<ilen; i++)
             {
                 printASTNodeJSON(side->t[i], 0);
             }
@@ -308,18 +316,18 @@ void printSide(struct shortSide* side)
 
 void printShortList(struct shortHand** sList)
 {
-    while (*sList != NULL)
+    while(*sList != NULL)
     {
         struct shortHand* sh = *sList;
         sList++;
 
         printf("{");
-        if (sh->name != NULL)
+        if(sh->name != NULL)
         {
             printf("'name' : '%s', ", sh->name);
         }
-        printf("'invalid' : '%i', 'imp' : '%i', 'sides' : {", sh->invalid, sh->imp);
 
+        printf("'invalid' : '%i', 'imp' : '%i', 'sides' : {", sh->invalid, sh->imp);
         printf("'top' : ");
         printSide(sh->sides.top);
         printf(", 'right' : ");
@@ -328,8 +336,8 @@ void printShortList(struct shortHand** sList)
         printSide(sh->sides.bottom);
         printf(", 'left' : ");
         printSide(sh->sides.left);
-
         printf("}}");
+
         if(*sList != NULL)
         {
             printf(", ");
@@ -344,21 +352,23 @@ void printShortHands(struct pchar_shorts** list)
         struct pchar_shorts** psTmp = list;
 
         printf("[");
-        while (*psTmp != NULL)
+        while(*psTmp != NULL)
         {
             struct pchar_shorts* psCurrent = *psTmp;
             psTmp++;
             printf("{");
-            if (psCurrent->key != NULL)
+            if(psCurrent->key != NULL)
             {
                 printf("'key' : '%s', ", psCurrent->key);
             }
+
             printf("'list' : [");
             struct shortHand** sList = psCurrent->list;
             if(sList != NULL)
             {
                 printShortList(sList);
             }
+
             printf("]}");
             if(*psTmp != NULL)
             {

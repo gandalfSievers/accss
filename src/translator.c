@@ -66,15 +66,13 @@ char* primitive(struct astnode* node);
 char* _t(struct astnode* node);
 char* composite(struct astnode* node, int i);
 
-
-
 char* concat(const char* format, int count, ...)
 {
     va_list ap;
     char* arg ;
     char* buffer = NULL;
     size_t len = 0;
-    if (count)
+    if(count)
     {
         int x = count;
         va_start(ap, count);
@@ -82,7 +80,7 @@ char* concat(const char* format, int count, ...)
         while(x--)
         {
             arg = va_arg(ap, char*);
-            if (arg != NULL && arg[0] != '\0')
+            if(arg != NULL && arg[0] != '\0')
             {
                 len += strlen(arg);
             }
@@ -90,13 +88,14 @@ char* concat(const char* format, int count, ...)
         }
 
         buffer = malloc(sizeof(char)*(len+1));
-        if (buffer == NULL)
+        if(buffer == NULL)
         {
             memoryFailure();
             exit(EXIT_FAILURE);
         }
+
         va_start(ap, count);
-        vsprintf (buffer, format, ap);
+        vsprintf(buffer, format, ap);
         va_end(ap);
     }
     return buffer;
@@ -209,7 +208,7 @@ char* braces(struct astnode* node)
 {
     char* tmp = composite(node, 0);
     char* tmp2 = NULL;
-    if (node->content[0] == '(')
+    if(node->content[0] == '(')
     {
         tmp2 = concat("%s%s%s", 3, "(", tmp, ")");
     }
@@ -217,6 +216,7 @@ char* braces(struct astnode* node)
     {
         tmp2 = concat("%s%s%s", 3, "[", tmp, "]");
     }
+
     free(tmp);
     return tmp2;
 }
@@ -267,13 +267,13 @@ char* uri(struct astnode* node)
 
 char* functionExpression(struct astnode* node)
 {
-	return concat("%s%s%s", 3, "expression(", node->content, ")");
+    return concat("%s%s%s", 3, "expression(", node->content, ")");
 }
 
 char* composite(struct astnode* node, int i)
 {
     char* s = malloc(sizeof(char));
-    if (s == NULL)
+    if(s == NULL)
     {
         memoryFailure();
         exit(EXIT_FAILURE);
@@ -287,15 +287,15 @@ char* composite(struct astnode* node, int i)
         size_t slen = strlen(s);
         size_t tlen = strlen(tmp);
         char* stmp = realloc(s, sizeof(char)*(slen+tlen+1));
-        if (stmp == NULL)
+        if(stmp == NULL)
         {
             memoryFailure();
             exit(EXIT_FAILURE);
         }
-        s=stmp;
 
+        s=stmp;
         memcpy(&s[slen], tmp, tlen);
-		free(tmp);
+        free(tmp);
         slen+=tlen;
         s[slen] = '\0';
     }
@@ -304,7 +304,7 @@ char* composite(struct astnode* node, int i)
 
 char* primitive(struct astnode* node)
 {
-    switch (node->type)
+    switch(node->type)
     {
         case ACCSSNODETYPE_CDO:
             return copyValue("cdo");
@@ -331,7 +331,6 @@ char* simple(struct astnode* node)
 {
     return copyValue(node->content);
 }
-
 
 char* _t(struct astnode* node)
 {

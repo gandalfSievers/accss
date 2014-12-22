@@ -30,7 +30,6 @@
 #ifndef accss_debug_h
 #define accss_debug_h
 
-
 void printASTNode(struct astnode* node, int depth);
 void printASTNodeJSON(struct astnode* node, int depth);
 void printASTList(struct astnode** list, char* name);

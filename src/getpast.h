@@ -34,7 +34,6 @@
 #ifndef accss_getpast_h
 #define accss_getpast_h
 
-
 struct astnode* getAST(struct token_info* tokens, char _needInfo, char* error);
 
 #endif

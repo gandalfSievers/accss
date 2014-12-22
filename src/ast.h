@@ -24,10 +24,9 @@
  */
 
 #include <stdlib.h>
- 
+
 #ifndef accss_ast_h
 #define accss_ast_h
-
 
 #define ACCSSNODETYPE_IDENT 1
 #define ACCSSNODETYPE_ATKEYWORD 2
@@ -93,23 +92,23 @@ struct astinfo
     char pseudo;
     char* pseudoID;
     char* pseudoSignature;
-    
+
     char replaceByShort;
     char removeByShort;
     struct pchar_i shortHandKey;
-    
+
     char** sg;
-    
+
     size_t shortGroupID;
 };
 
 struct astnode
 {
     struct astinfo* info;
-	char type;
+    char type;
     char* content;
     char* s;
-    
+
     struct astnode** children;
     struct astnode* parent;
 };

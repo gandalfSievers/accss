@@ -41,7 +41,6 @@
 #include "translator.h"
 #include "debug.h"
 
-
 #define VERSION "1.0"
 
 #define MAX_FILEBUFFER_SIZE 400000000
@@ -54,10 +53,9 @@
 #define OPTION_STATS 16
 #define OPTION_PRESERVESPLITTED 32
 
-
 char writeOutput(const char* filename, const char* string)
 {
-    if (filename == NULL)
+    if(filename == NULL)
     {
         printf("%s\n", string);
     }
@@ -85,11 +83,11 @@ char getStringFromFile(const char* filename, char** string)
         fseek(file, 0, SEEK_END);
         size_t bufferlen = ftell(file);
         rewind(file);
-        
+
         if(bufferlen<MAX_FILEBUFFER_SIZE)
         {
             char* filebuffer = (char*)malloc(sizeof(char)*bufferlen);
-            
+
             if(filebuffer==NULL)
             {
                 fprintf(stderr, "Out of memory!\n");
@@ -118,6 +116,7 @@ char getStringFromFile(const char* filename, char** string)
             fclose(file);
             return 0;
         }
+
         fclose(file);
     }
     else
@@ -143,39 +142,39 @@ void usage(const char* name)
 
 void checkCompat(unsigned char* compat, const char* opt, char* error)
 {
-    if (strcmp(opt, "all") == 0)
+    if(strcmp(opt, "all") == 0)
     {
         *compat = ACCSSOPTION_ALL;
     }
-    else if (strcmp(opt, "ie7") == 0)
+    else if(strcmp(opt, "ie7") == 0)
     {
         *compat = ACCSSOPTION_ALL;
     }
-    else if (strcmp(opt, "ie8") == 0)
+    else if(strcmp(opt, "ie8") == 0)
     {
         *compat = ACCSSOPTION_GE_IE8;
     }
-    else if (strcmp(opt, "ie9") == 0)
+    else if(strcmp(opt, "ie9") == 0)
     {
         *compat = ACCSSOPTION_GE_IE9;
     }
-    else if (strcmp(opt, "ie10") == 0)
+    else if(strcmp(opt, "ie10") == 0)
     {
         *compat = ACCSSOPTION_GE_IE10;
     }
-    else if (strcmp(opt, "ie11") == 0)
+    else if(strcmp(opt, "ie11") == 0)
     {
         *compat = ACCSSOPTION_GE_IE11;
     }
-    else if (strcmp(opt, "chrome") == 0)
+    else if(strcmp(opt, "chrome") == 0)
     {
         *compat = ACCSSOPTION_GE_CHROME;
     }
-    else if (strcmp(opt, "future") == 0)
+    else if(strcmp(opt, "future") == 0)
     {
         *compat = ACCSSOPTION_FUTURE;
     }
-    else if (strcmp(opt, "none") == 0)
+    else if(strcmp(opt, "none") == 0)
     {
         *compat = ACCSSOPTION_NONE;
     }
@@ -185,7 +184,7 @@ void checkCompat(unsigned char* compat, const char* opt, char* error)
     }
 }
 
-int main (int argc, char **argv)
+int main(int argc, char **argv)
 {
     int c;
     char error = 0;
@@ -193,8 +192,8 @@ int main (int argc, char **argv)
     unsigned char compat = ACCSSOPTION_ALL;
     char* input = NULL;
     char* output = NULL;
-    
-    while (1)
+
+    while(1)
     {
         static struct option long_options[] =
         {
@@ -210,15 +209,16 @@ int main (int argc, char **argv)
         };
         /* getopt_long stores the option index here. */
         int option_index = 0;
-        
-        c = getopt_long (argc, argv, "pvshrc:",
-                         long_options, &option_index);
-        
+
+        c = getopt_long(argc, argv, "pvshrc:", long_options, &option_index);
+
         /* Detect the end of the options. */
-        if (c == -1)
+        if(c == -1)
+        {
             break;
-        
-        switch (c)
+        }
+
+        switch(c)
         {
             case 'v':
             {
@@ -226,31 +226,31 @@ int main (int argc, char **argv)
                 flags |= OPTION_VERSION;
             }
             break;
-                
+
             case 'h':
             {
                 flags |= OPTION_HELP;
             }
             break;
-                
+
             case 'r':
             {
                 flags |= OPTION_RESTRUCTURE_OFF;
             }
             break;
-                
+
             case 'p':
             {
                 flags |= OPTION_PRESERVESPLITTED;
             }
                 break;
-                
+
             case 's':
             {
                 flags |= OPTION_STATS;
             }
                 break;
-                
+
             case 'c':
             {
                 char* comstr = copyValue(optarg);
@@ -258,39 +258,41 @@ int main (int argc, char **argv)
                 free(comstr);
             }
                 break;
-                
+
             default:
             {
                 error++;
             }
         }
     }
-    
-    if (flags & OPTION_PRESERVESPLITTED)
+
+    if(flags & OPTION_PRESERVESPLITTED)
     {
         printf("p\n");
         exit(EXIT_SUCCESS);
     }
-    if (flags & OPTION_VERSION)
+
+    if(flags & OPTION_VERSION)
     {
         printf("%s\n", VERSION);
         exit(EXIT_SUCCESS);
     }
-    
-    if (flags & OPTION_HELP)
+
+    if(flags & OPTION_HELP)
     {
         usage(argv[0]);
         exit(EXIT_SUCCESS);
     }
-    if (error)
+
+    if(error)
     {
         fprintf(stderr, "Unknown options");
         usage(argv[0]);
         exit(EXIT_FAILURE);
     }
-    
+
     /* Unknown options. */
-    if (optind < argc)
+    if(optind < argc)
     {
         if(argc - optind > 2)
         {
@@ -298,17 +300,17 @@ int main (int argc, char **argv)
             usage(argv[0]);
             exit(EXIT_FAILURE);
         }
-        
+
         input=copyValue(argv[optind++]);
-        if (optind < argc)
+        if(optind < argc)
         {
             output=copyValue(argv[optind]);
         }
     }
-    
+
     char* string = NULL;
 
-    if (input!=NULL)
+    if(input!=NULL)
     {
         if(!getStringFromFile(input, &string))
         {
@@ -321,66 +323,69 @@ int main (int argc, char **argv)
         size_t bufflen = 0;
         size_t readlen = 0;
         size_t oldlen;
-        while ((readlen = fread(buffer, sizeof(char), STDBUFFERSIZE, stdin)) > 0)
+        while((readlen = fread(buffer, sizeof(char), STDBUFFERSIZE, stdin)) > 0)
         {
             oldlen = bufflen;
             bufflen += readlen;
             char* tmp = realloc(string, sizeof(char)*(bufflen+1));
-                        if(tmp == NULL)
+            if(tmp == NULL)
             {
                 memoryFailure();
                 exit(EXIT_FAILURE);
             }
+
             string = tmp;
             char* start = string + oldlen;
 
             memcpy(start, buffer, readlen);
-            
+
         }
         if(bufflen > 0)
         {
             string[bufflen] = '\0';
         }
     }
-    
+
     if(string != NULL)
     {
         clock_t start = clock();
-        
+
         size_t inlen = strlen(string);
         size_t outlen = 0;
         char*  outstr = NULL;
-        
-        if (inlen > 0)
+
+        if(inlen > 0)
         {
             char error = 0;
             struct token_info tokens = getTokens(string, &error);
-            
+
             free(string);
 
             if(error)
             {
-                printf ("Error Tokenizing CSS\n");
+                printf("Error Tokenizing CSS\n");
                 deleteTokens(&tokens);
                 exit(EXIT_FAILURE);
             }
+
     #ifdef DEBUG
             printTokens(&tokens);
             fflush(stdout);
     #endif
             struct astnode* stylesheet = getAST(&tokens, 0, &error);
-            
+
             deleteTokens(&tokens);
             if(error)
             {
                 printf ("Error creating AST tree\n");
                 exit(EXIT_FAILURE);
             }
+
     #ifdef DEBUG
             printASTNodeJSON(stylesheet, 0);
             fflush(stdout);
     #endif
-            
+
             stylesheet = compress(stylesheet, !(flags & OPTION_RESTRUCTURE_OFF), !(flags & OPTION_PRESERVESPLITTED), compat);
 
     #ifdef DEBUG
@@ -389,13 +394,13 @@ int main (int argc, char **argv)
             printf("\n\n=========================================================\n");
             fflush(stdout);
     #endif
-            
+
             outstr = translate(stylesheet);
-            
+
             deleteASTTree(stylesheet);
-            
+
             outlen = strlen(outstr);
-                
+
         }
         else
         {
@@ -403,18 +408,18 @@ int main (int argc, char **argv)
             outstr = string;
         }
         char o = writeOutput(output, outstr);
-        
+
         free(outstr);
-        
-        if (!o)
+
+        if(!o)
         {
             fprintf(stderr, "Could write output file %s!\n", output);
             exit(EXIT_FAILURE);
         }
-        
+
         clock_t clockdiff = clock()-start;
         int msec = (int)(clockdiff * 1000 / CLOCKS_PER_SEC);
-   
+
         if(output != NULL && flags & OPTION_STATS)
         {
             float ratio = outlen < inlen ? ((float)outlen / (float)inlen) : 0;
@@ -422,18 +427,18 @@ int main (int argc, char **argv)
             float outsize = (float)outlen / 1024;
             printf("Total time: %d seconds %d milliseconds, ratio: %.2f%% insize: %.2fKB outsize %.2fKB\n", msec/1000, msec%1000, ratio, insize, outsize);
         }
-    
+
     }
-    
+
     if(output!=NULL)
     {
         free(output);
     }
-    
+
     if(input!=NULL)
     {
         free(input);
     }
-    
-    exit (0);
+
+    exit(0);
 }
