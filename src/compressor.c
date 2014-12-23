@@ -247,7 +247,6 @@ struct shortHand** pushShorts(struct shortHand** shorts, struct shortHand* sh)
 
     if(shorts == NULL)
     {
-
         struct shortHand** list = malloc(sizeof(struct shortHand*)*2);
         if(list == NULL)
         {
@@ -639,7 +638,6 @@ char _cleanComment(char r)
 
 struct astnode* cleanComment(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
-
     char pr = previousNodeType(container, index);
 
     char nr = nextNodeType(container, index);
@@ -659,7 +657,6 @@ struct astnode* cleanComment(struct compdeps* deps, struct astnode* node, char r
 }
 struct astnode* cleanCharset(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
-
     if(node->children != NULL)
     {
         if(node->children[0]->children != NULL)
@@ -760,9 +757,7 @@ char _cleanWhitespace(char r, char left)
 
 struct astnode* cleanWhitespace(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
-
     char pr = previousNodeType(container, index);
-
     char nr = nextNodeType(container, index);
 
     if(nr == ACCSSNODETYPE_UNKNOWN)
@@ -953,7 +948,6 @@ struct astnode* cleanUnary(struct compdeps* deps, struct astnode* node, char rul
 
 struct astnode* compressIdentColor(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
-
     if(container->type == ACCSSNODETYPE_VALUE || container->type == ACCSSNODETYPE_FUNCTIONBODY)
     {
         char rep = 0;
@@ -1101,7 +1095,6 @@ struct astnode* compressFunctionColor(struct compdeps* deps, struct astnode* nod
         int i = 0, k = 0;
         for(; i < len; i++)
         {
-
             if(body[i]->type == ACCSSNODETYPE_NUMBER )
             {
                 if(k < 3)
@@ -2085,7 +2078,6 @@ char stringInHash(char** h0, char* s)
     char** h1 = h0;
     while(*h1 != NULL)
     {
-
         if(strcmp(*h1, s) == 0)
         {
             k=1;
@@ -2244,7 +2236,6 @@ char dontRestructure(unsigned char options, struct astnode* decl)
         //http://dev.w3.org/csswg/css-images-3/
         else if((options & ACCSSOPTION_IE9) && (strcmp(str, "background") == 0 || strcmp(str, "background-image") == 0 ) )
         {
-
             int src = 0;
             struct astnode** c = value->children;
             while(*c != NULL)
@@ -2790,7 +2781,6 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
 
 void disjoin (struct compdeps* deps, struct astnode* container)
 {
-
     if(container != NULL)
     {
         struct astnode** sr = NULL;
@@ -3528,7 +3518,6 @@ struct astnode* restructureBlock(struct compdeps* deps, struct astnode* node, ch
 
         if(x->type == ACCSSNODETYPE_DECLARATION)
         {
-
             struct astnode** v = x->children[1]->children;
             size_t vlen = listLength(v);
             if(!vlen)
@@ -3559,12 +3548,10 @@ struct astnode* restructureBlock(struct compdeps* deps, struct astnode* node, ch
             struct prop* t = NULL;
             if(!dontRestructure(deps->compat, x) && (t = getProp(props, ppre)) != NULL)
             {
-
                 if((isPseudo && strcmp(freezeID,t->freezeID) == 0) || // pseudo from equal selectors group
                     (!isPseudo && strcmp(pseudoID, t->pseudoID) == 0) || // not pseudo from equal pseudo signature group
                     (isPseudo && strcmp(pseudoID, t->pseudoID) == 0 && hashInHash(sg, t->sg))) // pseudo from covered selectors group
                 {
-
                     if(imp && !t->imp)
                     {
                         deleteProperty(t->block, t->id);
@@ -3587,7 +3574,6 @@ struct astnode* restructureBlock(struct compdeps* deps, struct astnode* node, ch
             }
             else if(!dontRestructure(deps->compat, x))
             {
-
                 props = addProp(props, createProp(node, imp, x->info->id, sg, freeze, path, freezeID, pseudoID), ppre);
                 if(conttype == ACCSSNODETYPE_RULESET)
                 {
@@ -3625,7 +3611,6 @@ size_t calcLength(struct astnode** nodes)
 
 struct astnode* restructureRuleset(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
-
     struct astnode* p = (index == 0 || container->children[index - 1]->type == ACCSSNODETYPE_UNKNOWN) ? NULL : container->children[index - 1];
     if(p == NULL)
     {
@@ -3666,7 +3651,6 @@ struct astnode* restructureRuleset(struct compdeps* deps, struct astnode* node, 
 
         if(rEqLen && (rNe1Len || rNe2Len))
         {
-
             if(rNe1Len && !rNe2Len)
             {
                 struct astnode** ns = node->children[0]->children;
@@ -3730,15 +3714,12 @@ struct astnode* restructureRuleset(struct compdeps* deps, struct astnode* node, 
 
                 if(bl >= rl)
                 {
-
                     struct astnode* b = createASTNodeWithType(ACCSSNODETYPE_BLOCK);
                     b->children = copyList(r->eq);
-
                     b->info = createASTInfo();
 
                     struct astnode* nr = createASTNodeWithType(ACCSSNODETYPE_RULESET);
                     nr->info = createASTInfo();
-
                     nr->children = pushASTNode(NULL, ns); //firstnode = selector
                     nr->children = pushASTNode(nr->children, b); //block definitions
 

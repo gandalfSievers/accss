@@ -159,7 +159,6 @@ void printASTNode(struct astnode* node, int depth)
 
 void printASTNodeJSON(struct astnode* node, int depth)
 {
-
     printf("{");
 
     printf("'type' : '%s'", astnodetypes[node->type]);

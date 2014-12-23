@@ -598,7 +598,6 @@ size_t checkNthf(struct token_info* info, size_t pos)
     }
     else
     {
-
         char* value = joinValues(info, pos, pos+2);
         if(strcmp(value, "last-child") == 0)
         {
@@ -1579,7 +1578,6 @@ size_t checkFunctionExpression(struct token_info* info, size_t pos)
 
 size_t checkFunction(struct token_info* info, size_t pos)
 {
-
     size_t start = pos,
     l = checkIdent(info, pos);
 
@@ -2149,7 +2147,6 @@ size_t checkValue(struct token_info* info, size_t pos)
 
 size_t _checkValue(struct token_info* info, size_t pos)
 {
-
     size_t l = 0;
     if((l = checkSC(info, pos)) != 0)
     {
@@ -2383,7 +2380,6 @@ struct astnode* getNthf(struct token_info* info, size_t* pos)
 
 struct astnode* getNthselector(struct token_info* info, size_t* pos)
 {
-
     struct astnode* ns = createASTNodeWithType(ACCSSNODETYPE_NTHSELECTOR);
 
     ns->children = pushASTNode(ns->children, getNthf(info, pos));
@@ -3061,7 +3057,6 @@ struct astnode** _getBlockdecl0(struct token_info* info, size_t* pos)
 
 struct astnode** _getBlockdecl1(struct token_info* info, size_t* pos)
 {
-
     struct astnode** list = NULL;
 
     list = mergeList(list, getSC(info, pos));
@@ -3285,7 +3280,6 @@ struct astnode* getAtrule(struct token_info* info, size_t* pos)
 
 struct astnode* getAtruleb(struct token_info* info, size_t* pos)
 {
-
     struct astnode* atruleb = createASTNodeWithType(ACCSSNODETYPE_ATRULEB);
 
     atruleb->children = pushASTNode(atruleb->children, getAtkeyword(info, pos));

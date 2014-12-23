@@ -85,7 +85,6 @@ struct astnode** pushASTNode(struct astnode** list, struct astnode* newnode)
 
     if(list == NULL)
     {
-
         list = malloc(sizeof(struct astnode*)*2);
 
         if(list == NULL)

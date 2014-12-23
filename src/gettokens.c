@@ -476,7 +476,6 @@ void mark(struct token_info* info, char* error)
 
 struct token_info getTokens(const char* string, char* error)
 {
-
     struct char_char punctuation[] =
     {
         { ' ', TOKENTYPE_SPACE },

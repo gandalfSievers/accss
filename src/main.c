@@ -222,7 +222,6 @@ int main(int argc, char **argv)
         {
             case 'v':
             {
-
                 flags |= OPTION_VERSION;
             }
             break;
