@@ -130,7 +130,6 @@ char getStringFromFile(const char* filename, char** string)
 void usage(const char* name)
 {
     printf("%s [options] [input] [output]\n", name);
-    //printf("-p\t--parser\t");
     printf("-h\t--help\t\t\tprint this help\n");
     printf("-s\t--stats\t\t\tprint stats (if output present)\n");
     printf("-r\t--restructure-off\tcompression without restructure\n");

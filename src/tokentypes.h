@@ -40,37 +40,37 @@
 #define TOKENTYPE_SPACE 6
 #define TOKENTYPE_TAB 7
 
-#define TOKENTYPE_EXCLAMATIONMARK 8         // !
-#define TOKENTYPE_QUOTATIONMARK 9             // "
-#define TOKENTYPE_NUMBERSIGN 10                   // #
-#define TOKENTYPE_DOLLARSIGN 11                   // $
-#define TOKENTYPE_PERCENTSIGN 12                 // %
-#define TOKENTYPE_AMPERSAND 13                     // &
-#define TOKENTYPE_APOSTROPHE 14                   // '
-#define TOKENTYPE_LEFTPARENTHESIS 15        // (
-#define TOKENTYPE_RIGHTPARENTHESIS 16       // )
-#define TOKENTYPE_ASTERISK 17                       // *
-#define TOKENTYPE_PLUSSIGN 18                       // +
-#define TOKENTYPE_COMMA 19                           // ,
-#define TOKENTYPE_HYPHENMINUS 20                 // -
-#define TOKENTYPE_FULLSTOP 21                       // .
-#define TOKENTYPE_SOLIDUS 22                         // /
-#define TOKENTYPE_COLON 23                             // :
-#define TOKENTYPE_SEMICOLON 24                      // ;
-#define TOKENTYPE_LESSTHANSIGN 25               // <
-#define TOKENTYPE_EQUALSSIGN 26                   // =
-#define TOKENTYPE_GREATERTHANSIGN 27         // >
-#define TOKENTYPE_QUESTIONMARK 28               // ?
-#define TOKENTYPE_COMMERCIALAT 29               // @
-#define TOKENTYPE_LEFTSQUAREBRACKET 30     // [
-#define TOKENTYPE_REVERSESOLIDUS 31           // '\'
-#define TOKENTYPE_RIGHTSQUAREBRACKET 32   // ]
-#define TOKENTYPE_CIRCUMFLEXACCENT 33       // ^
-#define TOKENTYPE_LOWLINE 34                         // _
-#define TOKENTYPE_LEFTCURLYBRACKET 35       // {
-#define TOKENTYPE_VERTICALLINE 36               // |
-#define TOKENTYPE_RIGHTCURLYBRACKET 37     // }
-#define TOKENTYPE_TILDE 38                             // ~
+#define TOKENTYPE_EXCLAMATIONMARK 8         /*  !  */
+#define TOKENTYPE_QUOTATIONMARK 9           /*  "  */
+#define TOKENTYPE_NUMBERSIGN 10             /*  #  */
+#define TOKENTYPE_DOLLARSIGN 11             /*  $  */
+#define TOKENTYPE_PERCENTSIGN 12            /*  %  */
+#define TOKENTYPE_AMPERSAND 13              /*  &  */
+#define TOKENTYPE_APOSTROPHE 14             /*  '  */
+#define TOKENTYPE_LEFTPARENTHESIS 15        /*  (  */
+#define TOKENTYPE_RIGHTPARENTHESIS 16       /*  )  */
+#define TOKENTYPE_ASTERISK 17               /*  *  */
+#define TOKENTYPE_PLUSSIGN 18               /*  +  */
+#define TOKENTYPE_COMMA 19                  /*  ,  */
+#define TOKENTYPE_HYPHENMINUS 20            /*  -  */
+#define TOKENTYPE_FULLSTOP 21               /*  .  */
+#define TOKENTYPE_SOLIDUS 22                /*  /  */
+#define TOKENTYPE_COLON 23                  /*  :  */
+#define TOKENTYPE_SEMICOLON 24              /*  ;  */
+#define TOKENTYPE_LESSTHANSIGN 25           /*  <  */
+#define TOKENTYPE_EQUALSSIGN 26             /*  =  */
+#define TOKENTYPE_GREATERTHANSIGN 27        /*  >  */
+#define TOKENTYPE_QUESTIONMARK 28           /*  ?  */
+#define TOKENTYPE_COMMERCIALAT 29           /*  @  */
+#define TOKENTYPE_LEFTSQUAREBRACKET 30      /*  [  */
+#define TOKENTYPE_REVERSESOLIDUS 31         /* '\' */
+#define TOKENTYPE_RIGHTSQUAREBRACKET 32     /*  ]  */
+#define TOKENTYPE_CIRCUMFLEXACCENT 33       /*  ^  */
+#define TOKENTYPE_LOWLINE 34                /*  _  */
+#define TOKENTYPE_LEFTCURLYBRACKET 35       /*  {  */
+#define TOKENTYPE_VERTICALLINE 36           /*  |  */
+#define TOKENTYPE_RIGHTCURLYBRACKET 37      /*  }  */
+#define TOKENTYPE_TILDE 38                  /*  ~  */
 
 #define TOKENTYPE_IDENTIFIER 39
 #define TOKENTYPE_DECIMALNUMBER 40

@@ -395,15 +395,15 @@ int popInt(struct int_prev** front)
     return value;
 }
 
-// ====================================
-// second run
-// ====================================
-
+/* ====================================
+ * second run
+ * ====================================
+ */
 void mark(struct token_info* info, char* error)
 {
-    struct int_prev* ps = NULL; // Parenthesis
-    struct int_prev* sbs = NULL; // SquareBracket
-    struct int_prev* cbs = NULL; // CurlyBracket
+    struct int_prev* ps = NULL; /* Parenthesis */
+    struct int_prev* sbs = NULL; /* SquareBracket */
+    struct int_prev* cbs = NULL; /* CurlyBracket */
 
     struct token* t = NULL;
     int i = 0;
@@ -505,7 +505,7 @@ struct token_info getTokens(const char* string, char* error)
         { '?', TOKENTYPE_QUESTIONMARK },
         { '@', TOKENTYPE_COMMERCIALAT },
         { '[', TOKENTYPE_LEFTSQUAREBRACKET },
-        // '\\', TOKENTYPE_REVERSESOLIDUS },
+        /* '\\', TOKENTYPE_REVERSESOLIDUS }, */
         { ']', TOKENTYPE_RIGHTSQUAREBRACKET },
         { '^', TOKENTYPE_CIRCUMFLEXACCENT },
         { '_', TOKENTYPE_LOWLINE },

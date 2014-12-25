@@ -818,8 +818,8 @@ struct astnode* compressNumber(struct compdeps* deps, struct astnode* node, char
     struct astnode* prev = index > 0 ? container->children[index - 1] : NULL;
     struct astnode* pprev = index > 1 ? container->children[index - 2] : NULL;
 
-    //TODO: Dectect Unicode Range on AST creation and introduce new type ACCSSNODETYPE_UNICODERANGE
-    //Exclude Unicode Range
+    /*TODO: Dectect Unicode Range on AST creation and introduce new type ACCSSNODETYPE_UNICODERANGE
+      Exclude Unicode Range */
     if((prev && prev->type == ACCSSNODETYPE_UNARY)
       && (pprev && pprev->type == ACCSSNODETYPE_IDENT && strcmp(pprev->content, "U") == 0)
       )
@@ -932,8 +932,8 @@ struct astnode* cleanUnary(struct compdeps* deps, struct astnode* node, char rul
     struct astnode* next = listLength(container->children) > index+1 ? container->children[index + 1] : NULL;
     struct astnode* prev = index > 0 ? container->children[index - 1] : NULL;
 
-    //TODO: Dectect Unicode Range on AST creation and introduce new type ACCSSNODETYPE_UNICODERANGE
-    //Exclude Unicode Range
+    /*TODO: Dectect Unicode Range on AST creation and introduce new type ACCSSNODETYPE_UNICODERANGE
+      Exclude Unicode Range */
     if(prev && prev->type == ACCSSNODETYPE_IDENT && strcmp(prev->content, "U") == 0)
     {
         return node;
@@ -1353,7 +1353,7 @@ struct astnode* compressFont(struct compdeps* deps, struct astnode* node, char r
 
 struct astnode* compressBackground(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
-    //TODO: Compression Ruleset insufficient!
+    /* TODO: Compression Ruleset insufficient! */
     struct astnode* decl = node->children[0];
     struct astnode* value = node->children[1];
 
@@ -1395,7 +1395,7 @@ struct astnode* compressBackground(struct compdeps* deps, struct astnode* node, 
 
         if(listLength(value->children) == 0)
         {
-            //TODO is this really the desired fallback?
+            /* TODO is this really the desired fallback? */
             struct astnode* node = createASTNodeWithType(ACCSSNODETYPE_IDENT);
             node->content = copyValue("0 0");
 
@@ -2200,7 +2200,7 @@ char dontRestructure(unsigned char options, struct astnode* decl)
             }
 
         }
-        //http://www.w3.org/TR/css3-background/#background-position
+        /* http://www.w3.org/TR/css3-background/#background-position */
         else if((options & ACCSSOPTION_IE8) && strcmp(str, "background-position") == 0 && listLength(value->children) > 2)
         {
             struct astnode** c = value->children;
@@ -2224,7 +2224,7 @@ char dontRestructure(unsigned char options, struct astnode* decl)
                 return 1;
             }
         }
-        //http://www.w3.org/TR/css-text-decor-3/#text-decoration
+        /* http://www.w3.org/TR/css-text-decor-3/#text-decoration */
         else if((options & ACCSSOPTION_CHROME) && strcmp(str, "text-decoration") == 0 && listLength(value->children) > 2)
         {
             return 1;
@@ -2233,7 +2233,7 @@ char dontRestructure(unsigned char options, struct astnode* decl)
         {
             return 1;
         }
-        //http://dev.w3.org/csswg/css-images-3/
+        /* http://dev.w3.org/csswg/css-images-3/ */
         else if((options & ACCSSOPTION_IE9) && (strcmp(str, "background") == 0 || strcmp(str, "background-image") == 0 ) )
         {
             int src = 0;
@@ -3548,9 +3548,9 @@ struct astnode* restructureBlock(struct compdeps* deps, struct astnode* node, ch
             struct prop* t = NULL;
             if(!dontRestructure(deps->compat, x) && (t = getProp(props, ppre)) != NULL)
             {
-                if((isPseudo && strcmp(freezeID,t->freezeID) == 0) || // pseudo from equal selectors group
-                    (!isPseudo && strcmp(pseudoID, t->pseudoID) == 0) || // not pseudo from equal pseudo signature group
-                    (isPseudo && strcmp(pseudoID, t->pseudoID) == 0 && hashInHash(sg, t->sg))) // pseudo from covered selectors group
+                if((isPseudo && strcmp(freezeID,t->freezeID) == 0) || /* pseudo from equal selectors group */
+                    (!isPseudo && strcmp(pseudoID, t->pseudoID) == 0) || /* not pseudo from equal pseudo signature group */
+                    (isPseudo && strcmp(pseudoID, t->pseudoID) == 0 && hashInHash(sg, t->sg))) /* pseudo from covered selectors group */
                 {
                     if(imp && !t->imp)
                     {
@@ -3656,9 +3656,9 @@ struct astnode* restructureRuleset(struct compdeps* deps, struct astnode* node, 
                 struct astnode** ns = node->children[0]->children;
                 char* nss = translate(node->children[0]);
 
-                // selector length + delims length
+                /* selector length + delims length */
                 size_t sl = strlen(nss) + listLength(ns) - 1;
-                // declarations length + decldelims length
+                /* declarations length + decldelims length */
                 size_t bl = calcLength(r->eq) + rEqLen - 1;
                 free(nss);
 
@@ -3678,9 +3678,9 @@ struct astnode* restructureRuleset(struct compdeps* deps, struct astnode* node, 
                 struct astnode** ns = p->children[0]->children;
                 char* nss = translate(p->children[0]);
 
-                // selector length + delims length
+                /* selector length + delims length */
                 size_t sl = strlen(nss) + listLength(ns) - 1;
-                // declarations length
+                /* declarations length */
                 size_t bl = calcLength(r->eq) + rEqLen - 1;
                 free(nss);
 
@@ -3708,8 +3708,8 @@ struct astnode* restructureRuleset(struct compdeps* deps, struct astnode* node, 
                 }
 
                 ns->s = nss;
-                // selector length
-                size_t rl = strlen(nss) + listLength(ns->children) - 1 + 2; // braces length
+                /* selector length */
+                size_t rl = strlen(nss) + listLength(ns->children) - 1 + 2; /* braces length */
                 size_t bl = calcLength(r->eq) + rEqLen - 1;
 
                 if(bl >= rl)
@@ -3720,8 +3720,8 @@ struct astnode* restructureRuleset(struct compdeps* deps, struct astnode* node, 
 
                     struct astnode* nr = createASTNodeWithType(ACCSSNODETYPE_RULESET);
                     nr->info = createASTInfo();
-                    nr->children = pushASTNode(NULL, ns); //firstnode = selector
-                    nr->children = pushASTNode(nr->children, b); //block definitions
+                    nr->children = pushASTNode(NULL, ns); /*firstnode = selector */
+                    nr->children = pushASTNode(nr->children, b); /* block definitions */
 
                     struct astnode** newlistT = copyList(r->ne1);
                     struct astnode** newlistP = copyList(r->ne2);
@@ -4081,7 +4081,7 @@ struct astnode* walk(struct compdeps* deps, struct astnode* (*rules)(struct comp
             newpath[path_len]='/';
             strcpy(&newpath[path_len+1], buffer);
 
-            t = walk(deps, rules, t, newpath); // go inside
+            t = walk(deps, rules, t, newpath); /* go inside */
 
             free(newpath);
         }
@@ -4148,8 +4148,8 @@ struct astnode* compress(struct astnode* tree, unsigned char restructure, unsign
 
         xs = copyTree(x);
 
-        //TODO rejoin before disjoin?
-    //    x = walk(&deps, &rjrules, x, "/0");
+        /* TODO rejoin before disjoin?
+        x = walk(&deps, &rjrules, x, "/0"); */
         disjoin(&deps, x);
 
         x = walk(&deps, &msrules, x, "/0");
@@ -4198,7 +4198,7 @@ struct astnode* compress(struct astnode* tree, unsigned char restructure, unsign
 #ifdef DEBUG
             iterations++;
 #endif
-        } //TODO add third copy so tree can increase and then decrease
+        } /* TODO add third copy so tree can increase and then decrease */
         while(l0 > l1);
 
 #ifdef DEBUG
