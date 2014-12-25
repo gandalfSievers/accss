@@ -105,7 +105,7 @@ struct astinfo
 struct astnode
 {
     struct astinfo* info;
-    char type;
+    unsigned char type;
     char* content;
     char* s;
 
@@ -113,7 +113,7 @@ struct astnode
     struct astnode* parent;
 };
 
-struct astnode* createASTNodeWithType(char type);
+struct astnode* createASTNodeWithType(unsigned char type);
 struct astinfo* createASTInfo();
 
 struct astnode** pushASTNode(struct astnode** list, struct astnode* newnode);

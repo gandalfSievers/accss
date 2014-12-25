@@ -30,7 +30,7 @@
 #include "ast.h"
 #include "debug.h"
 
-struct astnode* createASTNodeWithType(char type)
+struct astnode* createASTNodeWithType(unsigned char type)
 {
     struct astnode* node = malloc(sizeof(struct astnode));
 

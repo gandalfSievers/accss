@@ -139,8 +139,8 @@ void freeShortList(struct shortHand** sList)
 
         free(sh->name);
         struct shortSide* a[] = {sh->sides.top, sh->sides.right, sh->sides.bottom, sh->sides.left};
-        char alen = 4;
-        char i = 0;
+        unsigned char alen = 4;
+        unsigned char i = 0;
         for(; i < alen; i++)
         {
             if(a[i] != NULL)
@@ -990,7 +990,7 @@ struct astnode* compressIdentColor(struct compdeps* deps, struct astnode* node, 
     return node;
 };
 
-char* _compressHashColor(char* value, char* type)
+char* _compressHashColor(char* value, unsigned char* type)
 {
     size_t len = strlen(value);
 
@@ -2713,9 +2713,9 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
             x->info->id = concat("%s%s%s", 3, path, "/", buffer);
             if(isTBLProp(p))
             {
-                char* main = extractMain(p);
-                char* key = concat("%s%s", 2, pre, main);
-                free(main);
+                char* mainStr = extractMain(p);
+                char* key = concat("%s%s", 2, pre, mainStr);
+                free(mainStr);
 
                 struct shortHand** shorts = getByKey(deps->shorts2, key);
                 size_t sL = shorts != NULL ? shortsLength(shorts) : 0;
@@ -2870,7 +2870,7 @@ char impSum (struct shortHand* sh)
 struct astnode* getShValue(struct shortHand* sh)
 {
     struct shortSide* a[] = {sh->sides.top, sh->sides.right, sh->sides.bottom, sh->sides.left};
-    char alen = 4;
+    unsigned char alen = 4;
 
     struct astnode* r = createASTNodeWithType(ACCSSNODETYPE_VALUE);
 
@@ -2887,7 +2887,7 @@ struct astnode* getShValue(struct shortHand* sh)
         }
     }
 
-    char i = 0, ilen = alen-1;
+    unsigned char i = 0, ilen = alen-1;
     for(; i < ilen; i++)
     {
         r->children = mergeList(r->children, copyList(a[i]->t));

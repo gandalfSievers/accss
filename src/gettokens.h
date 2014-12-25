@@ -49,7 +49,7 @@ struct token
 {
     size_t tn;
     int ln;
-    char type;
+    unsigned char type;
     char* value;
     size_t left;
     size_t right;

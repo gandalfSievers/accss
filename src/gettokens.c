@@ -59,7 +59,7 @@ char isPunctuation(struct char_char* punctuation, char c)
     return 0;
 }
 
-struct token* pushToken(struct token_info* info, int *tn, int ln, char type, char* value)
+struct token* pushToken(struct token_info* info, int *tn, int ln, unsigned char type, char* value)
 {
     struct token* newtoken = malloc(sizeof(struct token));
     if(newtoken == NULL)

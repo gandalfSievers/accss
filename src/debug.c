@@ -270,7 +270,7 @@ void printTokens(struct token_info* info)
     for(; i < info->len; i++)
     {
         struct token* tmp = info->list[i];
-        printf("%lu LN:%i Type:%s Right:%zu Value:%s  \n", i, tmp->ln, ttypes[tmp->type], tmp->right, tmp->value);
+        printf("%lu LN:%i Type:%s Right:%lu Value:%s  \n", i, tmp->ln, ttypes[tmp->type], tmp->right, tmp->value);
     }
 }
 
