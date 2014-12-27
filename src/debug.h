@@ -23,6 +23,7 @@
  * THE SOFTWARE.
  */
 
+#include "helper.h"
 #include "ast.h"
 #include "gettokens.h"
 #include "compressor.h"

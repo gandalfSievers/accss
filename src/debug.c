@@ -199,7 +199,7 @@ void printASTNodeJSON(struct astnode* node, int depth)
         printf("'pseudo' : '%i', ",  node->info->pseudo);;
         printf("'replaceByShort' : '%i', ",  node->info->replaceByShort);
         printf("'removeByShort' : '%i',", node->info->removeByShort);
-        printf("'shortHandKey' : { 'i' : '%lu', 'key' : '%s' }", node->info->shortHandKey.i, node->info->shortHandKey.key != NULL ? node->info->shortHandKey.key : "");
+        printf("'shortHandKey' : { 'i' : '" SIZEPRI "', 'key' : '%s' }", (SIZECASTTYPE)node->info->shortHandKey.i, node->info->shortHandKey.key != NULL ? node->info->shortHandKey.key : "");
 
         if(node->info->sg != NULL)
         {
@@ -270,7 +270,7 @@ void printTokens(struct token_info* info)
     for(; i < info->len; i++)
     {
         struct token* tmp = info->list[i];
-        printf("%lu LN:%i Type:%s Right:%lu Value:%s  \n", i, tmp->ln, ttypes[tmp->type], tmp->right, tmp->value);
+        printf(SIZEPRI " LN:%i Type:%s Right:" SIZEPRI " Value:%s  \n", (SIZECASTTYPE)i, tmp->ln, ttypes[tmp->type], (SIZECASTTYPE)tmp->right, tmp->value);
     }
 }
 

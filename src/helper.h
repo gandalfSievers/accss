@@ -24,12 +24,23 @@
  */
 
 #include <stdlib.h>
- 
+#include <limits.h>
+
 #ifndef accss_helper_h
 #define accss_helper_h
 
 #ifndef SIZE_MAX
 #define SIZE_MAX ((size_t)-1)
+#define SIZECASTTYPE unsigned long
+#define SIZEPRI "%lu"
+#else
+#if ULONG_MAX < SIZE_MAX
+#define SIZECASTTYPE unsigned long long
+#define SIZEPRI "%llu"
+#else
+#define SIZECASTTYPE unsigned long
+#define SIZEPRI "%lu"
+#endif
 #endif
 
 void memoryFailure();
