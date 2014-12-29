@@ -44,7 +44,7 @@
 #endif
 
 void memoryFailure();
-char casecmp(const char* str1, const char* str2);
+size_t casecmp(const char* str1, const char* str2);
 char* resizeValue(char* old, const char* new);
 char* copyValue(const char* value);
 char** copyCharList(char** charList);

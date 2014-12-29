@@ -37,7 +37,7 @@ void memoryFailure()
  * Reimplement of non ansii function strcasecmp for portability
  *
  */
-char casecmp(const char* str1, const char* str2)
+size_t casecmp(const char* str1, const char* str2)
 {
     size_t i = 0,
     k = 0;
