@@ -528,9 +528,9 @@ char addToShort(struct shortHand* sh, char* name, char* sValue, struct astnode**
         if(alen > 4)
         {
             int k = 0;
-            for(; k<=alen; k++)
+            for(; k<alen; k++)
             {
-                freeSide(a[alen]);
+                freeSide(a[k]);
             }
 
             return 0;
