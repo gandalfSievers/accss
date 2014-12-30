@@ -80,8 +80,10 @@ char getStringFromFile(const char* filename, char** string)
     FILE* file = fopen(filename, "rb");
     if(file)
     {
+        size_t bufferlen = 0;
+
         fseek(file, 0, SEEK_END);
-        size_t bufferlen = ftell(file);
+        bufferlen = ftell(file);
         rewind(file);
 
         if(bufferlen<MAX_FILEBUFFER_SIZE)
@@ -191,6 +193,7 @@ int main(int argc, char **argv)
     unsigned char compat = ACCSSOPTION_ALL;
     char* input = NULL;
     char* output = NULL;
+    char* string = NULL;
 
     while(1)
     {
@@ -198,12 +201,12 @@ int main(int argc, char **argv)
         {
             /* These options don't set a flag.
              We distinguish them by their indices. */
-            {"version",     no_argument,       0, 'v'},
-            {"help",  no_argument,       0, 'h'},
-            {"restructure-off",  no_argument, 0, 'r'},
-            {"preserve-splitted",    no_argument, 0, 'p'},
-            {"compat",    required_argument, 0, 'c'},
-            {"stats",    no_argument, 0, 's'},
+            {"version", no_argument, 0, 'v'},
+            {"help",  no_argument, 0, 'h'},
+            {"restructure-off", no_argument, 0, 'r'},
+            {"preserve-splitted", no_argument, 0, 'p'},
+            {"compat", required_argument, 0, 'c'},
+            {"stats", no_argument, 0, 's'},
             {0, 0, 0, 0}
         };
         /* getopt_long stores the option index here. */
@@ -306,8 +309,6 @@ int main(int argc, char **argv)
         }
     }
 
-    char* string = NULL;
-
     if(input!=NULL)
     {
         if(!getStringFromFile(input, &string))
@@ -321,11 +322,15 @@ int main(int argc, char **argv)
         size_t bufflen = 0;
         size_t readlen = 0;
         size_t oldlen;
+
         while((readlen = fread(buffer, sizeof(char), STDBUFFERSIZE, stdin)) > 0)
         {
+            char* tmp = NULL,
+            *start = NULL;
+
             oldlen = bufflen;
             bufflen += readlen;
-            char* tmp = realloc(string, sizeof(char)*(bufflen+1));
+            tmp = realloc(string, sizeof(char)*(bufflen+1));
             if(tmp == NULL)
             {
                 memoryFailure();
@@ -333,7 +338,7 @@ int main(int argc, char **argv)
             }
 
             string = tmp;
-            char* start = string + oldlen;
+            start = string + oldlen;
 
             memcpy(start, buffer, readlen);
 
@@ -351,10 +356,14 @@ int main(int argc, char **argv)
         size_t inlen = strlen(string);
         size_t outlen = 0;
         char*  outstr = NULL;
+        char o = 0;
+        int msec = 0;
+        clock_t clockdiff = 0;
 
         if(inlen > 0)
         {
             char error = 0;
+            struct astnode* stylesheet = NULL;
             struct token_info tokens = getTokens(string, &error);
 
             free(string);
@@ -370,7 +379,7 @@ int main(int argc, char **argv)
             printTokens(&tokens);
             fflush(stdout);
     #endif
-            struct astnode* stylesheet = getAST(&tokens, 0, &error);
+            stylesheet = getAST(&tokens, 0, &error);
 
             deleteTokens(&tokens);
             if(error)
@@ -405,7 +414,7 @@ int main(int argc, char **argv)
             outlen = inlen;
             outstr = string;
         }
-        char o = writeOutput(output, outstr);
+        o = writeOutput(output, outstr);
 
         free(outstr);
 
@@ -415,8 +424,8 @@ int main(int argc, char **argv)
             exit(EXIT_FAILURE);
         }
 
-        clock_t clockdiff = clock()-start;
-        int msec = (int)(clockdiff * 1000 / CLOCKS_PER_SEC);
+        clockdiff = clock()-start;
+        msec = (int)(clockdiff * 1000 / CLOCKS_PER_SEC);
 
         if(output != NULL && flags & OPTION_STATS)
         {

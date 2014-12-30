@@ -101,12 +101,14 @@ char* copyValue(const char* value)
     {
         return NULL;
     }
+    else
+    {
+        size_t len = strlen(value);
+        char* newValue = malloc(sizeof(char) * (len+1));
+        strcpy(newValue, value);
 
-    size_t len = strlen(value);
-    char* newValue = malloc(sizeof(char) * (len+1));
-    strcpy(newValue, value);
-
-    return newValue;
+        return newValue;
+    }
 }
 
 char** copyCharList(char** charList)
@@ -115,25 +117,28 @@ char** copyCharList(char** charList)
     {
         return NULL;
     }
-
-    char** tmp = charList;
-    size_t len = 0;
-
-    while(*tmp != NULL)
+    else
     {
-        len++;
-        tmp++;
-    }
+        char** tmp = charList;
+        char** newlist = NULL;
+        size_t len = 0, i = 0;
 
-    char** newlist = malloc(sizeof(char*)*(len+1));
-    size_t i = 0;
-    for(;i < len;i++)
-    {
-        newlist[i] = copyValue(charList[i]);
-    }
 
-    newlist[len] = NULL;
-    return newlist;
+        while(*tmp != NULL)
+        {
+            len++;
+            tmp++;
+        }
+
+        newlist = malloc(sizeof(char*)*(len+1));
+        for(;i < len;i++)
+        {
+            newlist[i] = copyValue(charList[i]);
+        }
+
+        newlist[len] = NULL;
+        return newlist;
+    }
 }
 
 void freeCharList(char** charList)
@@ -153,24 +158,16 @@ void freeCharList(char** charList)
 
 size_t charListLength(char** charList)
 {
-    if(charList == NULL)
-    {
-        return 0;
-    }
-
-    if(*charList == NULL)
-    {
-        return 0;
-    }
-
     size_t len = 0;
 
-    while(*charList != NULL)
+    if(charList != NULL && *charList != NULL)
     {
-        len++;
-        charList++;
+        while(*charList != NULL)
+        {
+            len++;
+            charList++;
+        }
     }
-
     return len;
 }
 
@@ -180,16 +177,18 @@ char* lowerCase(char* string)
     {
         return NULL;
     }
-
-    char* start = string;
-    while(*string != '\0')
+    else
     {
-        if(*string >= 65 && *string <= 90)
+        char* start = string;
+        while(*string != '\0')
         {
-            *string += 32;
+            if(*string >= 65 && *string <= 90)
+            {
+                *string += 32;
+            }
+            string++;
         }
-        string++;
-    }
 
-    return start;
+        return start;
+    }
 }

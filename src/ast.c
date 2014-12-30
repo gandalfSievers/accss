@@ -78,6 +78,9 @@ struct astnode** extractAST(struct astnode** list, size_t index)
 
 struct astnode** pushASTNode(struct astnode** list, struct astnode* newnode)
 {
+    size_t size = 0;
+    struct astnode** newlist = NULL;
+
     if(newnode == NULL)
     {
         return list;
@@ -98,8 +101,8 @@ struct astnode** pushASTNode(struct astnode** list, struct astnode* newnode)
         return list;
     }
 
-    size_t size = listLength(list);
-    struct astnode** newlist = realloc(list, (sizeof(struct astnode*)*(size+2)));
+    size = listLength(list);
+    newlist = realloc(list, (sizeof(struct astnode*)*(size+2)));
     if(newlist == NULL)
     {
         memoryFailure();
@@ -116,6 +119,10 @@ struct astnode** pushASTNode(struct astnode** list, struct astnode* newnode)
 
 struct astnode** mergeList(struct astnode** left, struct astnode** right)
 {
+    size_t leftsize = 1, rightsize = 1, newsize = 0, k = 0, i = 0;
+    struct astnode** tmp = left;
+    struct astnode** newlist = NULL;
+
     if(left == NULL && right == NULL)
     {
         return NULL;
@@ -131,8 +138,6 @@ struct astnode** mergeList(struct astnode** left, struct astnode** right)
         return right;
     }
 
-    size_t leftsize = 1;
-    struct astnode** tmp = left;
     while(*tmp != NULL)
     {
         leftsize++;
@@ -141,7 +146,6 @@ struct astnode** mergeList(struct astnode** left, struct astnode** right)
 
     leftsize--;
 
-    size_t rightsize = 1;
     tmp = right;
     while(*tmp != NULL)
     {
@@ -149,8 +153,8 @@ struct astnode** mergeList(struct astnode** left, struct astnode** right)
         tmp++;
     }
 
-    size_t newsize = leftsize+rightsize;
-    struct astnode** newlist = realloc(left, (sizeof(struct astnode*) * newsize));
+    newsize = leftsize+rightsize;
+    newlist = realloc(left, (sizeof(struct astnode*) * newsize));
     if(newlist == NULL)
     {
         memoryFailure();
@@ -158,8 +162,7 @@ struct astnode** mergeList(struct astnode** left, struct astnode** right)
     }
 
     left = newlist;
-    size_t i = leftsize, k=0;
-    for(;i < newsize; i++, k++)
+    for(i = leftsize; i < newsize; i++, k++)
     {
         left[i] = right[k];
     }
@@ -170,6 +173,9 @@ struct astnode** mergeList(struct astnode** left, struct astnode** right)
 
 size_t listLength(struct astnode** list)
 {
+    size_t listLength = 0;
+    struct astnode** tmp = list;
+
     if(list == NULL)
     {
         return 0;
@@ -180,8 +186,6 @@ size_t listLength(struct astnode** list)
         return 0;
     }
 
-    size_t listLength = 0;
-    struct astnode** tmp = list;
     while(*tmp != NULL)
     {
         listLength++;
@@ -193,6 +197,9 @@ size_t listLength(struct astnode** list)
 
 size_t indexof(struct astnode** list, struct astnode* item, char* error)
 {
+    size_t index = 0;
+    struct astnode** tmp = list;
+
     *error=0;
     if(list == NULL)
     {
@@ -206,8 +213,6 @@ size_t indexof(struct astnode** list, struct astnode* item, char* error)
         return 0;
     }
 
-    size_t index = 0;
-    struct astnode** tmp = list;
     while(*tmp != NULL && *tmp != item)
     {
         index++;
@@ -225,19 +230,22 @@ size_t indexof(struct astnode** list, struct astnode* item, char* error)
 
 struct astnode** removeItem(struct astnode** list, size_t start, size_t len)
 {
+    size_t newsize = 0, listlen = 0, ilen = 0, i = 0, k = 0;
+    struct astnode** newlist = NULL;
+
     if(len == 0)
     {
         return list;
     }
 
-    size_t listlen = listLength(list);
+    listlen = listLength(list);
 
     if(listlen <= start)
     {
         return list;
     }
 
-    size_t newsize = listlen - len;
+    newsize = listlen - len;
 
     if(newsize < 1)
     {
@@ -245,28 +253,26 @@ struct astnode** removeItem(struct astnode** list, size_t start, size_t len)
         return NULL;
     }
 
-    size_t ilen = start + len;
+    ilen = start + len;
 
     if(ilen > listlen)
     {
         return list;
     }
 
-    struct astnode** newlist = malloc(sizeof(struct astnode*) * (newsize+1));
+    newlist = malloc(sizeof(struct astnode*) * (newsize+1));
     if(newlist == NULL)
     {
         memoryFailure();
         exit(EXIT_FAILURE);
     }
 
-    size_t i = 0;
-    for(; i < start; i++)
+    for(i = 0; i < start; i++)
     {
         newlist[i] = list[i];
     }
 
-    size_t k = i;
-    for(; i < ilen; i++)
+    for(k = i; i < ilen; i++)
     {
         deleteASTTree(list[i]);
     }
@@ -283,9 +289,9 @@ struct astnode** removeItem(struct astnode** list, size_t start, size_t len)
 
 struct astnode** insertItem(struct astnode** list, size_t start, struct astnode* item)
 {
-    size_t listlen = listLength(list);
-
+    size_t listlen = listLength(list), i = 0;
     struct astnode** newlist = realloc(list, sizeof(struct astnode*) * (listlen+2));
+
     if(newlist == NULL)
     {
         memoryFailure();
@@ -293,8 +299,7 @@ struct astnode** insertItem(struct astnode** list, size_t start, struct astnode*
     }
 
     list = newlist;
-    size_t i = listlen;
-    for(; i >= start; i--)
+    for(i = listlen; i >= start; i--)
     {
         list[i + 1] = list[i];
     }

@@ -58,6 +58,9 @@ char* extractMain(const char* name)
 
 size_t shortsLength(struct shortHand** list)
 {
+    size_t listLength = 0;
+    struct shortHand** tmp = list;
+
     if(list == NULL)
     {
         return 0;
@@ -68,8 +71,6 @@ size_t shortsLength(struct shortHand** list)
         return 0;
     }
 
-    size_t listLength = 0;
-    struct shortHand** tmp = list;
     while(*tmp != NULL)
     {
         listLength++;
@@ -81,12 +82,13 @@ size_t shortsLength(struct shortHand** list)
 
 struct shortHand** getByKey(struct pchar_shorts** list, const char* key)
 {
+    struct pchar_shorts** tmp = list;
+
     if(list == NULL)
     {
         return NULL;
     }
 
-    struct pchar_shorts** tmp = list;
     while(*tmp != NULL)
     {
         if(casecmp((*tmp)->key, key) == 0 )
@@ -104,11 +106,13 @@ size_t pchar_sLength(struct pchar_shorts** list)
 {
     size_t len = 0;
     struct pchar_shorts** tmp = list;
+
     while(*tmp != NULL)
     {
         len++;
         tmp++;
     }
+
     return len;
 }
 
@@ -135,12 +139,19 @@ void freeShortList(struct shortHand** sList)
     while(*sList != NULL)
     {
         struct shortHand* sh = *sList;
+        struct shortSide* a[] = {NULL, NULL, NULL, NULL};
+        unsigned char alen = 4;
+        unsigned char i = 0;
+
         sList++;
 
         free(sh->name);
-        struct shortSide* a[] = {sh->sides.top, sh->sides.right, sh->sides.bottom, sh->sides.left};
-        unsigned char alen = 4;
-        unsigned char i = 0;
+
+        a[0] = sh->sides.top;
+        a[1] = sh->sides.right;
+        a[2] = sh->sides.bottom;
+        a[3] = sh->sides.left;
+
         for(; i < alen; i++)
         {
             if(a[i] != NULL)
@@ -162,10 +173,11 @@ void freeShortHands(struct pchar_shorts** list)
         while(*psTmp != NULL)
         {
             struct pchar_shorts* psCurrent = *psTmp;
-            psTmp++;
-
-            free((psCurrent)->key);
             struct shortHand** sList = psCurrent->list;
+
+            psTmp++;
+            free((psCurrent)->key);
+
             if(sList != NULL)
             {
                 freeShortList(sList);
@@ -185,11 +197,13 @@ struct pchar_shorts** addByKey(struct pchar_shorts** list, const char* key, stru
 
     if(list == NULL)
     {
+        struct pchar_shorts** list = NULL;
+
         bucket = malloc(sizeof(struct pchar_shorts));
         bucket->list = shorts;
         bucket->key = copyValue(key);
 
-        struct pchar_shorts** list = malloc(sizeof(struct pchar_shorts*)*2);
+        list = malloc(sizeof(struct pchar_shorts*)*2);
         if(list == NULL)
         {
             memoryFailure();
@@ -219,12 +233,14 @@ struct pchar_shorts** addByKey(struct pchar_shorts** list, const char* key, stru
     }
     else
     {
+        size_t size = pchar_sLength(list);
+        struct pchar_shorts** newlist = NULL;
+
         bucket = malloc(sizeof(struct pchar_shorts));
         bucket->list = shorts;
         bucket->key = copyValue(key);
 
-        size_t size = pchar_sLength(list);
-        struct pchar_shorts** newlist = realloc(list, (sizeof(struct pchar_shorts*)*(size+2)));
+        newlist = realloc(list, (sizeof(struct pchar_shorts*)*(size+2)));
         if(newlist == NULL)
         {
             memoryFailure();
@@ -258,18 +274,20 @@ struct shortHand** pushShorts(struct shortHand** shorts, struct shortHand* sh)
         list[1] = NULL;
         return list;
     }
-
-    size_t size = shortsLength(shorts);
-    struct shortHand** newlist = realloc(shorts, (sizeof(struct shortHand*)*(size+2)));
-    if(newlist == NULL)
+    else
     {
-        memoryFailure();
-        exit(EXIT_FAILURE);
-    }
+        size_t size = shortsLength(shorts);
+        struct shortHand** newlist = realloc(shorts, (sizeof(struct shortHand*)*(size+2)));
+        if(newlist == NULL)
+        {
+            memoryFailure();
+            exit(EXIT_FAILURE);
+        }
 
-    shorts = newlist;
-    shorts[size+1] = shorts[size];
-    shorts[size] = sh;
+        shorts = newlist;
+        shorts[size+1] = shorts[size];
+        shorts[size] = sh;
+    }
 
     return shorts;
 }
@@ -340,11 +358,10 @@ char addToShort(struct shortHand* sh, char* name, char* sValue, struct astnode**
 {
     int alen=0;
     struct shortSide* a[] = {NULL, NULL, NULL, NULL, NULL};
-
-    imp = imp ? 1 : 0;
-
     char wasUnary = 0;
     char* f = strchr(name, '-');
+
+    imp = imp ? 1 : 0;
 
     if(f != NULL )
     {
@@ -461,8 +478,9 @@ char addToShort(struct shortHand* sh, char* name, char* sValue, struct astnode**
                 {
                     if(wasUnary)
                     {
-                        a[last]->t = pushASTNode(a[last]->t, copyTree(x));
                         char* prev = a[last]->s;
+
+                        a[last]->t = pushASTNode(a[last]->t, copyTree(x));
                         a[last]->s = concat("%s%s", 2, a[last]->s, x->content);
                         free(prev);
                     }
@@ -479,8 +497,9 @@ char addToShort(struct shortHand* sh, char* name, char* sValue, struct astnode**
                 {
                     if(wasUnary)
                     {
-                        a[last]->t = pushASTNode(a[last]->t, copyTree(x));
                         char* prev = a[last]->s;
+
+                        a[last]->t = pushASTNode(a[last]->t, copyTree(x));
                         a[last]->s = concat("%s%s", 3, a[last]->s, x->children[0]->content, "%");
                         free(prev);
                     }
@@ -497,8 +516,9 @@ char addToShort(struct shortHand* sh, char* name, char* sValue, struct astnode**
                 {
                     if(wasUnary)
                     {
-                        a[last]->t = pushASTNode(a[last]->t, copyTree(x));
                         char* prev = a[last]->s;
+
+                        a[last]->t = pushASTNode(a[last]->t, copyTree(x));
                         a[last]->s = concat("%s%s", 3, a[last]->s, x->children[0]->content, x->children[1]->content);
                         free(prev);
                     }
@@ -634,7 +654,7 @@ char _cleanComment(char r)
         }
     }
     return 0;
-};
+}
 
 struct astnode* cleanComment(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
@@ -655,6 +675,7 @@ struct astnode* cleanComment(struct compdeps* deps, struct astnode* node, char r
     }
     return node;
 }
+
 struct astnode* cleanCharset(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
     if(node->children != NULL)
@@ -710,12 +731,12 @@ struct astnode* cleanImport(struct compdeps* deps, struct astnode* node, char ru
 char previousIsURI(struct astnode* container, size_t i)
 {
     return (i != 0 && i != listLength(container->children) - 1 && container->children[i - 1]->type == ACCSSNODETYPE_URI);
-};
+}
 
 char braceFollowedByIdent (struct astnode* container, char pr, char nr)
 {
     return container->type == ACCSSNODETYPE_ATRULERQ && pr == ACCSSNODETYPE_BRACES && nr == ACCSSNODETYPE_IDENT;
-};
+}
 
 char _cleanWhitespace(char r, char left)
 {
@@ -753,7 +774,7 @@ char _cleanWhitespace(char r, char left)
     }
 
     return 0;
-};
+}
 
 struct astnode* cleanWhitespace(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
@@ -811,12 +832,15 @@ struct astnode* cleanWhitespace(struct compdeps* deps, struct astnode* node, cha
     }
 
     return node;
-};
+}
 
 struct astnode* compressNumber(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
     struct astnode* prev = index > 0 ? container->children[index - 1] : NULL;
     struct astnode* pprev = index > 1 ? container->children[index - 2] : NULL;
+    char* x = node->content;
+    size_t len = strlen(x);
+    size_t p = 0;
 
     /*TODO: Dectect Unicode Range on AST creation and introduce new type ACCSSNODETYPE_UNICODERANGE
       Exclude Unicode Range */
@@ -835,12 +859,11 @@ struct astnode* compressNumber(struct compdeps* deps, struct astnode* node, char
         }
     }
 
-    char* x = node->content;
-    size_t len = strlen(x);
-
     if(x[0] == '0')
     {
+        char* xtmp = NULL;
         size_t p = 0;
+
         while(x[p] != '\0' && x[p] == '0')
         {
             p++;
@@ -848,7 +871,7 @@ struct astnode* compressNumber(struct compdeps* deps, struct astnode* node, char
 
         memcpy(x, &x[p], len-p);
         x[len-p] = '\0';
-        char* xtmp = realloc(x, sizeof(char)*(strlen(x)+1));
+        xtmp = realloc(x, sizeof(char)*(strlen(x)+1));
         if(xtmp == NULL)
         {
             memoryFailure();
@@ -858,7 +881,6 @@ struct astnode* compressNumber(struct compdeps* deps, struct astnode* node, char
         x = xtmp;
     }
 
-    size_t p = 0;
     len = strlen(x);
     while(x[p] != '\0' && x[p] != '.')
     {
@@ -875,9 +897,11 @@ struct astnode* compressNumber(struct compdeps* deps, struct astnode* node, char
 
         if(k == len)
         {
+            char* xtmp = NULL;
+
             x[p] = '\0';
             len = strlen(x);
-            char* xtmp = realloc(x, sizeof(char)*(len+1));
+            xtmp = realloc(x, sizeof(char)*(len+1));
             if(xtmp == NULL)
             {
                 memoryFailure();
@@ -890,12 +914,13 @@ struct astnode* compressNumber(struct compdeps* deps, struct astnode* node, char
         {
             if(x[len-1] == '0')
             {
+                char* xtmp = NULL;
                 while(x[len-1] == '0')
                 {
                     len--;
                 }
 
-                char* xtmp = realloc(x, sizeof(char)*(len+1));
+                xtmp = realloc(x, sizeof(char)*(len+1));
                 if(xtmp == NULL)
                 {
                     memoryFailure();
@@ -988,11 +1013,12 @@ struct astnode* compressIdentColor(struct compdeps* deps, struct astnode* node, 
     }
 
     return node;
-};
+}
 
 char* _compressHashColor(char* value, unsigned char* type)
 {
     size_t len = strlen(value);
+    char rep = 0;
 
     if(len == 6
       && value[0] == value[1]
@@ -1016,7 +1042,6 @@ char* _compressHashColor(char* value, unsigned char* type)
         value = newValue;
     }
 
-    char rep = 0;
     if(casecmp(value, "f00") == 0)
     {
         value = resizeValue(value, "red");
@@ -1073,14 +1098,14 @@ char* _compressHashColor(char* value, unsigned char* type)
     }
 
     return value;
-};
+}
 
 struct astnode* compressHashColor(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
     node->content = lowerCase(node->content);
     node->content = _compressHashColor(node->content, &node->type);
     return node;
-};
+}
 
 struct astnode* compressFunctionColor(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
@@ -1118,22 +1143,22 @@ struct astnode* compressFunctionColor(struct compdeps* deps, struct astnode* nod
 
         if(vvalid)
         {
+            int vi1 = atoi(v[0]);
+            int vi2 = atoi(v[1]);
+            int vi3 = atoi(v[2]);
             char* h = malloc(sizeof(char)*7);
+
             if(h == NULL)
             {
                 memoryFailure();
                 exit(EXIT_FAILURE);
             }
 
-            int vi1 = atoi(v[0]);
-            int vi2 = atoi(v[1]);
-            int vi3 = atoi(v[2]);
-
             if(vi1 < 256 && vi2 < 256 && vi3 < 256)
             {
-                sprintf(h, "%02x%02x%02x", vi1, vi2, vi3);
-
                 struct astnode* vhash = createASTNodeWithType(ACCSSNODETYPE_VHASH);
+
+                sprintf(h, "%02x%02x%02x", vi1, vi2, vi3);
                 vhash->content = h;
                 vhash->content = _compressHashColor(vhash->content, &vhash->type);
 
@@ -1215,15 +1240,15 @@ struct astnode* compressDimension(struct compdeps* deps, struct astnode* node, c
 struct astnode* compressString(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
     char* s = node->content;
-    size_t slen = strlen(s);
+    size_t slen = strlen(s), k = 0, p = 0;
     char* r = malloc(sizeof(char)*(slen+1));
+
     if(r == NULL)
     {
         memoryFailure();
         exit(EXIT_FAILURE);
     }
 
-    size_t k=0, p = 0;
     for(; p < slen; p++)
     {
         char c = s[p];
@@ -1361,13 +1386,14 @@ struct astnode* compressBackground(struct compdeps* deps, struct astnode* node, 
 
     if(strcmp(decl->children[0]->content, "background") == 0 && vlen)
     {
+        size_t i = vlen - 1;
         struct astnode* imp = value->children[vlen -1];
+
         if(imp->type == ACCSSNODETYPE_IMPORTANT)
         {
             return node;
         }
 
-        size_t i = vlen - 1;
         for(; i+1 > 0; i--)
         {
             struct astnode* x = value->children[i];
@@ -1534,8 +1560,10 @@ char freezeNeeded (struct astnode* selector)
 
     for(; i < ilen; i++)
     {
+        size_t j = 0, jlen = 0;
+
         ss = selector->children[i];
-        size_t j = 0, jlen = listLength(ss->children);
+        jlen =  listLength(ss->children);
         for(; j < jlen; j++)
         {
             switch(ss->children[j]->type)
@@ -1571,7 +1599,9 @@ char freezeNeeded (struct astnode* selector)
 
 char* joinAndFreeCharArray(char** array, size_t num, const char* delim, char freeValue)
 {
+    size_t dlen = strlen(delim), slen = 0, i = 0;
     char* s = malloc(sizeof(char));
+
     if(s == NULL)
     {
         memoryFailure();
@@ -1580,12 +1610,10 @@ char* joinAndFreeCharArray(char** array, size_t num, const char* delim, char fre
 
     s[0] = '\0';
 
-    size_t dlen = strlen(delim), slen = 0, i = 0;
-
     for(; i < num; i++)
     {
         char* tmp = array[i];
-
+        char* stmp = NULL;
         size_t tlen = strlen(tmp);
         size_t newlen = 0;
 
@@ -1598,7 +1626,7 @@ char* joinAndFreeCharArray(char** array, size_t num, const char* delim, char fre
             newlen = slen+tlen;
         }
 
-        char* stmp = realloc(s, sizeof(char)*(newlen+1));
+        stmp = realloc(s, sizeof(char)*(newlen+1));
         if(stmp == NULL)
         {
             memoryFailure();
@@ -1634,7 +1662,7 @@ int comp(const void* a, const void* b)
 
 char* selectorSignature(struct astnode* selector)
 {
-    size_t ilen = ilen=listLength(selector->children);
+    size_t ilen = ilen=listLength(selector->children), i = 0;
     char** a = malloc(sizeof(char*)*ilen);
     if(a == NULL)
     {
@@ -1643,7 +1671,6 @@ char* selectorSignature(struct astnode* selector)
     }
 
     memset(a, 0, sizeof(char)*ilen);
-    size_t i = 0;
 
     for(; i < ilen; i++)
     {
@@ -1681,15 +1708,13 @@ char containsPseudo(struct astnode* sselector)
 
 char* composePseudoID(struct astnode* selector)
 {
-    size_t ilen = ilen=listLength(selector->children);
+    size_t ilen = listLength(selector->children), k = 0, i = 0;
     char** a = malloc(sizeof(char*)*ilen);
     if(a == NULL)
     {
         memoryFailure();
         exit(EXIT_FAILURE);
     }
-
-    size_t k = 0, i = 0;
 
     for(; i < ilen; i++)
     {
@@ -1719,7 +1744,6 @@ char* composePseudoID(struct astnode* selector)
     }
     else
     {
-        free(a);
         char* b = malloc(sizeof(char));
         if(b == NULL)
         {
@@ -1728,6 +1752,8 @@ char* composePseudoID(struct astnode* selector)
         }
 
         *b = '\0';
+        free(a);
+
         return b;
     }
 }
@@ -1736,20 +1762,20 @@ char* pseudoSelectorSignature(struct astnode* selector, char dontAppendExcludeMa
 {
     struct astnode* ss = NULL;
     char wasExclude = 0;
-
-    size_t alen = 10, k=0;
+    size_t alen = 10, k=0, ilen = listLength(selector->children), i = 0;
     char** a = malloc(sizeof(char*)*alen);
+
     if(a == NULL)
     {
         memoryFailure();
         exit(EXIT_FAILURE);
     }
 
-    size_t ilen = listLength(selector->children), i = 0;
     for(; i < ilen; i++)
     {
+        size_t j = 0, jlen = 0;
         ss = selector->children[i];
-        size_t j = 0, jlen = listLength(ss->children);
+        jlen = listLength(ss->children);
 
         for(; j < jlen; j++)
         {
@@ -1771,8 +1797,10 @@ char* pseudoSelectorSignature(struct astnode* selector, char dontAppendExcludeMa
 
                     if(k >= alen)
                     {
+                        char** b = NULL;
                         alen+=10;
-                        char** b = realloc(a, sizeof(char*)*alen);
+
+                        b = realloc(a, sizeof(char*)*alen);
                         if(b== NULL)
                         {
                             memoryFailure();
@@ -1789,6 +1817,8 @@ char* pseudoSelectorSignature(struct astnode* selector, char dontAppendExcludeMa
 
     if(k != 0)
     {
+        char* s = NULL;
+
         if(alen != k)
         {
             char** b = realloc(a, k*sizeof(char*));
@@ -1802,7 +1832,7 @@ char* pseudoSelectorSignature(struct astnode* selector, char dontAppendExcludeMa
         }
 
         qsort(a, k, sizeof(char*), &comp);
-        char* s = joinAndFreeCharArray(a, k, ",", 0);
+        s = joinAndFreeCharArray(a, k, ",", 0);
 
         if(!dontAppendExcludeMark && wasExclude)
         {
@@ -1829,7 +1859,9 @@ void markSimplePseudo(struct astnode* selector)
 
     if(ilen > 0 )
     {
+        size_t i = 0, x = 0;
         char** sg = malloc(sizeof(char*)*(ilen+1));
+
         if(sg == NULL)
         {
             memoryFailure();
@@ -1837,7 +1869,6 @@ void markSimplePseudo(struct astnode* selector)
         }
 
         sg[ilen] = NULL;
-        size_t i = 0;
 
         for(; i < ilen; i++)
         {
@@ -1845,7 +1876,6 @@ void markSimplePseudo(struct astnode* selector)
             sg[i] = copyValue(ss->s);
         }
 
-        size_t x = 0;
         for(; x < ilen; x++)
         {
             ss = selector->children[x];
@@ -1863,11 +1893,10 @@ void markSimplePseudo(struct astnode* selector)
 
 struct astnode* freezeRulesets(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
-    struct astinfo* info = createASTInfo();
-    node->info = info;
-
     struct astnode* selector = node->children[0];
+    struct astinfo* info = createASTInfo();
 
+    node->info = info;
     info->freeze = freezeNeeded(selector);
     info->freezeID = selectorSignature(selector);
     info->pseudoID = composePseudoID(selector);
@@ -1883,6 +1912,7 @@ char equalHash(char** h0, char** h1)
     char k=1;
     char** h01 = h0;
     char** h11 = h1;
+
     while(*h01 != NULL)
     {
         char j = 0;
@@ -1941,18 +1971,19 @@ char equalHash(char** h0, char** h1)
     }
 
     return 1;
-};
+}
 
 char** getHash(struct astnode** nodes)
 {
-    size_t ilen = listLength(nodes);
+    size_t ilen = listLength(nodes), i = 0;
+    char** r = NULL;
 
     if(ilen == 0)
     {
         return NULL;
     }
 
-    char** r = malloc(sizeof(char*)*(ilen+1));
+    r = malloc(sizeof(char*)*(ilen+1));
     if(r == NULL)
     {
         memoryFailure();
@@ -1960,7 +1991,6 @@ char** getHash(struct astnode** nodes)
     }
 
     r[ilen] = NULL;
-    size_t i = 0;
 
     for(; i < ilen; i++)
     {
@@ -2008,6 +2038,8 @@ char hashInHash(char** h0, char** h1)
 
 char okToJoinByProperties(struct astnode* r0, struct astnode*  r1)
 {
+    struct astinfo* i0 = NULL, *i1 = NULL;
+
     if(r0->info == NULL)
     {
         r0->info =createASTInfo();
@@ -2018,7 +2050,8 @@ char okToJoinByProperties(struct astnode* r0, struct astnode*  r1)
         r1->info =createASTInfo();
     }
 
-    struct astinfo* i0 = r0->info, *i1 = r1->info;
+    i0 = r0->info;
+    i1 = r1->info;
 
     if((i0->freezeID == NULL && i1->freezeID == NULL)
       || ((i0->freezeID != NULL && i1->freezeID != NULL)
@@ -2042,6 +2075,8 @@ char okToJoinByProperties(struct astnode* r0, struct astnode*  r1)
     {
         char* ps0 = pseudoSelectorSignature(r0, 0);
         char* ps1 = pseudoSelectorSignature(r1, 0);
+        char eq = 0;
+
         if(ps0 == NULL && ps1 == NULL)
         {
             return 1;
@@ -2057,8 +2092,8 @@ char okToJoinByProperties(struct astnode* r0, struct astnode*  r1)
             return 0;
         }
 
-        char eq = (strcmp(ps0, ps1) == 0);
-        free(ps1);
+        eq = (strcmp(ps0, ps1) == 0);
+        free(ps0);
         free(ps1);
         return eq;
     }
@@ -2069,13 +2104,13 @@ char okToJoinByProperties(struct astnode* r0, struct astnode*  r1)
 char stringInHash(char** h0, char* s)
 {
     char k=0;
+    char** h1 = h0;
 
     if(h0 == NULL)
     {
         return 0;
     }
 
-    char** h1 = h0;
     while(*h1 != NULL)
     {
         if(strcmp(*h1, s) == 0)
@@ -2167,8 +2202,8 @@ char dontRestructure(unsigned char options, struct astnode* decl)
     {
         struct astnode* prop = decl->children[0]->children[0];
         struct astnode* value = decl->children[1];
-
         char* str = prop->content;
+
         if(str == NULL)
         {
             return 0;
@@ -2205,6 +2240,7 @@ char dontRestructure(unsigned char options, struct astnode* decl)
         {
             struct astnode** c = value->children;
             char n = 0;
+
             while(*c != NULL)
             {
                 if((*c)->type == ACCSSNODETYPE_PERCENTAGE)
@@ -2238,6 +2274,7 @@ char dontRestructure(unsigned char options, struct astnode* decl)
         {
             int src = 0;
             struct astnode** c = value->children;
+
             while(*c != NULL)
             {
                 if((options & ACCSSOPTION_IE8) && (*c)->type == ACCSSNODETYPE_IDENT && strcmp((*c)->content, "none") == 0 )
@@ -2334,107 +2371,106 @@ struct analyze* analyze(unsigned char compat, struct astnode* r1, struct astnode
 
     memset(r, 0, sizeof(struct analyze));
 
-    if(r1->type != r2->type)
+    if(r1->type == r2->type)
     {
-        return r;
-    }
+        struct astnode* b1 = r1->children[1];
+        struct astnode* b2 = r2->children[1];
 
-    if(compat == ACCSSOPTION_NONE)
-    {
-        checkProps = 0;
-    }
+        struct astnode** d1 = b1->children;
+        struct astnode** d2 = b2->children;
 
-    struct astnode* b1 = r1->children[1];
-    struct astnode* b2 = r2->children[1];
+        char** h1 = getHash(d1);
+        char** h2 = getHash(d2);
 
-    struct astnode** d1 = b1->children;
-    struct astnode** d2 = b2->children;
+        size_t i=0, d1len=listLength(d1), d2len=listLength(d2);
+        struct astnode* x = NULL;
 
-    char** h1 = getHash(d1);
-    char** h2 = getHash(d2);
+        char** comp1 = NULL;
+        char** comp2 = NULL;
 
-    size_t i=0, d1len=listLength(d1), d2len=listLength(d2);
-    struct astnode* x = NULL;
 
-    char** comp1 = NULL;
-    char** comp2 = NULL;
-    if(checkProps)
-    {
-        size_t c1 = 0;
+        if(compat == ACCSSOPTION_NONE)
+        {
+            checkProps = 0;
+        }
+
+        if(checkProps)
+        {
+            size_t c1 = 0, c2 = 0;
+
+            for(i=0; i < d1len; i++)
+            {
+                x = d1[i];
+                if(dontRestructure(compat, x))
+                {
+                    char** tmp = realloc(comp1, (c1+2) * sizeof(char*));
+                    if(tmp == NULL)
+                    {
+                        memoryFailure();
+                        exit(EXIT_FAILURE);
+                    }
+
+                    comp1 = tmp;
+                    comp1[c1] =  copyValue(x->children[0]->s);
+                    comp1[++c1] = NULL;
+                }
+            }
+
+            for(i=0; i < d2len; i++)
+            {
+                x = d2[i];
+                if(dontRestructure(compat, x))
+                {
+                    char** tmp = realloc(comp2, (c2+2) * sizeof(char*));
+                    if(tmp == NULL)
+                    {
+                        memoryFailure();
+                        exit(EXIT_FAILURE);
+                    }
+
+                    comp2 = tmp;
+                    comp2[c2] =  copyValue(x->children[0]->s);
+                    comp2[++c2] = NULL;
+                }
+            }
+        }
 
         for(i=0; i < d1len; i++)
         {
             x = d1[i];
-            if(dontRestructure(compat, x))
-            {
-                char** tmp = realloc(comp1, (c1+2) * sizeof(char*));
-                if(tmp == NULL)
-                {
-                    memoryFailure();
-                    exit(EXIT_FAILURE);
-                }
 
-                comp1 = tmp;
-                comp1[c1] =  copyValue(x->children[0]->s);
-                comp1[++c1] = NULL;
+            if(checkProps && stringInHash(comp1, x->children[0]->s))
+            {
+                r->ne1 = pushASTNode(r->ne1, x);
+            }
+            else if(stringInHash(h2, x->s))
+            {
+                r->eq = pushASTNode(r->eq, x);
+            }
+            else
+            {
+                r->ne1 = pushASTNode(r->ne1, x);
             }
         }
-        size_t c2 = 0;
 
-        for(i=0; i < d2len; i++)
+        for(i = 0; i < d2len; i++)
         {
             x = d2[i];
-            if(dontRestructure(compat, x))
+            if(checkProps && stringInHash(comp2, x->children[0]->s))
             {
-                char** tmp = realloc(comp2, (c2+2) * sizeof(char*));
-                if(tmp == NULL)
-                {
-                    memoryFailure();
-                    exit(EXIT_FAILURE);
-                }
-
-                comp2 = tmp;
-                comp2[c2] =  copyValue(x->children[0]->s);
-                comp2[++c2] = NULL;
+                r->ne2 = pushASTNode(r->ne2, x);
+            }
+            else if(!stringInHash(h1, x->s))
+            {
+                r->ne2 = pushASTNode(r->ne2, x);
             }
         }
+
+        freeCharList(h1);
+        freeCharList(h2);
+        freeCharList(comp1);
+        freeCharList(comp2);
     }
-
-    for(i=0; i < d1len; i++)
-    {
-        x = d1[i];
-
-        if(checkProps && stringInHash(comp1, x->children[0]->s))
-        {
-            r->ne1 = pushASTNode(r->ne1, x);
-        }
-        else if(stringInHash(h2, x->s))
-        {
-            r->eq = pushASTNode(r->eq, x);
-        }
-        else
-        {
-            r->ne1 = pushASTNode(r->ne1, x);
-        }
-    }
-
-    for(i = 0; i < d2len; i++)
-    {
-        x = d2[i];
-        if(checkProps && stringInHash(comp2, x->children[0]->s))
-        {
-            r->ne2 = pushASTNode(r->ne2, x);
-        }
-        else if(!stringInHash(h1, x->s))
-        {
-            r->ne2 = pushASTNode(r->ne2, x);
-        }
-    }
-
-    freeCharList(h1);
-    freeCharList(h2);
-    freeCharList(comp1);
-    freeCharList(comp2);
 
     return r;
 }
@@ -2461,14 +2497,13 @@ void freeAnalyze(struct analyze* a)
 
 void cleanSelector(struct astnode* node)
 {
-    size_t ilen = listLength(node->children);
+    size_t ilen = listLength(node->children), hlen = 0, i = 0;
+    char** h = NULL;
+
     if(!ilen)
     {
         return;
     }
-
-    char** h = NULL;
-    size_t hlen = 0, i = 0;
 
     for(; i < ilen; i++)
     {
@@ -2481,8 +2516,10 @@ void cleanSelector(struct astnode* node)
         }
         else
         {
+            char** b = NULL;
+
             hlen++;
-            char** b = realloc(h, sizeof(char*)*(hlen+1));
+            b = realloc(h, sizeof(char*)*(hlen+1));
             if(b == NULL)
             {
                 memoryFailure();
@@ -2501,71 +2538,66 @@ void cleanSelector(struct astnode* node)
 struct astnode* rejoinRuleset(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
     struct astnode* p = (index == 0 || container->children[index - 1]->type != ACCSSNODETYPE_RULESET) ? NULL : container->children[index - 1];
-    if(p == NULL)
+    if(p != NULL && node->type == p->type)
     {
-        return node;
-    }
+        struct astnode** ps = p ? p->children[0]->children : NULL;
+        struct astnode** pb = p ? p->children[1]->children : NULL;
+        struct astnode** ts = node->children[0]->children;
+        struct astnode** tb = node->children[1]->children;
 
-    struct astnode** ps = p ? p->children[0]->children : NULL;
-    struct astnode** pb = p ? p->children[1]->children : NULL;
-    struct astnode** ts = node->children[0]->children;
-    struct astnode** tb = node->children[1]->children;
+        char* pSig = NULL;
+        char* tSig = NULL;
+        char equalSig = 0;
 
-    if(!listLength(tb))
-    {
-        return NULL;
-    }
-
-    char* pSig = p->info != NULL ? p->info->pseudoSignature : NULL;
-    char* tSig = node->info != NULL ? node->info->pseudoSignature : NULL;
-
-    char equalSig = ((pSig == NULL && tSig == NULL) || ((tSig != NULL && pSig != NULL) && strcmp(tSig, pSig) == 0));
-
-    if(listLength(ps) && listLength(pb) && equalSig)
-    {
-        if(node->type != p->type)
+        if(!listLength(tb))
         {
-            return node;
-        }
-
-        char** ph = getHash(ps);
-        char** th = getHash(ts);
-        char eq = equalHash(th, ph);
-        freeCharList(ph);
-        freeCharList(th);
-
-        if(eq)
-        {
-            p->children[1]->children = mergeList(p->children[1]->children, node->children[1]->children);
-            node->children[1]->children = NULL;
-
             return NULL;
         }
 
-        if(okToJoinByProperties(node, p))
+        pSig = p->info != NULL ? p->info->pseudoSignature : NULL;
+        tSig = node->info != NULL ? node->info->pseudoSignature : NULL;
+        equalSig = ((pSig == NULL && tSig == NULL) || ((tSig != NULL && pSig != NULL) && strcmp(tSig, pSig) == 0));
+
+        if(listLength(ps) && listLength(pb) && equalSig)
         {
-            struct analyze* r = analyze(deps->compat, node, p, 0);
-            char eq = !listLength(r->ne1) && !listLength(r->ne2);
-            freeAnalyze(r);
+            char** ph = getHash(ps);
+            char** th = getHash(ts);
+            char eq = equalHash(th, ph);
+            freeCharList(ph);
+            freeCharList(th);
 
             if(eq)
             {
-                p->children[0]->children = mergeList(p->children[0]->children, node->children[0]->children);
-                node->children[0]->children = NULL;
-
-                cleanSelector(p->children[0]);
-                if(p->children[0]->s != NULL)
-                {
-                    free(p->children[0]->s);
-                }
-
-                p->children[0]->s = translate(p->children[0]);
+                p->children[1]->children = mergeList(p->children[1]->children, node->children[1]->children);
+                node->children[1]->children = NULL;
 
                 return NULL;
             }
+
+            if(okToJoinByProperties(node, p))
+            {
+                struct analyze* r = analyze(deps->compat, node, p, 0);
+                char eq = !listLength(r->ne1) && !listLength(r->ne2);
+                freeAnalyze(r);
+
+                if(eq)
+                {
+                    p->children[0]->children = mergeList(p->children[0]->children, node->children[0]->children);
+                    node->children[0]->children = NULL;
+
+                    cleanSelector(p->children[0]);
+                    if(p->children[0]->s != NULL)
+                    {
+                        free(p->children[0]->s);
+                    }
+
+                    p->children[0]->s = translate(p->children[0]);
+
+                    return NULL;
+                }
+            }
         }
     }
-
     return node;
 }
 
@@ -2633,16 +2665,25 @@ char isTBLProp(char* s)
 
 char* pathUp(const char* path)
 {
+    size_t plen = 0;
+    char* parent = NULL;
+
     if(path == NULL)
     {
         return NULL;
     }
 
-    size_t plen = strlen(path);
+    plen = strlen(path);
 
     while(plen > 0 && path[--plen] != '/');
 
-    char* parent = malloc(sizeof(char)*plen+1);
+    parent = malloc(sizeof(char)*plen+1);
+    if(parent == NULL)
+    {
+        memoryFailure();
+        exit(EXIT_FAILURE);
+    }
+
     memcpy(parent, path, plen);
     parent[plen] = '\0';
     return parent;
@@ -2653,7 +2694,11 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
     char* selector = NULL;
     char freeze = 0;
     char* freezeID = NULL;
-    size_t shortGroupID = 0;
+    size_t shortGroupID = 0, i = 0, ilen = 0;
+    struct shortHand* sh = NULL;
+    char* root = pathUp(path);
+    char* fr = NULL;
+    char* pre = NULL;
 
     if(container->type == ACCSSNODETYPE_RULESET)
     {
@@ -2667,12 +2712,8 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
         selector = copyValue("");
     }
 
-    struct shortHand* sh = NULL;
-
-    char* root = pathUp(path);
-    char* fr = freeze ? concat("%s%s%s", 3, "&", freezeID, "&") : NULL;
-
-    char* pre = concat("%s%s%s%s%s", 5, root, "/", (fr ? fr : ""), (selector ? selector : ""), "/");
+    fr = freeze ? concat("%s%s%s", 3, "&", freezeID, "&") : NULL;
+    pre = concat("%s%s%s%s%s", 5, root, "/", (fr ? fr : ""), (selector ? selector : ""), "/");
 
     if(fr != NULL)
     {
@@ -2680,9 +2721,9 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
     }
 
     free(root);
-    size_t ilen = listLength(node->children), i = ilen - 1;
+    ilen = listLength(node->children);
 
-    for(; i+1 > 0; i--)
+    for(i = ilen - 1; i+1 > 0; i--)
     {
         char createNew =  1;
         struct astnode* x = node->children[i];
@@ -2690,13 +2731,18 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
         {
             struct astnode* v = x->children[1];
             size_t vlen = listLength(v->children);
+            char imp = 0;
+            char* p = NULL;
+            char buffer[LDBUFFERSIZE];
+
             if(!vlen)
             {
                 continue;
             }
 
-            char imp = v->children[vlen - 1]->type == ACCSSNODETYPE_IMPORTANT;
-            char* p = x->children[0]->s;
+            imp = v->children[vlen - 1]->type == ACCSSNODETYPE_IMPORTANT;
+            p = x->children[0]->s;
+
             if(x->info == NULL)
             {
                 x->info = createASTInfo();
@@ -2708,18 +2754,17 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
                 x->info->id = NULL;
             }
 
-            char buffer[LDBUFFERSIZE];
             sprintf(buffer, SIZEPRI, (SIZECASTTYPE)i);
             x->info->id = concat("%s%s%s", 3, path, "/", buffer);
             if(isTBLProp(p))
             {
                 char* mainStr = extractMain(p);
                 char* key = concat("%s%s", 2, pre, mainStr);
-                free(mainStr);
-
                 struct shortHand** shorts = getByKey(deps->shorts2, key);
                 size_t sL = shorts != NULL ? shortsLength(shorts) : 0;
                 size_t shortsI = sL == 0 ? 0 : sL - 1;
+
+                free(mainStr);
 
                 if((deps->mergesplitted) || (!deps->lastShortSelector || (selector != NULL && strcmp(selector, deps->lastShortSelector) == 0) || shortGroupID == deps->lastShortGroupID))
                 {
@@ -2742,6 +2787,11 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
                     x->info->shortHandKey.key = copyValue(key);
 
                     sh = malloc(sizeof(struct shortHand));
+                    if(sh == NULL)
+                    {
+                        memoryFailure();
+                        exit(EXIT_FAILURE);
+                    }
                     memset(sh, 0, sizeof(struct shortHand));
 
                     initShort(sh, p, imp);
@@ -2750,8 +2800,10 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
 
                 if(!sh->invalid)
                 {
+                    size_t shortsI = sL;
+
                     sL = shorts != NULL ? shortsLength(shorts) : 0;
-                    size_t shortsI = sL == 0 ? 0 : sL - 1;
+                    shortsI = sL == 0 ? 0 : sL - 1;
                     x->info->removeByShort = 1;
 
                     x->info->shortHandKey.i = shortsI;
@@ -2784,8 +2836,8 @@ void disjoin (struct compdeps* deps, struct astnode* container)
     if(container != NULL)
     {
         struct astnode** sr = NULL;
-
         size_t i = listLength(container->children) - 1;
+
         for(; i+1 > 0; i--)
         {
             struct astnode* t = container->children[i];
@@ -2793,12 +2845,16 @@ void disjoin (struct compdeps* deps, struct astnode* container)
             {
                 if(t->type == ACCSSNODETYPE_RULESET)
                 {
-                    t->info->shortGroupID = deps->shortGroupID++;
                     struct astnode* s = t->children[0];
+                    t->info->shortGroupID = deps->shortGroupID++;
+
                     if(listLength(s->children) > 1)
                     {
+                        size_t k = 0;
+
                         sr = s->children;
-                        size_t k = listLength(sr) - 1;
+                        k = listLength(sr) - 1;
+
                         for(; k +1 > 0; k--)
                         {
                             struct astnode* r = copyTree(t);
@@ -2869,10 +2925,14 @@ char impSum (struct shortHand* sh)
 
 struct astnode* getShValue(struct shortHand* sh)
 {
-    struct shortSide* a[] = {sh->sides.top, sh->sides.right, sh->sides.bottom, sh->sides.left};
-    unsigned char alen = 4;
-
     struct astnode* r = createASTNodeWithType(ACCSSNODETYPE_VALUE);
+    struct shortSide* a[] = {NULL, NULL, NULL, NULL};
+    unsigned char alen = 4, i = 0, ilen = 0;
+
+    a[0] = sh->sides.top;
+    a[1] = sh->sides.right;
+    a[2] = sh->sides.bottom;
+    a[3] = sh->sides.left;
 
     if(casecmp(sh->sides.left->s, sh->sides.right->s) == 0)
     {
@@ -2887,11 +2947,12 @@ struct astnode* getShValue(struct shortHand* sh)
         }
     }
 
-    unsigned char i = 0, ilen = alen-1;
+    ilen = alen-1;
     for(; i < ilen; i++)
     {
-        r->children = mergeList(r->children, copyList(a[i]->t));
         struct astnode* s = createASTNodeWithType(ACCSSNODETYPE_S);
+
+        r->children = mergeList(r->children, copyList(a[i]->t));
         s->content = copyValue(" ");
         r->children = pushASTNode(r->children, s);
     }
@@ -2908,11 +2969,11 @@ struct astnode* getShValue(struct shortHand* sh)
 struct astnode* getShProperty(struct shortHand* sh)
 {
     struct astnode* i = createASTNodeWithType(ACCSSNODETYPE_IDENT);
+    struct astnode* p = createASTNodeWithType(ACCSSNODETYPE_PROPERTY);
 
     i->content = copyValue(sh->name);
     i->s = copyValue(sh->name);
 
-    struct astnode* p = createASTNodeWithType(ACCSSNODETYPE_PROPERTY);
     p->s = copyValue(sh->name);
 
     p->children = pushASTNode(NULL, i);
@@ -3044,9 +3105,10 @@ char* buildPPre(char* pre, char* p, struct astnode** v, struct astnode* d, char 
 {
     char* fp = freeze ? copyValue("ft:") : copyValue("ff:");
     char* vID = NULL;
-
+    char* ret = NULL;
     size_t vlen = listLength(v);
     size_t i = 0;
+
     for(; i < vlen; i++)
     {
         if(vID == NULL)
@@ -3055,7 +3117,7 @@ char* buildPPre(char* pre, char* p, struct astnode** v, struct astnode* d, char 
         }
     }
 
-    char* ret = concat("%s%s%s%s", 4, fp, pre, p, (vID !=NULL ? vID : "")  );
+    ret = concat("%s%s%s%s", 4, fp, pre, p, (vID !=NULL ? vID : "")  );
     if(vID != NULL)
     {
         free(vID);
@@ -3067,6 +3129,9 @@ char* buildPPre(char* pre, char* p, struct astnode** v, struct astnode* d, char 
 
 size_t propsLength(struct pchar_prop** list)
 {
+    size_t listLength = 0;
+    struct pchar_prop** tmp = list;
+
     if(list == NULL)
     {
         return 0;
@@ -3077,8 +3142,6 @@ size_t propsLength(struct pchar_prop** list)
         return 0;
     }
 
-    size_t listLength = 0;
-    struct pchar_prop** tmp = list;
     while(*tmp != NULL)
     {
         listLength++;
@@ -3125,12 +3188,13 @@ void freeProps(struct pchar_prop** props)
 
 struct prop* getProp(struct pchar_prop** list, char* key)
 {
+    struct pchar_prop** tmp = list;
+
     if(list == NULL)
     {
         return NULL;
     }
 
-    struct pchar_prop** tmp = list;
     while(*tmp != NULL)
     {
         if(casecmp((*tmp)->key, key) == 0 )
@@ -3149,11 +3213,19 @@ struct pchar_prop** addProp(struct pchar_prop** list, struct prop* prop, char* p
 
     if(list == NULL)
     {
+        struct pchar_prop** list = NULL;
+
         bucket = malloc(sizeof(struct pchar_prop));
+        if(bucket == NULL)
+        {
+            memoryFailure();
+            exit(EXIT_FAILURE);
+        }
+
         bucket->prop = prop;
         bucket->key = copyValue(ppre);
 
-        struct pchar_prop** list = malloc(sizeof(struct pchar_prop*)*2);
+        list = malloc(sizeof(struct pchar_prop*)*2);
         if(list == NULL)
         {
             memoryFailure();
@@ -3186,12 +3258,20 @@ struct pchar_prop** addProp(struct pchar_prop** list, struct prop* prop, char* p
     }
     else
     {
+        size_t size = 0;
+        struct pchar_prop** newlist = NULL;
         bucket = malloc(sizeof(struct pchar_prop));
+        if(bucket == NULL)
+        {
+            memoryFailure();
+            exit(EXIT_FAILURE);
+        }
+
         bucket->prop = prop;
         bucket->key = copyValue(ppre);
 
-        size_t size = propsLength(list);
-        struct pchar_prop** newlist = realloc(list, (sizeof(struct pchar_prop*)*(size+2)));
+        size = propsLength(list);
+        newlist = realloc(list, (sizeof(struct pchar_prop*)*(size+2)));
         if(newlist == NULL)
         {
             memoryFailure();
@@ -3423,25 +3503,30 @@ char needless(char* name, struct pchar_prop** props, char* pre, char imp,struct 
     char* n = copyValue(name);
     char hack = n[0];
     char hackstr[] = {'\0', '\0', '\0'};
+    char* vendor = NULL;
+    char* prop = NULL;
+    char** x = NULL;
 
     if(hack == '*' || hack == '_' || hack == '$')
     {
-        hackstr[0] = hack;
         char* old = n;
+
+        hackstr[0] = hack;
         n = copyValue(++n);
         free(old);
     }
     else if(hack == '/' && name[1] == '/')
     {
-        hackstr[0] = hackstr[1] = '/';
         char* old = n;
+
+        hackstr[0] = hackstr[1] = '/';
         n = copyValue(n+sizeof(char)*2);
         free(old);
     }
 
-    char* vendor = getVendorFromString(n);
-    char* prop = copyValue(n+ (vendor == NULL ? 0 : (sizeof(char)*(strlen(vendor)))));
-    char** x = NULL;
+    vendor = getVendorFromString(n);
+    prop = copyValue(n+ (vendor == NULL ? 0 : (sizeof(char)*(strlen(vendor)))));
+
     free(n);
     if((x = nlTable(prop)) != NULL)
     {
@@ -3450,17 +3535,20 @@ char needless(char* name, struct pchar_prop** props, char* pre, char imp,struct 
         {
             char* hvx = concat("%s%s%s", 3, hackstr, vendor != NULL ? vendor : "", x[i]);
             char* ppre = buildPPre(pre, hvx, v, d, freeze);
-            free(hvx);
             struct prop* t = getProp(props, ppre);
+
+            free(hvx);
             free(ppre);
             if(t !=NULL)
             {
                 free(prop);
                 free(vendor);
                 freeCharList(x);
+
                 return (!imp || t->imp);
             }
         }
+
         freeCharList(x);
     }
 
@@ -3473,133 +3561,138 @@ char needless(char* name, struct pchar_prop** props, char* pre, char imp,struct 
 struct astnode* restructureBlock(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
     size_t tlen = listLength(node->children);
-    if(tlen == 0)
+
+    if(tlen > 0)
     {
-        return node;
-    }
+        struct pchar_prop** props = NULL;
+        char isPseudo = 0;
+        char* selector = NULL;
+        char freeze = 0;
+        char* freezeID = NULL;
+        char* pseudoID = NULL;
+        char** sg = NULL;
+        char imp = 0;
+        char* pathup = NULL;
+        char* pre = NULL;
+        size_t i = tlen - 1;
 
-    struct pchar_prop** props = NULL;
-    char isPseudo = 0;
-    char* selector = NULL;
-    char freeze = 0;
-    char* freezeID = NULL;
-    char* pseudoID = NULL;
-    char** sg = NULL;
+        char conttype = container->type;
 
-    char conttype = container->type;
-
-    if(conttype == ACCSSNODETYPE_RULESET)
-    {
-        props = deps->props2;
-        isPseudo = container->children[0]->children[0]->info->pseudo;
-        selector = copyValue(container->children[0]->children[0]->s);
-        freeze = container->info->freeze;
-        freezeID = copyValue(container->info->freezeID);
-        pseudoID = copyValue(container->info->pseudoID);
-        sg = container->children[0]->children[0]->info->sg;
-    }
-    else
-    {
-        selector = copyValue("");
-        freezeID = copyValue("fake");
-        pseudoID = copyValue("fake");
-    }
-
-    char imp = 0;
-    char* pathup = pathUp(path);
-    char* pre = concat("%s%s%s%s", 4, pathup , "/", selector, "/" );
-    free(pathup);
-
-    size_t i = tlen - 1;
-
-    for(; i+1 > 0; i--)
-    {
-        struct astnode* x = node->children[i];
-
-        if(x->type == ACCSSNODETYPE_DECLARATION)
+        if(conttype == ACCSSNODETYPE_RULESET)
         {
-            struct astnode** v = x->children[1]->children;
-            size_t vlen = listLength(v);
-            if(!vlen)
+            props = deps->props2;
+            isPseudo = container->children[0]->children[0]->info->pseudo;
+            selector = copyValue(container->children[0]->children[0]->s);
+            freeze = container->info->freeze;
+            freezeID = copyValue(container->info->freezeID);
+            pseudoID = copyValue(container->info->pseudoID);
+            sg = container->children[0]->children[0]->info->sg;
+        }
+        else
+        {
+            selector = copyValue("");
+            freezeID = copyValue("fake");
+            pseudoID = copyValue("fake");
+        }
+
+        pathup = pathUp(path);
+        pre = concat("%s%s%s%s", 4, pathup , "/", selector, "/" );
+        free(pathup);
+
+        for(; i+1 > 0; i--)
+        {
+            struct astnode* x = node->children[i];
+
+            if(x->type == ACCSSNODETYPE_DECLARATION)
             {
-                node->children = removeItem(node->children, i, 1);
-                continue;
-            }
+                struct astnode** v = x->children[1]->children;
+                size_t vlen = listLength(v);
+                char* p = NULL;
+                char* ppre = NULL;
+                char iBuff[LDBUFFERSIZE];
+                struct prop* t = NULL;
 
-            imp = v[vlen - 1]->type == ACCSSNODETYPE_IMPORTANT;
-            char* p = x->children[0]->s;
-            char* ppre = buildPPre(pre, p, v, x, freeze);
-
-            if(x->info == NULL)
-            {
-                x->info = createASTInfo();
-            }
-
-            if(x->info->id != NULL)
-            {
-                free(x->info->id);
-                x->info->id = NULL;
-            }
-
-            char iBuff[LDBUFFERSIZE];
-            sprintf(iBuff, SIZEPRI, (SIZECASTTYPE)i);
-            x->info->id = concat("%s%s%s", 3, path, "/", iBuff);
-
-            struct prop* t = NULL;
-            if(!dontRestructure(deps->compat, x) && (t = getProp(props, ppre)) != NULL)
-            {
-                if((isPseudo && strcmp(freezeID,t->freezeID) == 0) || /* pseudo from equal selectors group */
-                    (!isPseudo && strcmp(pseudoID, t->pseudoID) == 0) || /* not pseudo from equal pseudo signature group */
-                    (isPseudo && strcmp(pseudoID, t->pseudoID) == 0 && hashInHash(sg, t->sg))) /* pseudo from covered selectors group */
+                if(!vlen)
                 {
-                    if(imp && !t->imp)
+                    node->children = removeItem(node->children, i, 1);
+                    continue;
+                }
+
+                p = x->children[0]->s;
+                ppre = buildPPre(pre, p, v, x, freeze);
+                imp = v[vlen - 1]->type == ACCSSNODETYPE_IMPORTANT;
+
+                if(x->info == NULL)
+                {
+                    x->info = createASTInfo();
+                }
+
+                if(x->info->id != NULL)
+                {
+                    free(x->info->id);
+                    x->info->id = NULL;
+                }
+
+
+                sprintf(iBuff, SIZEPRI, (SIZECASTTYPE)i);
+                x->info->id = concat("%s%s%s", 3, path, "/", iBuff);
+
+                if(!dontRestructure(deps->compat, x) && (t = getProp(props, ppre)) != NULL)
+                {
+                    if((isPseudo && strcmp(freezeID,t->freezeID) == 0) || /* pseudo from equal selectors group */
+                        (!isPseudo && strcmp(pseudoID, t->pseudoID) == 0) || /* not pseudo from equal pseudo signature group */
+                        (isPseudo && strcmp(pseudoID, t->pseudoID) == 0 && hashInHash(sg, t->sg))) /* pseudo from covered selectors group */
                     {
-                        deleteProperty(t->block, t->id);
-                        props = addProp(props, createProp(node, imp, x->info->id, sg, freeze, path, freezeID, pseudoID), ppre);
-                        if(conttype == ACCSSNODETYPE_RULESET)
+                        if(imp && !t->imp)
                         {
-                            deps->props2 = props;
+                            deleteProperty(t->block, t->id);
+                            props = addProp(props, createProp(node, imp, x->info->id, sg, freeze, path, freezeID, pseudoID), ppre);
+                            if(conttype == ACCSSNODETYPE_RULESET)
+                            {
+                                deps->props2 = props;
+                            }
+                        }
+                        else
+                        {
+                            node->children = removeItem(node->children, i, 1);
                         }
                     }
-                    else
+
+                }
+                else if(needless(p, props, pre, imp, v, x, freeze))
+                {
+                    node->children = removeItem(node->children, i, 1);
+                }
+                else if(!dontRestructure(deps->compat, x))
+                {
+                    props = addProp(props, createProp(node, imp, x->info->id, sg, freeze, path, freezeID, pseudoID), ppre);
+                    if(conttype == ACCSSNODETYPE_RULESET)
                     {
-                        node->children = removeItem(node->children, i, 1);
+                        deps->props2 = props;
                     }
                 }
 
+                free(ppre);
             }
-            else if(needless(p, props, pre, imp, v, x, freeze))
-            {
-                node->children = removeItem(node->children, i, 1);
-            }
-            else if(!dontRestructure(deps->compat, x))
-            {
-                props = addProp(props, createProp(node, imp, x->info->id, sg, freeze, path, freezeID, pseudoID), ppre);
-                if(conttype == ACCSSNODETYPE_RULESET)
-                {
-                    deps->props2 = props;
-                }
-            }
-
-            free(ppre);
         }
-    }
 
-    if(conttype != ACCSSNODETYPE_RULESET)
-    {
-        freeProps(props);
-    }
+        if(conttype != ACCSSNODETYPE_RULESET)
+        {
+            freeProps(props);
+        }
 
-    free(pre);
-    free(selector);
-    free(freezeID);
-    free(pseudoID);
+        free(pre);
+        free(selector);
+        free(freezeID);
+        free(pseudoID);
+    }
     return node;
 }
 
 size_t calcLength(struct astnode** nodes)
 {
     size_t r = 0;
+
     while(*nodes != NULL)
     {
         r += strlen((*nodes)->s);
@@ -3612,136 +3705,137 @@ size_t calcLength(struct astnode** nodes)
 struct astnode* restructureRuleset(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
     struct astnode* p = (index == 0 || container->children[index - 1]->type == ACCSSNODETYPE_UNKNOWN) ? NULL : container->children[index - 1];
-    if(p == NULL)
+
+    if(p != NULL && node->type == p->type && listLength(p->children) >= 2)
     {
-        return node;
-    }
+        struct astnode** ps = p->children[0]->children;
+        struct astnode** pb = p->children[1]->children;
+        struct astnode** tb = node->children[1]->children;
+        char* pSig = NULL;
+        char* tSig = NULL;
+        char equalSig = 0;
 
-    if(listLength(p->children) < 2)
-    {
-        return node;
-    }
-
-    struct astnode** ps = p->children[0]->children;
-    struct astnode** pb = p->children[1]->children;
-    struct astnode** tb = node->children[1]->children;
-
-    if(listLength(tb) == 0)
-    {
-        return NULL;
-    }
-
-    char* pSig = p->info != NULL ? p->info->pseudoSignature : NULL;
-    char* tSig = node->info != NULL ? node->info->pseudoSignature : NULL;
-
-    char equalSig = ((pSig == NULL && tSig == NULL) || ((tSig != NULL && pSig != NULL) && strcmp(tSig, pSig) == 0));
-
-    if(listLength(ps) && listLength(pb) && equalSig)
-    {
-        if(node->type != p->type)
+        if(listLength(tb) == 0)
         {
-            return node;
+            return NULL;
         }
 
-        struct analyze* r = analyze(deps->compat, node, p, 1);
+        pSig = p->info != NULL ? p->info->pseudoSignature : NULL;
+        tSig = node->info != NULL ? node->info->pseudoSignature : NULL;
+        equalSig = ((pSig == NULL && tSig == NULL) || ((tSig != NULL && pSig != NULL) && strcmp(tSig, pSig) == 0));
 
-        size_t rEqLen = listLength(r->eq);
-        size_t rNe1Len = listLength(r->ne1);
-        size_t rNe2Len = listLength(r->ne2);
-
-        if(rEqLen && (rNe1Len || rNe2Len))
+        if(listLength(ps) && listLength(pb) && equalSig)
         {
-            if(rNe1Len && !rNe2Len)
+            struct analyze* r = analyze(deps->compat, node, p, 1);
+
+            size_t rEqLen = listLength(r->eq);
+            size_t rNe1Len = listLength(r->ne1);
+            size_t rNe2Len = listLength(r->ne2);
+
+            if(rEqLen && (rNe1Len || rNe2Len))
             {
-                struct astnode** ns = node->children[0]->children;
-                char* nss = translate(node->children[0]);
-
-                /* selector length + delims length */
-                size_t sl = strlen(nss) + listLength(ns) - 1;
-                /* declarations length + decldelims length */
-                size_t bl = calcLength(r->eq) + rEqLen - 1;
-                free(nss);
-
-                if(sl < bl)
+                if(rNe1Len && !rNe2Len)
                 {
-                    p->children[0]->children = mergeList(p->children[0]->children, copyList(node->children[0]->children));
-                    cleanSelector(p->children[0] );
+                    size_t sl = 0, bl = 0;
+                    struct astnode** ns = node->children[0]->children;
+                    char* nss = translate(node->children[0]);
 
-                    struct astnode** newlist = copyList(r->ne1);
-                    deleteASTList(node->children[1]->children);
-                    node->children[1]->children = newlist;
+                    /* selector length + delims length */
+                    sl = strlen(nss) + listLength(ns) - 1;
+                    /* declarations length + decldelims length */
+                    bl = calcLength(r->eq) + rEqLen - 1;
+                    free(nss);
+
+                    if(sl < bl)
+                    {
+                        struct astnode** newlist = NULL;
+                        p->children[0]->children = mergeList(p->children[0]->children, copyList(node->children[0]->children));
+                        cleanSelector(p->children[0] );
+
+                        newlist = copyList(r->ne1);
+                        deleteASTList(node->children[1]->children);
+                        node->children[1]->children = newlist;
+                    }
+
                 }
-
-            }
-            else if(!rNe1Len && rNe2Len)
-            {
-                struct astnode** ns = p->children[0]->children;
-                char* nss = translate(p->children[0]);
-
-                /* selector length + delims length */
-                size_t sl = strlen(nss) + listLength(ns) - 1;
-                /* declarations length */
-                size_t bl = calcLength(r->eq) + rEqLen - 1;
-                free(nss);
-
-                if(sl < bl)
+                else if(!rNe1Len && rNe2Len)
                 {
-                    node->children[0]->children = mergeList(node->children[0]->children, copyList(p->children[0]->children));
-                    cleanSelector(node->children[0] );
+                    size_t sl = 0, bl = 0;
+                    struct astnode** ns = p->children[0]->children;
+                    char* nss = translate(p->children[0]);
 
-                    struct astnode** newlist = copyList(r->ne2);
-                    deleteASTList(p->children[1]->children);
-                    p->children[1]->children = newlist;
-                }
+                    /* selector length + delims length */
+                    sl = strlen(nss) + listLength(ns) - 1;
+                    /* declarations length */
+                    bl = calcLength(r->eq) + rEqLen - 1;
+                    free(nss);
 
-            }
-            else
-            {
-                struct astnode* ns = copyTree(p->children[0]);
-                ns->children = mergeList(ns->children, copyList(node->children[0]->children));
-                cleanSelector(ns);
+                    if(sl < bl)
+                    {
+                        struct astnode** newlist = NULL;
+                        node->children[0]->children = mergeList(node->children[0]->children, copyList(p->children[0]->children));
+                        cleanSelector(node->children[0] );
 
-                char* nss = translate(ns);
-                if(ns->s != NULL)
-                {
-                    free(ns->s);
-                }
+                        newlist = copyList(r->ne2);
+                        deleteASTList(p->children[1]->children);
+                        p->children[1]->children = newlist;
+                    }
 
-                ns->s = nss;
-                /* selector length */
-                size_t rl = strlen(nss) + listLength(ns->children) - 1 + 2; /* braces length */
-                size_t bl = calcLength(r->eq) + rEqLen - 1;
-
-                if(bl >= rl)
-                {
-                    struct astnode* b = createASTNodeWithType(ACCSSNODETYPE_BLOCK);
-                    b->children = copyList(r->eq);
-                    b->info = createASTInfo();
-
-                    struct astnode* nr = createASTNodeWithType(ACCSSNODETYPE_RULESET);
-                    nr->info = createASTInfo();
-                    nr->children = pushASTNode(NULL, ns); /*firstnode = selector */
-                    nr->children = pushASTNode(nr->children, b); /* block definitions */
-
-                    struct astnode** newlistT = copyList(r->ne1);
-                    struct astnode** newlistP = copyList(r->ne2);
-
-                    deleteASTList(node->children[1]->children);
-                    node->children[1]->children = newlistT;
-
-                    deleteASTList(p->children[1]->children);
-                    p->children[1]->children = newlistP;
-
-                    container->children = insertItem(container->children, index+1, nr);
                 }
                 else
                 {
-                    deleteASTTree(ns);
-                }
+                    size_t rl = 0, bl = 0;
+                    struct astnode* ns = copyTree(p->children[0]);
+                    char* nss = NULL;
 
+                    ns->children = mergeList(ns->children, copyList(node->children[0]->children));
+                    cleanSelector(ns);
+                    nss = translate(ns);
+
+                    if(ns->s != NULL)
+                    {
+                        free(ns->s);
+                    }
+
+                    ns->s = nss;
+                    /* selector length */
+                    rl = strlen(nss) + listLength(ns->children) - 1 + 2; /* braces length */
+                    bl = calcLength(r->eq) + rEqLen - 1;
+
+                    if(bl >= rl)
+                    {
+                        struct astnode** newlistT = NULL;
+                        struct astnode** newlistP = NULL;
+                        struct astnode* b = createASTNodeWithType(ACCSSNODETYPE_BLOCK);
+                        struct astnode* nr = createASTNodeWithType(ACCSSNODETYPE_RULESET);
+
+                        b->children = copyList(r->eq);
+                        b->info = createASTInfo();
+
+                        nr->info = createASTInfo();
+                        nr->children = pushASTNode(NULL, ns); /*firstnode = selector */
+                        nr->children = pushASTNode(nr->children, b); /* block definitions */
+
+                        newlistT = copyList(r->ne1);
+                        newlistP = copyList(r->ne2);
+
+                        deleteASTList(node->children[1]->children);
+                        node->children[1]->children = newlistT;
+
+                        deleteASTList(p->children[1]->children);
+                        p->children[1]->children = newlistP;
+
+                        container->children = insertItem(container->children, index+1, nr);
+                    }
+                    else
+                    {
+                        deleteASTTree(ns);
+                    }
+
+                }
             }
+            freeAnalyze(r);
         }
-        freeAnalyze(r);
     }
     return node;
 }
@@ -4137,12 +4231,14 @@ struct astnode* compress(struct astnode* tree, unsigned char restructure, unsign
 
     if(restructure)
     {
+#ifdef DEBUG
+        int iterations=0;
+#endif
         size_t l0, l1 = SIZE_MAX, ls;
-        struct astnode *x0, *xs;
-        x0 = NULL;
-        xs = NULL;
-
+        struct astnode *x0 = NULL, *xs = NULL;
         char* str = translate(x);
+
+
         ls = strlen(str);
         free(str);
 
@@ -4175,9 +4271,7 @@ struct astnode* compress(struct astnode* tree, unsigned char restructure, unsign
         fflush(stdout);
 #endif
         x = walk(&deps, &rjrules, x, "/0");
-#ifdef DEBUG
-        int iterations=0;
-#endif
+
         do
         {
             l0 = l1;

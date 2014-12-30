@@ -62,6 +62,9 @@ char isPunctuation(struct char_char* punctuation, char c)
 struct token* pushToken(struct token_info* info, int *tn, int ln, unsigned char type, char* value)
 {
     struct token* newtoken = malloc(sizeof(struct token));
+    struct token** tmpList  = NULL;
+    size_t len = 0;
+
     if(newtoken == NULL)
     {
         memoryFailure();
@@ -75,7 +78,7 @@ struct token* pushToken(struct token_info* info, int *tn, int ln, unsigned char 
     newtoken->ln = ln;
     newtoken->type = type;
 
-    size_t len = strlen(value);
+    len = strlen(value);
     newtoken->value = malloc(sizeof(char)*(len+1));
     if(newtoken->value == NULL)
     {
@@ -85,7 +88,7 @@ struct token* pushToken(struct token_info* info, int *tn, int ln, unsigned char 
 
     strcpy(newtoken->value, value);
     info->len++;
-    struct token** tmpList  = realloc(info->list, (sizeof(struct token*))*info->len);
+    tmpList  = realloc(info->list, (sizeof(struct token*))*info->len);
     if(tmpList == NULL)
     {
         memoryFailure();
@@ -246,7 +249,8 @@ void parseDecimalNumber(struct token_info* info, int* tn, int ln, const char* s,
 
 void parseIdentifier(struct token_info* info, int* tn, int ln, const char* s, size_t slen, size_t* pos, char* urlMode, struct char_char* p)
 {
-    size_t start = *pos;
+    size_t start = *pos, len = 0;
+    char* ident = NULL;
 
     while(s[*pos] == '/')
     {
@@ -265,8 +269,8 @@ void parseIdentifier(struct token_info* info, int* tn, int ln, const char* s, si
         }
     }
 
-    size_t len = *pos-start;
-    char* ident = malloc(sizeof(char)*(len+1));
+    len = *pos-start;
+    ident = malloc(sizeof(char)*(len+1));
     if(ident == NULL)
     {
         memoryFailure();
@@ -291,7 +295,7 @@ void _getTokens(const char* s, struct char_char* p, struct token_info* info)
 {
     char urlMode = 0, blockMode = 0;
     int tn = 0, ln = 0;
-    size_t pos = 0, slen= strlen(s);
+    size_t pos = 0, slen = strlen(s);
 
     for(; pos < slen; pos++)
     {
@@ -404,9 +408,9 @@ void mark(struct token_info* info, char* error)
     struct int_prev* ps = NULL; /* Parenthesis */
     struct int_prev* sbs = NULL; /* SquareBracket */
     struct int_prev* cbs = NULL; /* CurlyBracket */
-
     struct token* t = NULL;
     int i = 0;
+
     for(; i < info->len; i++)
     {
         t = getTokenByIndex(info, i);
@@ -423,8 +427,9 @@ void mark(struct token_info* info, char* error)
             {
                 if(ps!=NULL)
                 {
+                    struct token* tmp = NULL;
                     t->left = popInt(&ps);
-                    struct token* tmp = getTokenByIndex(info, t->left);
+                    tmp = getTokenByIndex(info, t->left);
                     tmp->right = i;
                 }
             }
@@ -440,8 +445,9 @@ void mark(struct token_info* info, char* error)
             {
                 if(sbs!=NULL)
                 {
+                    struct token* tmp = NULL;
                     t->left = popInt(&sbs);
-                    struct token* tmp = getTokenByIndex(info, t->left);
+                    tmp = getTokenByIndex(info, t->left);
                     tmp->right = i;
                 }
             }
@@ -457,8 +463,9 @@ void mark(struct token_info* info, char* error)
             {
                 if(cbs!=NULL)
                 {
+                    struct token* tmp = NULL;
                     t->left = popInt(&cbs);
-                    struct token* tmp = getTokenByIndex(info, t->left);
+                    tmp = getTokenByIndex(info, t->left);
                     tmp->right = i;
                 }
             }

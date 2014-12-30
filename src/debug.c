@@ -138,9 +138,9 @@ void printASTNode(struct astnode* node, int depth)
     depth++;
     if(node->children != NULL)
     {
-        printf("\n");
         struct astnode** tmp = node->children;
 
+        printf("\n");
         while(*tmp != NULL)
         {
             printASTNode(*tmp, depth);
@@ -148,8 +148,7 @@ void printASTNode(struct astnode* node, int depth)
         }
     }
 
-    int k =0;
-    for(; k<depth; k++)
+    for(i=0; i<depth; i++)
     {
         printf("\t");
     }
@@ -203,9 +202,9 @@ void printASTNodeJSON(struct astnode* node, int depth)
 
         if(node->info->sg != NULL)
         {
-            printf(", 'sg' : [");
             char** sg1 = node->info->sg;
 
+            printf(", 'sg' : [");
             while(*sg1 != NULL)
             {
                 if(sg1 != node->info->sg)
@@ -234,8 +233,8 @@ void printASTNodeJSON(struct astnode* node, int depth)
     depth++;
     if(node->children != NULL)
     {
-        printf(", 'children' : [");
         struct astnode** tmp = node->children;
+        printf(", 'children' : [");
 
         while(*tmp != NULL)
         {
@@ -292,19 +291,21 @@ void printSide(struct shortSide* side)
 
         if(side->t != NULL)
         {
+            size_t i = 0, ilen = listLength(side->t);
+
             if(side->s != NULL)
             {
                 printf(", ");
             }
 
             printf("'t' : ");
-            size_t i = 0, ilen = listLength(side->t);
             for(; i<ilen; i++)
             {
                 printASTNodeJSON(side->t[i], 0);
             }
 
         }
+
         printf("}");
     }
     else
@@ -354,6 +355,8 @@ void printShortHands(struct pchar_shorts** list)
         while(*psTmp != NULL)
         {
             struct pchar_shorts* psCurrent = *psTmp;
+            struct shortHand** sList = psCurrent->list;
+
             psTmp++;
             printf("{");
             if(psCurrent->key != NULL)
@@ -362,7 +365,6 @@ void printShortHands(struct pchar_shorts** list)
             }
 
             printf("'list' : [");
-            struct shortHand** sList = psCurrent->list;
             if(sList != NULL)
             {
                 printShortList(sList);

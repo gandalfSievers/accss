@@ -272,7 +272,9 @@ char* functionExpression(struct astnode* node)
 
 char* composite(struct astnode* node, int i)
 {
+    size_t llen = listLength(node->children);
     char* s = malloc(sizeof(char));
+
     if(s == NULL)
     {
         memoryFailure();
@@ -280,7 +282,7 @@ char* composite(struct astnode* node, int i)
     }
 
     s[0] = '\0';
-    size_t llen = listLength(node->children);
+
     for(; i < llen; i++)
     {
         char* tmp = _t(node->children[i]);
@@ -299,6 +301,7 @@ char* composite(struct astnode* node, int i)
         slen+=tlen;
         s[slen] = '\0';
     }
+
     return s;
 }
 
