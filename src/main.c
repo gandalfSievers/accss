@@ -30,9 +30,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <getopt.h>
 #include <string.h>
 #include <time.h>
+#include "argsparser.h"
 #include "ast.h"
 #include "helper.h"
 #include "gettokens.h"
@@ -41,17 +41,17 @@
 #include "translator.h"
 #include "debug.h"
 
+#ifdef _M_X64
+#define VERSION "1.0 x86_64 Win"
+#elifdef __x86_64__
+#define VERSION "1.0 x86_64"
+#else
 #define VERSION "1.0"
+#endif
+
 
 #define MAX_FILEBUFFER_SIZE 400000000
 #define STDBUFFERSIZE 2048
-
-#define OPTION_VERSION 1
-#define OPTION_HELP 2
-#define OPTION_PARSER 4
-#define OPTION_RESTRUCTURE_OFF 8
-#define OPTION_STATS 16
-#define OPTION_PRESERVESPLITTED 32
 
 char writeOutput(const char* filename, const char* string)
 {
@@ -88,7 +88,7 @@ char getStringFromFile(const char* filename, char** string)
 
         if(bufferlen<MAX_FILEBUFFER_SIZE)
         {
-            char* filebuffer = (char*)malloc(sizeof(char)*bufferlen);
+            char* filebuffer = (char*)malloc(sizeof(char)*(bufferlen+1));
 
             if(filebuffer==NULL)
             {
@@ -108,6 +108,7 @@ char getStringFromFile(const char* filename, char** string)
                 }
                 else
                 {
+                    filebuffer[bufferlen] = '\0';
                     *string = filebuffer;
                 }
             }
@@ -141,7 +142,7 @@ void usage(const char* name)
     printf("\t\t\t\t(option includes options right of it)\n");
 }
 
-void checkCompat(unsigned char* compat, const char* opt, char* error)
+void checkCompat(unsigned char* compat, const char* opt, int* error)
 {
     if(strcmp(opt, "all") == 0)
     {
@@ -185,101 +186,34 @@ void checkCompat(unsigned char* compat, const char* opt, char* error)
     }
 }
 
-int main(int argc, char **argv)
+int main(int argc, const char **argv)
 {
-    int c;
-    char error = 0;
-    unsigned char flags = 0;
+    int ulen = 0, error = 0;
     unsigned char compat = ACCSSOPTION_ALL;
     char* input = NULL;
     char* output = NULL;
     char* string = NULL;
-
-    while(1)
+    
+    struct args options[] =
     {
-        static struct option long_options[] =
-        {
-            /* These options don't set a flag.
-             We distinguish them by their indices. */
-            {"version", no_argument, 0, 'v'},
-            {"help",  no_argument, 0, 'h'},
-            {"restructure-off", no_argument, 0, 'r'},
-            {"preserve-splitted", no_argument, 0, 'p'},
-            {"compat", required_argument, 0, 'c'},
-            {"stats", no_argument, 0, 's'},
-            {0, 0, 0, 0}
-        };
-        /* getopt_long stores the option index here. */
-        int option_index = 0;
+        {'v', "version", 0, 0, NULL},
+        {'h', "help", 0, 0, NULL },
+        {'r', "restructure-off", 0, 0, NULL},
+        {'p', "preserve-splitted", 0, 0, NULL},
+        {'c', "compat", 1, 0, NULL},
+        {'s', "stats", 0, 0, NULL},
+        {0, NULL, 0, 0, NULL}
+    };
+    
+    char** unordered = argsparser(options, &ulen, &error, argc, argv);
 
-        c = getopt_long(argc, argv, "pvshrc:", long_options, &option_index);
-
-        /* Detect the end of the options. */
-        if(c == -1)
-        {
-            break;
-        }
-
-        switch(c)
-        {
-            case 'v':
-            {
-                flags |= OPTION_VERSION;
-            }
-            break;
-
-            case 'h':
-            {
-                flags |= OPTION_HELP;
-            }
-            break;
-
-            case 'r':
-            {
-                flags |= OPTION_RESTRUCTURE_OFF;
-            }
-            break;
-
-            case 'p':
-            {
-                flags |= OPTION_PRESERVESPLITTED;
-            }
-                break;
-
-            case 's':
-            {
-                flags |= OPTION_STATS;
-            }
-                break;
-
-            case 'c':
-            {
-                char* comstr = copyValue(optarg);
-                checkCompat(&compat, comstr, &error);
-                free(comstr);
-            }
-                break;
-
-            default:
-            {
-                error++;
-            }
-        }
-    }
-
-    if(flags & OPTION_PRESERVESPLITTED)
-    {
-        printf("p\n");
-        exit(EXIT_SUCCESS);
-    }
-
-    if(flags & OPTION_VERSION)
+    if(options[0].found)
     {
         printf("%s\n", VERSION);
         exit(EXIT_SUCCESS);
     }
 
-    if(flags & OPTION_HELP)
+    if(options[1].found)
     {
         usage(argv[0]);
         exit(EXIT_SUCCESS);
@@ -291,24 +225,32 @@ int main(int argc, char **argv)
         usage(argv[0]);
         exit(EXIT_FAILURE);
     }
-
-    /* Unknown options. */
-    if(optind < argc)
+    
+    if(options[4].found)
     {
-        if(argc - optind > 2)
-        {
-            fprintf(stderr, "Unknown options");
-            usage(argv[0]);
-            exit(EXIT_FAILURE);
-        }
-
-        input=copyValue(argv[optind++]);
-        if(optind < argc)
-        {
-            output=copyValue(argv[optind]);
-        }
+        checkCompat(&compat, options[4].value, &error);
+        free(options[4].value);
+        options[4].value = NULL;
     }
 
+    /* Unknown options. */
+    if(ulen > 2)
+    {
+        fprintf(stderr, "Unknown options");
+        usage(argv[0]);
+        exit(EXIT_FAILURE);
+    }
+    else if (ulen > 0)
+    {
+        input = copyValue(unordered[0]);
+        if(ulen == 2)
+        {
+            output = copyValue(unordered[1]);
+        }
+    }
+    
+    freeCharList(unordered);
+    
     if(input!=NULL)
     {
         if(!getStringFromFile(input, &string))
@@ -393,7 +335,7 @@ int main(int argc, char **argv)
             fflush(stdout);
     #endif
 
-            stylesheet = compress(stylesheet, !(flags & OPTION_RESTRUCTURE_OFF), !(flags & OPTION_PRESERVESPLITTED), compat);
+            stylesheet = compress(stylesheet, !options[2].found, !options[3].found, compat);
 
     #ifdef DEBUG
             printf("\n\n=========================================================\n\n");
@@ -427,7 +369,7 @@ int main(int argc, char **argv)
         clockdiff = clock()-start;
         msec = (int)(clockdiff * 1000 / CLOCKS_PER_SEC);
 
-        if(output != NULL && flags & OPTION_STATS)
+        if(output != NULL && options[5].found)
         {
             float ratio = outlen < inlen ? ((float)outlen / (float)inlen) : 0;
             float insize = (float)inlen / 1024;

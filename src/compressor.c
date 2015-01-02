@@ -58,62 +58,60 @@ char* extractMain(const char* name)
 
 size_t shortsLength(struct shortHand** list)
 {
-    size_t listLength = 0;
-    struct shortHand** tmp = list;
-
-    if(list == NULL)
+    if(list != NULL && *list != NULL)
     {
-        return 0;
-    }
+        size_t listLength = 0;
+        struct shortHand** tmp = list;
 
-    if(*list == NULL)
-    {
-        return 0;
-    }
+        while(*tmp != NULL)
+        {
+            listLength++;
+            tmp++;
+        }
 
-    while(*tmp != NULL)
-    {
-        listLength++;
-        tmp++;
+        return listLength;
     }
-
-    return listLength;
+    return 0;
 }
 
 struct shortHand** getByKey(struct pchar_shorts** list, const char* key)
 {
-    struct pchar_shorts** tmp = list;
-
-    if(list == NULL)
+    if(list != NULL)
     {
-        return NULL;
-    }
+        struct pchar_shorts** tmp = list;
 
-    while(*tmp != NULL)
-    {
-        if(casecmp((*tmp)->key, key) == 0 )
+        while(*tmp != NULL)
         {
-            return (*tmp)->list;
+            if(casecmp((*tmp)->key, key) == 0 )
+            {
+                return (*tmp)->list;
+            }
+
+            tmp++;
         }
-
-        tmp++;
     }
-
     return NULL;
 }
 
 size_t pchar_sLength(struct pchar_shorts** list)
 {
-    size_t len = 0;
-    struct pchar_shorts** tmp = list;
-
-    while(*tmp != NULL)
+    if(list != NULL && *list != NULL)
     {
-        len++;
-        tmp++;
-    }
+        size_t len = 0;
+        struct pchar_shorts** tmp = list;
 
-    return len;
+        while(*tmp != NULL)
+        {
+            len++;
+            tmp++;
+        }
+
+        return len;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 void freeSide(struct shortSide* side)
@@ -237,6 +235,12 @@ struct pchar_shorts** addByKey(struct pchar_shorts** list, const char* key, stru
         struct pchar_shorts** newlist = NULL;
 
         bucket = malloc(sizeof(struct pchar_shorts));
+        if(bucket == NULL)
+        {
+            memoryFailure();
+            exit(EXIT_FAILURE);
+        }
+
         bucket->list = shorts;
         bucket->key = copyValue(key);
 
@@ -312,6 +316,11 @@ void initShort(struct shortHand* sh, char* p, char imp)
 struct shortSide* initSide()
 {
     struct shortSide* side = malloc(sizeof(struct shortSide));
+    if(side == NULL)
+    {
+        memoryFailure();
+        exit(EXIT_FAILURE);
+    }
     memset(side, 0, sizeof(struct shortSide));
     return side;
 }
@@ -421,11 +430,13 @@ char addToShort(struct shortHand* sh, char* name, char* sValue, struct astnode**
                 if(side->s != NULL)
                 {
                     free(side->s);
+                    side->s = NULL;
                 }
 
                 if(side->t != NULL)
                 {
                     deleteASTList(side->t);
+                    side->t = NULL;
                 }
 
                 if(imp)
@@ -437,6 +448,11 @@ char addToShort(struct shortHand* sh, char* name, char* sValue, struct astnode**
                     }
 
                     side->s = malloc(sizeof(char)*(slen+1));
+                    if(side->s == NULL)
+                    {
+                        memoryFailure();
+                        exit(EXIT_FAILURE);
+                    }
                     memcpy(side->s, sValue, slen);
                     side->s[slen] = '\0';
                 }
@@ -2800,8 +2816,6 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
 
                 if(!sh->invalid)
                 {
-                    size_t shortsI = sL;
-
                     sL = shorts != NULL ? shortsLength(shorts) : 0;
                     shortsI = sL == 0 ? 0 : sL - 1;
                     x->info->removeByShort = 1;
@@ -3129,26 +3143,23 @@ char* buildPPre(char* pre, char* p, struct astnode** v, struct astnode* d, char 
 
 size_t propsLength(struct pchar_prop** list)
 {
-    size_t listLength = 0;
-    struct pchar_prop** tmp = list;
+    if(list != NULL && *list != NULL)
+    {
+        size_t listLength = 0;
+        struct pchar_prop** tmp = list;
 
-    if(list == NULL)
+        while(*tmp != NULL)
+        {
+            listLength++;
+            tmp++;
+        }
+
+        return listLength;
+    }
+    else
     {
         return 0;
     }
-
-    if(*list == NULL)
-    {
-        return 0;
-    }
-
-    while(*tmp != NULL)
-    {
-        listLength++;
-        tmp++;
-    }
-
-    return listLength;
 }
 
 void freeProp(struct prop* prop)

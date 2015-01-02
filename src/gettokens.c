@@ -393,6 +393,10 @@ int popInt(struct int_prev** front)
         {
             *front = (*front)->prev;
         }
+        else
+        {
+            *front = NULL;
+        }
 
         free(oldfront);
     }
