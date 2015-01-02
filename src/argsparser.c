@@ -33,7 +33,7 @@ struct args* findSingleOption(struct args *args, const char* optlong, char opt)
     {
         if ((optlong != NULL && strcmp((*tmp).longName, optlong) == 0 ) || (opt != 0 && (*tmp).letter == opt))
         {
-            (*tmp).found = (*tmp).found ? (*tmp).found++ : !(*tmp).needsValue;
+            (*tmp).found = (*tmp).found != 0 ? (*tmp).found+1 : !(*tmp).needsValue;
             return tmp;
         }
         tmp++;
@@ -44,7 +44,7 @@ struct args* findSingleOption(struct args *args, const char* optlong, char opt)
 
 char** argsparser(struct args *args, int* ulen, int* error, int argc, const char* argv[])
 {
-    unsigned int i = 1;
+    int i = 1;
     char wasArg = 0;
     char** unordered = NULL;
     struct args* last = NULL;

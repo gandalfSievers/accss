@@ -459,11 +459,11 @@ struct astnode** _copyList(struct astnode** list, size_t length, size_t start, s
     newlist[i] = NULL;
     return newlist;
 }
-struct astnode** sslice(struct astnode** list, long start)
+struct astnode** sslice(struct astnode** list, size_t start)
 {
     return slice(list, start, listLength(list));
 }
-struct astnode** slice(struct astnode** list, long start, long end)
+struct astnode** slice(struct astnode** list, size_t start, size_t end)
 {
     size_t length = start-end;
 

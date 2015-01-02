@@ -43,7 +43,7 @@
 
 #ifdef _M_X64
 #define VERSION "1.0 x86_64 Win"
-#elifdef __x86_64__
+#elif __x86_64__
 #define VERSION "1.0 x86_64"
 #else
 #define VERSION "1.0"

@@ -126,9 +126,9 @@ struct astnode** removeItem(struct astnode** list, size_t start, size_t len);
 
 struct astnode** insertItem(struct astnode** list, size_t start, struct astnode* item);
 
-struct astnode** sslice(struct astnode** list, long start);
+struct astnode** sslice(struct astnode** list, size_t start);
 
-struct astnode** slice(struct astnode** list, long start, long end);
+struct astnode** slice(struct astnode** list, size_t start, size_t end);
 
 struct astnode** copyList(struct astnode** list);
 

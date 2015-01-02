@@ -325,7 +325,7 @@ struct shortSide* initSide()
     return side;
 }
 
-void setSide(struct shortSide* side, char* s, struct astnode**t, size_t imp)
+void setSide(struct shortSide* side, char* s, struct astnode**t, char imp)
 {
     side->imp = imp;
 
@@ -363,7 +363,7 @@ struct shortSide* copySide(struct shortSide* side)
     return newSide;
 }
 
-char addToShort(struct shortHand* sh, char* name, char* sValue, struct astnode** tValue, size_t imp)
+char addToShort(struct shortHand* sh, char* name, char* sValue, struct astnode** tValue, char imp)
 {
     int alen=0;
     struct shortSide* a[] = {NULL, NULL, NULL, NULL, NULL};
