@@ -1,2 +1,8 @@
+Version 1.1
+Changed command line syntax to allow globbing and combining of multiple files.
+See README for details.
+Example:
+    accss -o myoutput.css *.css
+
 Version 1.0
 No News yet.

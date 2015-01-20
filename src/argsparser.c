@@ -136,3 +136,18 @@ char** argsparser(struct args *args, int* ulen, int* error, int argc, const char
 
     return unordered;
 }
+
+void freeArgValues(struct args* args)
+{
+    struct args* tmp = args;
+
+    while ((*tmp).letter != 0)
+    {
+        if((*tmp).value!=NULL)
+        {
+            free((*tmp).value);
+            (*tmp).value = NULL;
+        }
+        tmp++;
+    }
+}

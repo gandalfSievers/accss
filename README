@@ -13,9 +13,14 @@ Install:
 Usage:
     accss
         reads from stdin, prints to stdout
-    accss <filename>
-        minimizes the CSS in <filename> and outputs the result to stdout
-    accss <in_filename> <out_filename>
+    accss <filename> [<filename>...]
+        minimizes the CSS in files <filename> and outputs the result to stdout
+        multiple files while be combined to one output stream
+    accss -o <out_filename>
+        reads from stdin, writes output to specified file
+    accss -o <out_filename> <filename> [<filename>...]
+        minimizes the CSS in <filename> and writes output to specified file
+         multiple files while be combined to one output file
     accss -r
     accss --restructure-off
         turns structure minimization off

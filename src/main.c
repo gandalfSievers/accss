@@ -42,11 +42,11 @@
 #include "debug.h"
 
 #ifdef _M_X64
-#define VERSION "1.0 x86_64 Win"
+#define VERSION "1.1 x86_64 Win"
 #elif __x86_64__
-#define VERSION "1.0 x86_64"
+#define VERSION "1.1 x86_64"
 #else
-#define VERSION "1.0"
+#define VERSION "1.1"
 #endif
 
 
@@ -75,7 +75,7 @@ char writeOutput(const char* filename, const char* string)
     return 1;
 }
 
-char getStringFromFile(const char* filename, char** string)
+char getStringFromFile(const char* filename, char** string, size_t *len)
 {
     FILE* file = fopen(filename, "rb");
     if(file)
@@ -108,8 +108,21 @@ char getStringFromFile(const char* filename, char** string)
                 }
                 else
                 {
+                    char* tmp = NULL;
                     filebuffer[bufferlen] = '\0';
-                    *string = filebuffer;
+
+                    tmp = realloc(*string, *len+bufferlen+1);
+                    if(tmp == NULL)
+                    {
+                        memoryFailure();
+                        exit(1);
+                    }
+                    *string = tmp;
+
+                    memcpy(&(*string)[*len], filebuffer, bufferlen+1);
+                    free(filebuffer);
+
+                    *len += bufferlen;
                 }
             }
         }
@@ -132,14 +145,15 @@ char getStringFromFile(const char* filename, char** string)
 
 void usage(const char* name)
 {
-    printf("%s [options] [input] [output]\n", name);
+    printf("%s [options] [input...]\n", name);
     printf("-h\t--help\t\t\tprint this help\n");
+    printf("-o\t--output\t\t\twrite output to file (instead of stdout)\n");
     printf("-s\t--stats\t\t\tprint stats (if output present)\n");
-    printf("-r\t--restructure-off\tcompression without restructure\n");
-    printf("-p\t--preserve-splitted\tdont merge splitted shorthands\n");
-    printf("-c,\t--compat\t\tcompatibility to browser versions\n");
-    printf("\t\t\t\tall, ie7, ie8, ie9, ie10, ie11, chrome, future, none\n");
-    printf("\t\t\t\t(option includes options right of it)\n");
+    printf("-r\t--restructure-off\t\tcompression without restructure\n");
+    printf("-p\t--preserve-splitted\t\tdont merge splitted shorthands\n");
+    printf("-c,\t--compat\t\t\tcompatibility to browser versions\n");
+    printf("\t\t\t\t\t\tall, ie7, ie8, ie9, ie10, ie11, chrome, future, none\n");
+    printf("\t\t\t\t\t\t(option includes options right of it)\n");
 }
 
 void checkCompat(unsigned char* compat, const char* opt, int* error)
@@ -190,10 +204,10 @@ int main(int argc, const char **argv)
 {
     int ulen = 0, error = 0;
     unsigned char compat = ACCSSOPTION_ALL;
-    char* input = NULL;
+    char input = 0;
     char* output = NULL;
     char* string = NULL;
-    
+
     struct args options[] =
     {
         {'v', "version", 0, 0, NULL},
@@ -202,9 +216,10 @@ int main(int argc, const char **argv)
         {'p', "preserve-splitted", 0, 0, NULL},
         {'c', "compat", 1, 0, NULL},
         {'s', "stats", 0, 0, NULL},
+        {'o', "output", 1, 0, NULL },
         {0, NULL, 0, 0, NULL}
     };
-    
+
     char** unordered = argsparser(options, &ulen, &error, argc, argv);
 
     if(options[0].found)
@@ -225,7 +240,7 @@ int main(int argc, const char **argv)
         usage(argv[0]);
         exit(EXIT_FAILURE);
     }
-    
+
     if(options[4].found)
     {
         checkCompat(&compat, options[4].value, &error);
@@ -233,32 +248,24 @@ int main(int argc, const char **argv)
         options[4].value = NULL;
     }
 
-    /* Unknown options. */
-    if(ulen > 2)
+    /* Unordered Options */
+    if (ulen > 0)
     {
-        fprintf(stderr, "Unknown options");
-        usage(argv[0]);
-        exit(EXIT_FAILURE);
-    }
-    else if (ulen > 0)
-    {
-        input = copyValue(unordered[0]);
-        if(ulen == 2)
+        int i = 0;
+        size_t len = 0;
+        for(; i < ulen; i++)
         {
-            output = copyValue(unordered[1]);
+            if(!getStringFromFile(unordered[i], &string, &len))
+            {
+                exit(EXIT_FAILURE);
+            }
         }
+        input = 1;
     }
-    
+
     freeCharList(unordered);
-    
-    if(input!=NULL)
-    {
-        if(!getStringFromFile(input, &string))
-        {
-            exit(EXIT_FAILURE);
-        }
-    }
-    else
+
+    if(input == 0)
     {
         char buffer[STDBUFFERSIZE];
         size_t bufflen = 0;
@@ -356,13 +363,13 @@ int main(int argc, const char **argv)
             outlen = inlen;
             outstr = string;
         }
-        o = writeOutput(output, outstr);
+        o = writeOutput(options[6].value, outstr);
 
         free(outstr);
 
         if(!o)
         {
-            fprintf(stderr, "Could write output file %s!\n", output);
+            fprintf(stderr, "Could write output file %s!\n", options[6].value);
             exit(EXIT_FAILURE);
         }
 
@@ -379,14 +386,11 @@ int main(int argc, const char **argv)
 
     }
 
+    freeArgValues(options);
+
     if(output!=NULL)
     {
         free(output);
-    }
-
-    if(input!=NULL)
-    {
-        free(input);
     }
 
     exit(0);

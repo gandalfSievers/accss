@@ -40,4 +40,6 @@ struct args
 
 char** argsparser(struct args* args, int* ulen, int* error, int argc, const char* argv[]);
 
+void freeArgValues(struct args* args);
+
 #endif /* defined(__parseargs__argsparser__) */
