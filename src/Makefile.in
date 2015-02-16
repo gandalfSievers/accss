@@ -92,7 +92,8 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_accss_OBJECTS = main.$(OBJEXT) ast.$(OBJEXT) compressor.$(OBJEXT) \
 	debug.$(OBJEXT) getpast.$(OBJEXT) gettokens.$(OBJEXT) \
-	helper.$(OBJEXT) translator.$(OBJEXT) argsparser.$(OBJEXT)
+	helper.$(OBJEXT) translator.$(OBJEXT) argsparser.$(OBJEXT) \
+	iohelper.$(OBJEXT)
 accss_OBJECTS = $(am_accss_OBJECTS)
 accss_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -237,7 +238,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-accss_SOURCES = main.c ast.c compressor.c debug.c getpast.c gettokens.c helper.c translator.c argsparser.c
+accss_SOURCES = main.c ast.c compressor.c debug.c getpast.c gettokens.c helper.c translator.c argsparser.c iohelper.c
 all: all-am
 
 .SUFFIXES:
@@ -332,6 +333,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/getpast.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gettokens.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/helper.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/iohelper.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/translator.Po@am__quote@
 

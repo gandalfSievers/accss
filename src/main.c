@@ -40,6 +40,7 @@
 #include "compressor.h"
 #include "translator.h"
 #include "debug.h"
+#include "iohelper.h"
 
 #ifdef _M_X64
 #define VERSION "1.1 x86_64 Win"
@@ -48,100 +49,6 @@
 #else
 #define VERSION "1.1"
 #endif
-
-
-#define MAX_FILEBUFFER_SIZE 400000000
-#define STDBUFFERSIZE 2048
-
-char writeOutput(const char* filename, const char* string)
-{
-    if(filename == NULL)
-    {
-        printf("%s\n", string);
-    }
-    else
-    {
-        FILE* f = fopen(filename, "w");
-        if(f)
-        {
-            fputs(string, f);
-            fclose(f);
-        }
-        else
-        {
-            return 0;
-        }
-    }
-    return 1;
-}
-
-char getStringFromFile(const char* filename, char** string, size_t *len)
-{
-    FILE* file = fopen(filename, "rb");
-    if(file)
-    {
-        size_t bufferlen = 0;
-
-        fseek(file, 0, SEEK_END);
-        bufferlen = ftell(file);
-        rewind(file);
-
-        if(bufferlen<MAX_FILEBUFFER_SIZE)
-        {
-            char* filebuffer = (char*)malloc(sizeof(char)*(bufferlen+1));
-
-            if(filebuffer==NULL)
-            {
-                fprintf(stderr, "Out of memory!\n");
-                fclose(file);
-                return 0;
-            }
-            else
-            {
-                size_t res = fread(filebuffer, sizeof(char), bufferlen, file);
-                if(bufferlen!=res)
-                {
-                    fprintf(stderr, "Error reading file!\n");
-                    fclose(file);
-                    free(filebuffer);
-                    return 0;
-                }
-                else
-                {
-                    char* tmp = NULL;
-                    filebuffer[bufferlen] = '\0';
-
-                    tmp = realloc(*string, *len+bufferlen+1);
-                    if(tmp == NULL)
-                    {
-                        memoryFailure();
-                        exit(1);
-                    }
-                    *string = tmp;
-
-                    memcpy(&(*string)[*len], filebuffer, bufferlen+1);
-                    free(filebuffer);
-
-                    *len += bufferlen;
-                }
-            }
-        }
-        else
-        {
-            fprintf(stderr, "File too big!\n");
-            fclose(file);
-            return 0;
-        }
-
-        fclose(file);
-    }
-    else
-    {
-        fprintf(stderr, "Could not open Input file!\n");
-        return 0;
-    }
-    return 1;
-}
 
 void usage(const char* name)
 {
@@ -267,35 +174,8 @@ int main(int argc, const char **argv)
 
     if(input == 0)
     {
-        char buffer[STDBUFFERSIZE];
-        size_t bufflen = 0;
-        size_t readlen = 0;
-        size_t oldlen;
-
-        while((readlen = fread(buffer, sizeof(char), STDBUFFERSIZE, stdin)) > 0)
-        {
-            char* tmp = NULL,
-            *start = NULL;
-
-            oldlen = bufflen;
-            bufflen += readlen;
-            tmp = realloc(string, sizeof(char)*(bufflen+1));
-            if(tmp == NULL)
-            {
-                memoryFailure();
-                exit(EXIT_FAILURE);
-            }
-
-            string = tmp;
-            start = string + oldlen;
-
-            memcpy(start, buffer, readlen);
-
-        }
-        if(bufflen > 0)
-        {
-            string[bufflen] = '\0';
-        }
+        size_t len = 0;
+        getStringFromStdin(&string, &len);
     }
 
     if(string != NULL)
