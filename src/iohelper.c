@@ -84,7 +84,16 @@ char getStringFromFile(const char* filename, char** string, size_t *len)
                 else
                 {
                     char* tmp = NULL;
-                    filebuffer[bufferlen] = '\0';
+                    char* stringbuffer = filebuffer;
+                    
+                    stringbuffer[bufferlen] = '\0';
+                    
+                    /* Just ignore BOM */
+                    if(stringbuffer[0] == '\xef' && stringbuffer[1] == '\xbb' && stringbuffer[2] == '\xbf')
+                    {
+                        stringbuffer += 3;
+                        bufferlen -= 3;
+                    }
                     
                     tmp = realloc(*string, *len+bufferlen+1);
                     if(tmp == NULL)
@@ -94,7 +103,7 @@ char getStringFromFile(const char* filename, char** string, size_t *len)
                     }
                     *string = tmp;
                     
-                    memcpy(&(*string)[*len], filebuffer, bufferlen+1);
+                    memcpy(&(*string)[*len], stringbuffer, bufferlen+1);
                     free(filebuffer);
                     
                     *len += bufferlen;
