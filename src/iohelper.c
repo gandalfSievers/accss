@@ -25,8 +25,7 @@
 
 #include "iohelper.h"
 
-
-#define MAX_FILEBUFFER_SIZE 400000000
+#define MAX_FILEBUFFER_SIZE SIZE_MAX-2
 #define STDBUFFERSIZE 2048
 
 char writeOutput(const char* filename, const char* string)
@@ -122,10 +121,10 @@ char getStringFromFile(const char* filename, char** string, size_t *len)
 char getStringFromStdin(char** string, size_t* len)
 {
     char buffer[STDBUFFERSIZE];
-    *len = 0;
     size_t readlen = 0;
     size_t oldlen = 0;
-    
+    *len = 0;
+
     while((readlen = fread(buffer, sizeof(char), STDBUFFERSIZE, stdin)) > 0)
     {
         char* tmp = NULL,

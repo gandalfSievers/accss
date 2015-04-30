@@ -29,11 +29,7 @@
 #ifndef accss_helper_h
 #define accss_helper_h
 
-#ifndef SIZE_MAX
-#define SIZE_MAX ((size_t)-1)
-#define SIZECASTTYPE unsigned long
-#define SIZEPRI "%lu"
-#else
+#if defined(ULONG_MAX) && defined(SIZE_MAX)
 #if ULONG_MAX < SIZE_MAX
 #define SIZECASTTYPE unsigned long long
 #define SIZEPRI "%llu"
@@ -41,7 +37,16 @@
 #define SIZECASTTYPE unsigned long
 #define SIZEPRI "%lu"
 #endif
+#else
+#define SIZECASTTYPE unsigned long
+#define SIZEPRI "%lu"
 #endif
+
+
+#ifndef SIZE_MAX
+#define SIZE_MAX ((size_t)-1)
+#endif
+
 
 void memoryFailure();
 size_t casecmp(const char* str1, const char* str2);

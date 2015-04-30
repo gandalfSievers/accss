@@ -1133,7 +1133,7 @@ struct astnode* compressFunctionColor(struct compdeps* deps, struct astnode* nod
         size_t len = listLength(body);
 
         char vvalid = 1;
-        int i = 0, k = 0;
+        unsigned int i = 0, k = 0;
         for(; i < len; i++)
         {
             if(body[i]->type == ACCSSNODETYPE_NUMBER )

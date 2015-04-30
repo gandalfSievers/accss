@@ -64,7 +64,7 @@ char* functionExpression(struct astnode* node);
 char* simple(struct astnode* node);
 char* primitive(struct astnode* node);
 char* _t(struct astnode* node);
-char* composite(struct astnode* node, int i);
+char* composite(struct astnode* node, unsigned int i);
 
 char* concat(const char* format, int count, ...)
 {
@@ -270,7 +270,7 @@ char* functionExpression(struct astnode* node)
     return concat("%s%s%s", 3, "expression(", node->content, ")");
 }
 
-char* composite(struct astnode* node, int i)
+char* composite(struct astnode* node, unsigned int i)
 {
     size_t llen = listLength(node->children);
     char* s = malloc(sizeof(char));

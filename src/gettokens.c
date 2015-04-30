@@ -413,7 +413,7 @@ void mark(struct token_info* info, char* error)
     struct int_prev* sbs = NULL; /* SquareBracket */
     struct int_prev* cbs = NULL; /* CurlyBracket */
     struct token* t = NULL;
-    int i = 0;
+    unsigned int i = 0;
 
     for(; i < info->len; i++)
     {

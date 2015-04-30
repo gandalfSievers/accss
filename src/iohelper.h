@@ -23,13 +23,18 @@
  * THE SOFTWARE.
  */
 
-#ifndef __accss__iohelper__
-#define __accss__iohelper__
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 #include "helper.h"
+
+#ifndef __accss__iohelper__
+#define __accss__iohelper__
+
+#ifndef SIZE_MAX
+#define SIZE_MAX ((size_t)-1)
+#endif
 
 char writeOutput(const char* filename, const char* string);
 
