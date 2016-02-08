@@ -110,6 +110,12 @@ esac
 # Report outcome to console.
 echo "${col}${res}${std}: $test_name"
 
+#show detailed results
+if test $estatus != 0
+then
+   cat $log_file 
+fi
+
 # Register the test result, and other relevant metadata.
 echo ":test-result: $res" > $trs_file
 echo ":global-test-result: $res" >> $trs_file
