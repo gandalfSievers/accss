@@ -1,0 +1,1 @@
+.rounded-corners{-webkit-border-radius:8px;-khtml-border-radius:8px;-moz-border-radius:8px;border-radius:8px}

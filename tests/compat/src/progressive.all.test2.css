@@ -1,0 +1,5 @@
+.color-gradients {
+    background-image: -moz-linear-gradient(top, #FFFF00, #FF0000);
+    background-image: -webkit-gradient(linear, top, bottom, color-stop(0.00, #FFFF00), color-stop(1.00, #FF0000));
+    background-image: linear-gradient(top, #FFFF00, #FF0000);
+    }

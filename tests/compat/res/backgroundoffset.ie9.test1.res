@@ -1,0 +1,1 @@
+.ex,.ex2{background-position:left top;background-position:left 10px top 15px}
