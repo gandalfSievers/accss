@@ -8,7 +8,7 @@ testcss()
 
     if [ -e $ref ]
     then
-        ac=$( ../src/accss --compat $compat $file)
+        ac=$( ./src/accss --compat $compat $file)
         code=$?
         txt=$(echo $ac | diff -u --ignore-space-change - $ref)
 
@@ -23,6 +23,7 @@ testcss()
         else
             echo "Test: $file failed"
             echo "accss exited with "$code
+            exit $code
         fi
     else
         echo "Test: $file"
