@@ -1,1 +1,1 @@
-.ex{display:block;display:inline-block}
+.ex{display:inline-block}

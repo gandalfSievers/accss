@@ -1,7 +1,12 @@
+#!/bin/bash
+
+ecode=0
+
 testcss()
 {
     file=$1;
-    compat=${file#*.}
+    compat=${file#*/}
+    compat=${compat#*.}
     compat=${compat%%.*}
     ref=${file/src/res}
     ref=${ref%.*}.res
@@ -18,17 +23,19 @@ testcss()
             then
                 echo "Test: $file failed"
                 echo -e "$txt"
-                exit 1
+                ecode=1
+            else
+                echo "Test: $file OK"
             fi
         else
             echo "Test: $file failed"
             echo "accss exited with "$code
-            exit $code
+            ecode=$code
         fi
     else
         echo "Test: $file"
         echo "Expected result $ref not found"
-        exit 1
+        ecode=1
     fi
 
 }
@@ -38,3 +45,8 @@ for file in ./tests/compat/src/*.css
 do
     testcss $file
 done
+
+if [ $ecode -ne 0 ]
+then
+    exit 1
+fi

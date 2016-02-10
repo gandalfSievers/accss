@@ -1,1 +1,1 @@
-.ex{cursor:none;cursor:copy;cursor:zoom-in}.ex2{cursor:copy}
+.ex2{cursor:copy}.ex{cursor:zoom-in}
