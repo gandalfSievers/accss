@@ -2236,6 +2236,10 @@ char dontRestructure(unsigned char options, struct astnode* decl)
         {
             return 1;
         }
+        else if((options & ACCSSOPTION_IE9) && strstr(value->s, "\\9") != NULL)
+        {
+            return 1;
+        }
         else if((options & ACCSSOPTION_IE11) && strcmp(str, "cursor") == 0)
         {
             struct astnode** c = value->children;
@@ -2333,13 +2337,6 @@ char dontRestructure(unsigned char options, struct astnode* decl)
             struct astnode** c = value->children;
             while(*c != NULL)
             {
-                char* ven =NULL;
-                if((ven = getVendorIDFromNode(*c)) != NULL)
-                {
-                    free(ven);
-                    return 1;
-                }
-
                 if((options & ACCSSOPTION_FUTURE)
                   && (*c)->type == ACCSSNODETYPE_FUNCTION
                   && (strcmp((*c)->children[0]->content, "image") == 0 || strcmp((*c)->children[0]->content, "image-set") == 0)
@@ -2750,6 +2747,7 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
             char imp = 0;
             char* p = NULL;
             char buffer[LDBUFFERSIZE];
+            char ie = 0;
 
             if(!vlen)
             {
@@ -2770,12 +2768,17 @@ struct astnode* markShorthands(struct compdeps* deps, struct astnode* node, char
                 x->info->id = NULL;
             }
 
+            if( ( deps->compat & ACCSSOPTION_IE9 ) && strstr(v->s, "\\9") )
+            {
+                ie = 1;
+            }
+
             sprintf(buffer, SIZEPRI, (SIZECASTTYPE)i);
             x->info->id = concat("%s%s%s", 3, path, "/", buffer);
             if(isTBLProp(p))
             {
                 char* mainStr = extractMain(p);
-                char* key = concat("%s%s", 2, pre, mainStr);
+                char* key = concat("%s%s%s", 3, pre, mainStr, (ie ? "ie" : ""));
                 struct shortHand** shorts = getByKey(deps->shorts2, key);
                 size_t sL = shorts != NULL ? shortsLength(shorts) : 0;
                 size_t shortsI = sL == 0 ? 0 : sL - 1;
