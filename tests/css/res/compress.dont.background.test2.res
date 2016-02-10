@@ -1,0 +1,1 @@
+.a{background-color:green;color:red;background:gray;background-url:url("test")}.b{p:v}

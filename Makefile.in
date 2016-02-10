@@ -482,7 +482,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = src
 AUTOMAKE_OPTIONS = gnu
-TESTS = ./tests/compat.sh
+TESTS = ./tests/compat.sh ./tests/css.sh
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -788,6 +788,13 @@ recheck: all
 ./tests/compat.sh.log: ./tests/compat.sh
 	@p='./tests/compat.sh'; \
 	b='./tests/compat.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css.sh.log: ./tests/css.sh
+	@p='./tests/css.sh'; \
+	b='./tests/css.sh'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

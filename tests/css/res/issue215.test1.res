@@ -1,0 +1,1 @@
+p:not(.class1,.class2){p0:v0}

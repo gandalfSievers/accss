@@ -1,0 +1,1 @@
+.foo{background:url(old.jpg);background:none,url(hotness.svg)}

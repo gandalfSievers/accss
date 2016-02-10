@@ -1,0 +1,1 @@
+a,x:after,y:before{color:green}a{color:red}

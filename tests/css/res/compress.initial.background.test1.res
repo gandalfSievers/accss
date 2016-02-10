@@ -1,0 +1,1 @@
+.a{background:none}.b{background:none center}.c{background:url("test.png") none}

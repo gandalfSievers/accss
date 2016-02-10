@@ -1,3 +1,3 @@
 SUBDIRS = src
 AUTOMAKE_OPTIONS=gnu
-TESTS= ./tests/compat.sh
+TESTS= ./tests/compat.sh ./tests/css.sh
