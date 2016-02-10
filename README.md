@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/acwtools/accss.svg?branch=master)](https://travis-ci.org/acwtools/accss)
 
 Install:
     untar / unzip archive
