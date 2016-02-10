@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/acwtools/accss.svg?branch=master)](https://travis-ci.org/acwtools/accss)
 
-# ACCSS - a css compresser written in ansi c
+# ACCSS - a css compressor written in ansi c
 
 ## Install:
 
