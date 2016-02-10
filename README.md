@@ -1,18 +1,25 @@
 [![Build Status](https://travis-ci.org/acwtools/accss.svg?branch=master)](https://travis-ci.org/acwtools/accss)
 
-Install:
+
+#Install:
     untar / unzip archive
     change directory to unpacked files
     Prepare with:
+    ```
         ./configure
+    ```
     Build src
+    ```
         make
+    ```
     Install
+```
         sudo make install
-
+```
     For detailed configure options, see INSTALL file
 
-Usage:
+#Usage:
+```
     accss
         reads from stdin, prints to stdout
     accss <filename> [<filename>...]
@@ -120,3 +127,4 @@ Usage:
                 http://dev.w3.org/csswg/css-images-3/#image-set-notation
         none
             compress/merge everthing
+```
