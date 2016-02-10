@@ -1,24 +1,37 @@
 [![Build Status](https://travis-ci.org/acwtools/accss.svg?branch=master)](https://travis-ci.org/acwtools/accss)
 
+# ACCSS - a css compresser written in ansi c
 
-#Install:
-    untar / unzip archive
-    change directory to unpacked files
-    Prepare with:
+## Install:
+
+### Unix/OSX
+- clone git repository
+  ```
+      git clone git://github.com/acwtools/accss
+  ```
+- OR download latest archive  
+- untar / unzip archive
+- change directory to unpacked files
+- Prepare with:
     ```
         ./configure
     ```
-    Build src
+- Build src
     ```
         make
     ```
-    Install
-```
+- Install
+    ```
         sudo make install
-```
+    ```
     For detailed configure options, see INSTALL file
 
-#Usage:
+### Windows
+- download latest archive from download section
+- unzip archive
+- copy accss.exe in a directory in %PATH% Variable
+
+## Usage:
 ```
     accss
         reads from stdin, prints to stdout
