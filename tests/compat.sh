@@ -40,11 +40,7 @@ testcss()
 
 }
 
-
-for file in ./tests/compat/src/*.css
-do
-    testcss $file
-done
+testcss $1
 
 if [ $ecode -ne 0 ]
 then
