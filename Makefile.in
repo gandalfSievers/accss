@@ -576,6 +576,7 @@ TESTS = ./tests/compat/backgroundcolor.ie8.test1.sh \
 ./tests/css/issue165.test1.sh \
 ./tests/css/issue170.test1.sh \
 ./tests/css/issue215.test1.sh \
+./tests/css/issue226.test1.sh \
 ./tests/css/issue39.test1.sh \
 ./tests/css/issue39.test10.sh \
 ./tests/css/issue39.test11.sh \
@@ -1604,6 +1605,13 @@ recheck: all
 ./tests/css/issue215.test1.sh.log: ./tests/css/issue215.test1.sh
 	@p='./tests/css/issue215.test1.sh'; \
 	b='./tests/css/issue215.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/issue226.test1.sh.log: ./tests/css/issue226.test1.sh
+	@p='./tests/css/issue226.test1.sh'; \
+	b='./tests/css/issue226.test1.sh'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

@@ -1,3 +1,6 @@
+Version 1.1.2
+Fixed Handling of Dimensions
+
 Version 1.1.1
 Fixed handling of UTF-8 with BOM.
 The Byte Order marked will be ignored and no BOM is written to the result.

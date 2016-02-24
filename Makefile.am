@@ -94,6 +94,7 @@ TESTS= ./tests/compat/backgroundcolor.ie8.test1.sh \
 ./tests/css/issue165.test1.sh \
 ./tests/css/issue170.test1.sh \
 ./tests/css/issue215.test1.sh \
+./tests/css/issue226.test1.sh \
 ./tests/css/issue39.test1.sh \
 ./tests/css/issue39.test10.sh \
 ./tests/css/issue39.test11.sh \

@@ -1225,16 +1225,13 @@ struct astnode* compressDimension(struct compdeps* deps, struct astnode* node, c
 
     if(strcmp(node->children[0]->content, "0") == 0)
     {
-        if((strcmp(node->children[1]->content, "s") == 0 || strcmp(node->children[1]->content, "ms") == 0) && (declaration = findDeclaration(node)))
+        char* haystack[] = {"deg","grad","rad","turn","s","ms","Hz","kHz","dpi","dpcm","dppx"};
+        int len = sizeof(haystack)/sizeof(haystack[0]);
+        int i;
+
+        for(i = 0; i < len; ++i)
         {
-            char* declName = declaration->children[0]->children[0]->content;
-
-            if  (strcmp(declName, "-moz-transition") == 0 || strcmp(declName, "transition") == 0 )
-            {
-                return node;
-            }
-
-            if  (strcmp(declName, "-moz-animation") == 0 || strcmp(declName, "animation") == 0 )
+            if(!strcmp(haystack[i], node->children[1]->content))
             {
                 return node;
             }
