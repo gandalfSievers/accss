@@ -1221,8 +1221,6 @@ struct astnode* findDeclaration(struct astnode* node)
 
 struct astnode* compressDimension(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
 {
-    struct astnode* declaration;
-
     if(strcmp(node->children[0]->content, "0") == 0)
     {
         char* haystack[] = {"deg","grad","rad","turn","s","ms","Hz","kHz","dpi","dpcm","dppx"};
