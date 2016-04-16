@@ -71,6 +71,7 @@
 #define TOKENTYPE_VERTICALLINE 36           /*  |  */
 #define TOKENTYPE_RIGHTCURLYBRACKET 37      /*  }  */
 #define TOKENTYPE_TILDE 38                  /*  ~  */
+#define TOKENTYPE_DEEP 41                   /*  deep  */
 
 #define TOKENTYPE_IDENTIFIER 39
 #define TOKENTYPE_DECIMALNUMBER 40

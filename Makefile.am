@@ -58,6 +58,7 @@ TESTS= ./tests/compat/backgroundcolor.ie8.test1.sh \
 ./tests/css/compress.restructure.merge.test4.sh \
 ./tests/css/compress.restructure.padding.test1.sh \
 ./tests/css/compress.restructure.padding.test2.sh \
+./tests/css/compress.sh3.selectors.deep.sh \
 ./tests/css/compress.shorthand.margin.padding.test1.sh \
 ./tests/css/compress.shorthand.margin.test1.sh \
 ./tests/css/compress.shorthand.margin.test2.sh \

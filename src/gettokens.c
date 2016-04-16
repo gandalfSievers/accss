@@ -59,7 +59,7 @@ char isPunctuation(struct char_char* punctuation, char c)
     return 0;
 }
 
-struct token* pushToken(struct token_info* info, int *tn, int ln, unsigned char type, char* value)
+struct token* pushToken(struct token_info* info, int *tn, int ln, unsigned char type, const char* value)
 {
     struct token* newtoken = malloc(sizeof(struct token));
     struct token** tmpList  = NULL;
@@ -305,6 +305,10 @@ void _getTokens(const char* s, struct char_char* p, struct token_info* info)
         if(c == '/' && cn == '*')
         {
             parseMLComment(info, &tn, ln, s, slen, &pos);
+        }
+        else if (!urlMode && c == '/' && s[pos+5] == '/' && cn == 'd' && s[pos+2] == 'e' && s[pos+3] == 'e' && s[pos+4] == 'p') {
+            pushToken(info, &tn, ln, TOKENTYPE_DEEP, "/deep/");
+            pos += 5;
         }
         else if(!urlMode && c == '/' && cn == '/')
         {

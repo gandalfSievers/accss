@@ -1,5 +1,6 @@
 Version 1.1.2
 Fixed Handling of Dimensions
+Added Support for /deep/ combinator
 
 Version 1.1.1
 Fixed handling of UTF-8 with BOM.

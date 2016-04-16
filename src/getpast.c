@@ -701,6 +701,7 @@ size_t checkCombinator(struct token_info* info, size_t pos)
     if(tmp->type == TOKENTYPE_PLUSSIGN
       || tmp->type ==  TOKENTYPE_GREATERTHANSIGN
       || tmp->type == TOKENTYPE_TILDE
+      || tmp->type == TOKENTYPE_DEEP
       )
     {
         return 1;
