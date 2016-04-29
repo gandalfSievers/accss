@@ -506,6 +506,8 @@ TESTS = ./tests/compat/backgroundcolor.ie8.test1.sh \
 ./tests/compat/rejoin.all.test1.sh \
 ./tests/compat/rejoin.all.test2.sh \
 ./tests/compat/rejoin.all.test3.sh \
+./tests/css/compress.attrib.colon.test1.sh \
+./tests/css/compress.attrib.colon.test2.sh \
 ./tests/css/compress.attrib.string.test1.sh \
 ./tests/css/compress.attrib.string.test2.sh \
 ./tests/css/compress.colormark.test1.sh \
@@ -540,6 +542,139 @@ TESTS = ./tests/compat/backgroundcolor.ie8.test1.sh \
 ./tests/css/compress.restructure.merge.test4.sh \
 ./tests/css/compress.restructure.padding.test1.sh \
 ./tests/css/compress.restructure.padding.test2.sh \
+./tests/css/compress.sh3.selectors.deep.sh \
+./tests/css/compress.sh21.part15.6.test1.sh \
+./tests/css/compress.sh21.part4.3.2.test1.sh \
+./tests/css/compress.sh21.part4.3.2.test10.sh \
+./tests/css/compress.sh21.part4.3.2.test2.sh \
+./tests/css/compress.sh21.part4.3.2.test3.sh \
+./tests/css/compress.sh21.part4.3.2.test4.sh \
+./tests/css/compress.sh21.part4.3.2.test5.sh \
+./tests/css/compress.sh21.part4.3.2.test6.sh \
+./tests/css/compress.sh21.part4.3.2.test7.sh \
+./tests/css/compress.sh21.part4.3.2.test8.sh \
+./tests/css/compress.sh21.part4.3.2.test9.sh \
+./tests/css/compress.sh21.part4.3.4.test1.sh \
+./tests/css/compress.sh21.part4.3.4.test2.sh \
+./tests/css/compress.sh21.part4.3.4.test3.sh \
+./tests/css/compress.sh21.part4.3.4.test4.sh \
+./tests/css/compress.sh21.part4.3.4.test5.sh \
+./tests/css/compress.sh21.part4.3.4.test6.sh \
+./tests/css/compress.sh21.part4.3.4.test7.sh \
+./tests/css/compress.sh21.part4.3.4.test8.sh \
+./tests/css/compress.sh21.part4.3.4.test9.sh \
+./tests/css/compress.sh21.part4.3.6.test1.sh \
+./tests/css/compress.sh21.part4.3.6.test2.sh \
+./tests/css/compress.sh21.part4.3.6.test3.sh \
+./tests/css/compress.sh21.part4.3.6.test4.sh \
+./tests/css/compress.sh21.part4.3.6.test5.sh \
+./tests/css/compress.sh21.part4.3.6.test6.sh \
+./tests/css/compress.sh21.part4.3.6.test7.sh \
+./tests/css/compress.sh21.part4.3.6.test8.sh \
+./tests/css/compress.sh21.part4.3.7.test1.sh \
+./tests/css/compress.sh21.part4.3.7.test2.sh \
+./tests/css/compress.sh21.part4.3.7.test3.sh \
+./tests/css/compress.sh21.part4.3.7.test4.sh \
+./tests/css/compress.sh21.part4.3.7.test5.sh \
+./tests/css/compress.sh21.part4.3.7.test6.sh \
+./tests/css/compress.sh21.part4.4.test1.sh \
+./tests/css/compress.sh21.part4.4.test2.sh \
+./tests/css/compress.sh21.part4.4.test3.sh \
+./tests/css/compress.sh21.part6.3.test1.sh \
+./tests/css/compress.sh21.part6.3.test2.sh \
+./tests/css/compress.sh21.part6.3.test3.sh \
+./tests/css/compress.sh21.part6.3.test4.sh \
+./tests/css/compress.sh21.part6.3.test5.sh \
+./tests/css/compress.sh21.part6.3.test6.sh \
+./tests/css/compress.sh21.part6.4.2.test1.sh \
+./tests/css/compress.sh21.part6.4.2.test2.sh \
+./tests/css/compress.sh21.part6.4.2.test3.sh \
+./tests/css/compress.sh21.part7.test1.sh \
+./tests/css/compress.sh21.part7.test2.sh \
+./tests/css/compress.sh3.selectors.part2.test1.c.sh \
+./tests/css/compress.sh3.selectors.part2.test1.sh \
+./tests/css/compress.sh3.selectors.part2.test10.c.sh \
+./tests/css/compress.sh3.selectors.part2.test10.sh \
+./tests/css/compress.sh3.selectors.part2.test11.c.sh \
+./tests/css/compress.sh3.selectors.part2.test11.sh \
+./tests/css/compress.sh3.selectors.part2.test12.c.sh \
+./tests/css/compress.sh3.selectors.part2.test12.sh \
+./tests/css/compress.sh3.selectors.part2.test13.c.sh \
+./tests/css/compress.sh3.selectors.part2.test13.sh \
+./tests/css/compress.sh3.selectors.part2.test14.c.sh \
+./tests/css/compress.sh3.selectors.part2.test14.sh \
+./tests/css/compress.sh3.selectors.part2.test15.c.sh \
+./tests/css/compress.sh3.selectors.part2.test15.sh \
+./tests/css/compress.sh3.selectors.part2.test16.c.sh \
+./tests/css/compress.sh3.selectors.part2.test16.sh \
+./tests/css/compress.sh3.selectors.part2.test17.c.sh \
+./tests/css/compress.sh3.selectors.part2.test17.sh \
+./tests/css/compress.sh3.selectors.part2.test18.c.sh \
+./tests/css/compress.sh3.selectors.part2.test18.sh \
+./tests/css/compress.sh3.selectors.part2.test19.c.sh \
+./tests/css/compress.sh3.selectors.part2.test19.sh \
+./tests/css/compress.sh3.selectors.part2.test2.c.sh \
+./tests/css/compress.sh3.selectors.part2.test2.sh \
+./tests/css/compress.sh3.selectors.part2.test20.c.sh \
+./tests/css/compress.sh3.selectors.part2.test20.sh \
+./tests/css/compress.sh3.selectors.part2.test21.c.sh \
+./tests/css/compress.sh3.selectors.part2.test21.sh \
+./tests/css/compress.sh3.selectors.part2.test22.c.sh \
+./tests/css/compress.sh3.selectors.part2.test22.sh \
+./tests/css/compress.sh3.selectors.part2.test23.c.sh \
+./tests/css/compress.sh3.selectors.part2.test23.sh \
+./tests/css/compress.sh3.selectors.part2.test24.c.sh \
+./tests/css/compress.sh3.selectors.part2.test24.sh \
+./tests/css/compress.sh3.selectors.part2.test25.c.sh \
+./tests/css/compress.sh3.selectors.part2.test25.sh \
+./tests/css/compress.sh3.selectors.part2.test26.c.sh \
+./tests/css/compress.sh3.selectors.part2.test26.sh \
+./tests/css/compress.sh3.selectors.part2.test27.c.sh \
+./tests/css/compress.sh3.selectors.part2.test27.sh \
+./tests/css/compress.sh3.selectors.part2.test28.c.sh \
+./tests/css/compress.sh3.selectors.part2.test28.sh \
+./tests/css/compress.sh3.selectors.part2.test29.c.sh \
+./tests/css/compress.sh3.selectors.part2.test29.sh \
+./tests/css/compress.sh3.selectors.part2.test3.c.sh \
+./tests/css/compress.sh3.selectors.part2.test3.sh \
+./tests/css/compress.sh3.selectors.part2.test30.c.sh \
+./tests/css/compress.sh3.selectors.part2.test30.sh \
+./tests/css/compress.sh3.selectors.part2.test31.c.sh \
+./tests/css/compress.sh3.selectors.part2.test31.sh \
+./tests/css/compress.sh3.selectors.part2.test32.c.sh \
+./tests/css/compress.sh3.selectors.part2.test32.sh \
+./tests/css/compress.sh3.selectors.part2.test33.c.sh \
+./tests/css/compress.sh3.selectors.part2.test33.sh \
+./tests/css/compress.sh3.selectors.part2.test34.c.sh \
+./tests/css/compress.sh3.selectors.part2.test34.sh \
+./tests/css/compress.sh3.selectors.part2.test35.c.sh \
+./tests/css/compress.sh3.selectors.part2.test35.sh \
+./tests/css/compress.sh3.selectors.part2.test36.c.sh \
+./tests/css/compress.sh3.selectors.part2.test36.sh \
+./tests/css/compress.sh3.selectors.part2.test37.c.sh \
+./tests/css/compress.sh3.selectors.part2.test37.sh \
+./tests/css/compress.sh3.selectors.part2.test38.c.sh \
+./tests/css/compress.sh3.selectors.part2.test38.sh \
+./tests/css/compress.sh3.selectors.part2.test39.c.sh \
+./tests/css/compress.sh3.selectors.part2.test39.sh \
+./tests/css/compress.sh3.selectors.part2.test4.c.sh \
+./tests/css/compress.sh3.selectors.part2.test4.sh \
+./tests/css/compress.sh3.selectors.part2.test40.c.sh \
+./tests/css/compress.sh3.selectors.part2.test40.sh \
+./tests/css/compress.sh3.selectors.part2.test41.c.sh \
+./tests/css/compress.sh3.selectors.part2.test41.sh \
+./tests/css/compress.sh3.selectors.part2.test42.c.sh \
+./tests/css/compress.sh3.selectors.part2.test42.sh \
+./tests/css/compress.sh3.selectors.part2.test5.c.sh \
+./tests/css/compress.sh3.selectors.part2.test5.sh \
+./tests/css/compress.sh3.selectors.part2.test6.c.sh \
+./tests/css/compress.sh3.selectors.part2.test6.sh \
+./tests/css/compress.sh3.selectors.part2.test7.c.sh \
+./tests/css/compress.sh3.selectors.part2.test7.sh \
+./tests/css/compress.sh3.selectors.part2.test8.c.sh \
+./tests/css/compress.sh3.selectors.part2.test8.sh \
+./tests/css/compress.sh3.selectors.part2.test9.c.sh \
+./tests/css/compress.sh3.selectors.part2.test9.sh \
 ./tests/css/compress.shorthand.margin.padding.test1.sh \
 ./tests/css/compress.shorthand.margin.test1.sh \
 ./tests/css/compress.shorthand.margin.test2.sh \
@@ -576,6 +711,7 @@ TESTS = ./tests/compat/backgroundcolor.ie8.test1.sh \
 ./tests/css/issue165.test1.sh \
 ./tests/css/issue170.test1.sh \
 ./tests/css/issue215.test1.sh \
+./tests/css/issue226.test1.sh \
 ./tests/css/issue39.test1.sh \
 ./tests/css/issue39.test10.sh \
 ./tests/css/issue39.test11.sh \
@@ -1118,6 +1254,20 @@ recheck: all
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.attrib.colon.test1.sh.log: ./tests/css/compress.attrib.colon.test1.sh
+	@p='./tests/css/compress.attrib.colon.test1.sh'; \
+	b='./tests/css/compress.attrib.colon.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.attrib.colon.test2.sh.log: ./tests/css/compress.attrib.colon.test2.sh
+	@p='./tests/css/compress.attrib.colon.test2.sh'; \
+	b='./tests/css/compress.attrib.colon.test2.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 ./tests/css/compress.attrib.string.test1.sh.log: ./tests/css/compress.attrib.string.test1.sh
 	@p='./tests/css/compress.attrib.string.test1.sh'; \
 	b='./tests/css/compress.attrib.string.test1.sh'; \
@@ -1352,6 +1502,937 @@ recheck: all
 ./tests/css/compress.restructure.padding.test2.sh.log: ./tests/css/compress.restructure.padding.test2.sh
 	@p='./tests/css/compress.restructure.padding.test2.sh'; \
 	b='./tests/css/compress.restructure.padding.test2.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.deep.sh.log: ./tests/css/compress.sh3.selectors.deep.sh
+	@p='./tests/css/compress.sh3.selectors.deep.sh'; \
+	b='./tests/css/compress.sh3.selectors.deep.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part15.6.test1.sh.log: ./tests/css/compress.sh21.part15.6.test1.sh
+	@p='./tests/css/compress.sh21.part15.6.test1.sh'; \
+	b='./tests/css/compress.sh21.part15.6.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.2.test1.sh.log: ./tests/css/compress.sh21.part4.3.2.test1.sh
+	@p='./tests/css/compress.sh21.part4.3.2.test1.sh'; \
+	b='./tests/css/compress.sh21.part4.3.2.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.2.test10.sh.log: ./tests/css/compress.sh21.part4.3.2.test10.sh
+	@p='./tests/css/compress.sh21.part4.3.2.test10.sh'; \
+	b='./tests/css/compress.sh21.part4.3.2.test10.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.2.test2.sh.log: ./tests/css/compress.sh21.part4.3.2.test2.sh
+	@p='./tests/css/compress.sh21.part4.3.2.test2.sh'; \
+	b='./tests/css/compress.sh21.part4.3.2.test2.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.2.test3.sh.log: ./tests/css/compress.sh21.part4.3.2.test3.sh
+	@p='./tests/css/compress.sh21.part4.3.2.test3.sh'; \
+	b='./tests/css/compress.sh21.part4.3.2.test3.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.2.test4.sh.log: ./tests/css/compress.sh21.part4.3.2.test4.sh
+	@p='./tests/css/compress.sh21.part4.3.2.test4.sh'; \
+	b='./tests/css/compress.sh21.part4.3.2.test4.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.2.test5.sh.log: ./tests/css/compress.sh21.part4.3.2.test5.sh
+	@p='./tests/css/compress.sh21.part4.3.2.test5.sh'; \
+	b='./tests/css/compress.sh21.part4.3.2.test5.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.2.test6.sh.log: ./tests/css/compress.sh21.part4.3.2.test6.sh
+	@p='./tests/css/compress.sh21.part4.3.2.test6.sh'; \
+	b='./tests/css/compress.sh21.part4.3.2.test6.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.2.test7.sh.log: ./tests/css/compress.sh21.part4.3.2.test7.sh
+	@p='./tests/css/compress.sh21.part4.3.2.test7.sh'; \
+	b='./tests/css/compress.sh21.part4.3.2.test7.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.2.test8.sh.log: ./tests/css/compress.sh21.part4.3.2.test8.sh
+	@p='./tests/css/compress.sh21.part4.3.2.test8.sh'; \
+	b='./tests/css/compress.sh21.part4.3.2.test8.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.2.test9.sh.log: ./tests/css/compress.sh21.part4.3.2.test9.sh
+	@p='./tests/css/compress.sh21.part4.3.2.test9.sh'; \
+	b='./tests/css/compress.sh21.part4.3.2.test9.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.4.test1.sh.log: ./tests/css/compress.sh21.part4.3.4.test1.sh
+	@p='./tests/css/compress.sh21.part4.3.4.test1.sh'; \
+	b='./tests/css/compress.sh21.part4.3.4.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.4.test2.sh.log: ./tests/css/compress.sh21.part4.3.4.test2.sh
+	@p='./tests/css/compress.sh21.part4.3.4.test2.sh'; \
+	b='./tests/css/compress.sh21.part4.3.4.test2.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.4.test3.sh.log: ./tests/css/compress.sh21.part4.3.4.test3.sh
+	@p='./tests/css/compress.sh21.part4.3.4.test3.sh'; \
+	b='./tests/css/compress.sh21.part4.3.4.test3.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.4.test4.sh.log: ./tests/css/compress.sh21.part4.3.4.test4.sh
+	@p='./tests/css/compress.sh21.part4.3.4.test4.sh'; \
+	b='./tests/css/compress.sh21.part4.3.4.test4.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.4.test5.sh.log: ./tests/css/compress.sh21.part4.3.4.test5.sh
+	@p='./tests/css/compress.sh21.part4.3.4.test5.sh'; \
+	b='./tests/css/compress.sh21.part4.3.4.test5.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.4.test6.sh.log: ./tests/css/compress.sh21.part4.3.4.test6.sh
+	@p='./tests/css/compress.sh21.part4.3.4.test6.sh'; \
+	b='./tests/css/compress.sh21.part4.3.4.test6.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.4.test7.sh.log: ./tests/css/compress.sh21.part4.3.4.test7.sh
+	@p='./tests/css/compress.sh21.part4.3.4.test7.sh'; \
+	b='./tests/css/compress.sh21.part4.3.4.test7.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.4.test8.sh.log: ./tests/css/compress.sh21.part4.3.4.test8.sh
+	@p='./tests/css/compress.sh21.part4.3.4.test8.sh'; \
+	b='./tests/css/compress.sh21.part4.3.4.test8.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.4.test9.sh.log: ./tests/css/compress.sh21.part4.3.4.test9.sh
+	@p='./tests/css/compress.sh21.part4.3.4.test9.sh'; \
+	b='./tests/css/compress.sh21.part4.3.4.test9.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.6.test1.sh.log: ./tests/css/compress.sh21.part4.3.6.test1.sh
+	@p='./tests/css/compress.sh21.part4.3.6.test1.sh'; \
+	b='./tests/css/compress.sh21.part4.3.6.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.6.test2.sh.log: ./tests/css/compress.sh21.part4.3.6.test2.sh
+	@p='./tests/css/compress.sh21.part4.3.6.test2.sh'; \
+	b='./tests/css/compress.sh21.part4.3.6.test2.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.6.test3.sh.log: ./tests/css/compress.sh21.part4.3.6.test3.sh
+	@p='./tests/css/compress.sh21.part4.3.6.test3.sh'; \
+	b='./tests/css/compress.sh21.part4.3.6.test3.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.6.test4.sh.log: ./tests/css/compress.sh21.part4.3.6.test4.sh
+	@p='./tests/css/compress.sh21.part4.3.6.test4.sh'; \
+	b='./tests/css/compress.sh21.part4.3.6.test4.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.6.test5.sh.log: ./tests/css/compress.sh21.part4.3.6.test5.sh
+	@p='./tests/css/compress.sh21.part4.3.6.test5.sh'; \
+	b='./tests/css/compress.sh21.part4.3.6.test5.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.6.test6.sh.log: ./tests/css/compress.sh21.part4.3.6.test6.sh
+	@p='./tests/css/compress.sh21.part4.3.6.test6.sh'; \
+	b='./tests/css/compress.sh21.part4.3.6.test6.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.6.test7.sh.log: ./tests/css/compress.sh21.part4.3.6.test7.sh
+	@p='./tests/css/compress.sh21.part4.3.6.test7.sh'; \
+	b='./tests/css/compress.sh21.part4.3.6.test7.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.6.test8.sh.log: ./tests/css/compress.sh21.part4.3.6.test8.sh
+	@p='./tests/css/compress.sh21.part4.3.6.test8.sh'; \
+	b='./tests/css/compress.sh21.part4.3.6.test8.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.7.test1.sh.log: ./tests/css/compress.sh21.part4.3.7.test1.sh
+	@p='./tests/css/compress.sh21.part4.3.7.test1.sh'; \
+	b='./tests/css/compress.sh21.part4.3.7.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.7.test2.sh.log: ./tests/css/compress.sh21.part4.3.7.test2.sh
+	@p='./tests/css/compress.sh21.part4.3.7.test2.sh'; \
+	b='./tests/css/compress.sh21.part4.3.7.test2.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.7.test3.sh.log: ./tests/css/compress.sh21.part4.3.7.test3.sh
+	@p='./tests/css/compress.sh21.part4.3.7.test3.sh'; \
+	b='./tests/css/compress.sh21.part4.3.7.test3.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.7.test4.sh.log: ./tests/css/compress.sh21.part4.3.7.test4.sh
+	@p='./tests/css/compress.sh21.part4.3.7.test4.sh'; \
+	b='./tests/css/compress.sh21.part4.3.7.test4.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.7.test5.sh.log: ./tests/css/compress.sh21.part4.3.7.test5.sh
+	@p='./tests/css/compress.sh21.part4.3.7.test5.sh'; \
+	b='./tests/css/compress.sh21.part4.3.7.test5.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.3.7.test6.sh.log: ./tests/css/compress.sh21.part4.3.7.test6.sh
+	@p='./tests/css/compress.sh21.part4.3.7.test6.sh'; \
+	b='./tests/css/compress.sh21.part4.3.7.test6.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.4.test1.sh.log: ./tests/css/compress.sh21.part4.4.test1.sh
+	@p='./tests/css/compress.sh21.part4.4.test1.sh'; \
+	b='./tests/css/compress.sh21.part4.4.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.4.test2.sh.log: ./tests/css/compress.sh21.part4.4.test2.sh
+	@p='./tests/css/compress.sh21.part4.4.test2.sh'; \
+	b='./tests/css/compress.sh21.part4.4.test2.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part4.4.test3.sh.log: ./tests/css/compress.sh21.part4.4.test3.sh
+	@p='./tests/css/compress.sh21.part4.4.test3.sh'; \
+	b='./tests/css/compress.sh21.part4.4.test3.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part6.3.test1.sh.log: ./tests/css/compress.sh21.part6.3.test1.sh
+	@p='./tests/css/compress.sh21.part6.3.test1.sh'; \
+	b='./tests/css/compress.sh21.part6.3.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part6.3.test2.sh.log: ./tests/css/compress.sh21.part6.3.test2.sh
+	@p='./tests/css/compress.sh21.part6.3.test2.sh'; \
+	b='./tests/css/compress.sh21.part6.3.test2.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part6.3.test3.sh.log: ./tests/css/compress.sh21.part6.3.test3.sh
+	@p='./tests/css/compress.sh21.part6.3.test3.sh'; \
+	b='./tests/css/compress.sh21.part6.3.test3.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part6.3.test4.sh.log: ./tests/css/compress.sh21.part6.3.test4.sh
+	@p='./tests/css/compress.sh21.part6.3.test4.sh'; \
+	b='./tests/css/compress.sh21.part6.3.test4.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part6.3.test5.sh.log: ./tests/css/compress.sh21.part6.3.test5.sh
+	@p='./tests/css/compress.sh21.part6.3.test5.sh'; \
+	b='./tests/css/compress.sh21.part6.3.test5.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part6.3.test6.sh.log: ./tests/css/compress.sh21.part6.3.test6.sh
+	@p='./tests/css/compress.sh21.part6.3.test6.sh'; \
+	b='./tests/css/compress.sh21.part6.3.test6.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part6.4.2.test1.sh.log: ./tests/css/compress.sh21.part6.4.2.test1.sh
+	@p='./tests/css/compress.sh21.part6.4.2.test1.sh'; \
+	b='./tests/css/compress.sh21.part6.4.2.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part6.4.2.test2.sh.log: ./tests/css/compress.sh21.part6.4.2.test2.sh
+	@p='./tests/css/compress.sh21.part6.4.2.test2.sh'; \
+	b='./tests/css/compress.sh21.part6.4.2.test2.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part6.4.2.test3.sh.log: ./tests/css/compress.sh21.part6.4.2.test3.sh
+	@p='./tests/css/compress.sh21.part6.4.2.test3.sh'; \
+	b='./tests/css/compress.sh21.part6.4.2.test3.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part7.test1.sh.log: ./tests/css/compress.sh21.part7.test1.sh
+	@p='./tests/css/compress.sh21.part7.test1.sh'; \
+	b='./tests/css/compress.sh21.part7.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh21.part7.test2.sh.log: ./tests/css/compress.sh21.part7.test2.sh
+	@p='./tests/css/compress.sh21.part7.test2.sh'; \
+	b='./tests/css/compress.sh21.part7.test2.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test1.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test1.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test1.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test1.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test1.sh.log: ./tests/css/compress.sh3.selectors.part2.test1.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test1.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test10.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test10.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test10.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test10.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test10.sh.log: ./tests/css/compress.sh3.selectors.part2.test10.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test10.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test10.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test11.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test11.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test11.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test11.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test11.sh.log: ./tests/css/compress.sh3.selectors.part2.test11.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test11.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test11.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test12.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test12.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test12.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test12.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test12.sh.log: ./tests/css/compress.sh3.selectors.part2.test12.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test12.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test12.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test13.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test13.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test13.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test13.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test13.sh.log: ./tests/css/compress.sh3.selectors.part2.test13.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test13.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test13.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test14.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test14.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test14.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test14.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test14.sh.log: ./tests/css/compress.sh3.selectors.part2.test14.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test14.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test14.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test15.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test15.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test15.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test15.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test15.sh.log: ./tests/css/compress.sh3.selectors.part2.test15.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test15.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test15.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test16.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test16.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test16.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test16.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test16.sh.log: ./tests/css/compress.sh3.selectors.part2.test16.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test16.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test16.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test17.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test17.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test17.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test17.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test17.sh.log: ./tests/css/compress.sh3.selectors.part2.test17.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test17.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test17.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test18.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test18.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test18.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test18.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test18.sh.log: ./tests/css/compress.sh3.selectors.part2.test18.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test18.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test18.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test19.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test19.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test19.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test19.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test19.sh.log: ./tests/css/compress.sh3.selectors.part2.test19.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test19.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test19.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test2.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test2.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test2.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test2.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test2.sh.log: ./tests/css/compress.sh3.selectors.part2.test2.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test2.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test2.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test20.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test20.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test20.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test20.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test20.sh.log: ./tests/css/compress.sh3.selectors.part2.test20.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test20.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test20.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test21.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test21.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test21.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test21.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test21.sh.log: ./tests/css/compress.sh3.selectors.part2.test21.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test21.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test21.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test22.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test22.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test22.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test22.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test22.sh.log: ./tests/css/compress.sh3.selectors.part2.test22.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test22.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test22.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test23.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test23.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test23.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test23.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test23.sh.log: ./tests/css/compress.sh3.selectors.part2.test23.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test23.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test23.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test24.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test24.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test24.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test24.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test24.sh.log: ./tests/css/compress.sh3.selectors.part2.test24.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test24.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test24.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test25.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test25.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test25.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test25.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test25.sh.log: ./tests/css/compress.sh3.selectors.part2.test25.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test25.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test25.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test26.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test26.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test26.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test26.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test26.sh.log: ./tests/css/compress.sh3.selectors.part2.test26.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test26.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test26.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test27.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test27.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test27.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test27.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test27.sh.log: ./tests/css/compress.sh3.selectors.part2.test27.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test27.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test27.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test28.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test28.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test28.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test28.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test28.sh.log: ./tests/css/compress.sh3.selectors.part2.test28.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test28.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test28.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test29.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test29.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test29.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test29.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test29.sh.log: ./tests/css/compress.sh3.selectors.part2.test29.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test29.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test29.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test3.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test3.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test3.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test3.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test3.sh.log: ./tests/css/compress.sh3.selectors.part2.test3.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test3.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test3.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test30.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test30.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test30.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test30.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test30.sh.log: ./tests/css/compress.sh3.selectors.part2.test30.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test30.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test30.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test31.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test31.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test31.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test31.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test31.sh.log: ./tests/css/compress.sh3.selectors.part2.test31.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test31.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test31.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test32.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test32.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test32.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test32.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test32.sh.log: ./tests/css/compress.sh3.selectors.part2.test32.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test32.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test32.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test33.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test33.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test33.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test33.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test33.sh.log: ./tests/css/compress.sh3.selectors.part2.test33.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test33.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test33.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test34.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test34.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test34.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test34.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test34.sh.log: ./tests/css/compress.sh3.selectors.part2.test34.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test34.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test34.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test35.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test35.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test35.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test35.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test35.sh.log: ./tests/css/compress.sh3.selectors.part2.test35.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test35.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test35.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test36.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test36.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test36.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test36.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test36.sh.log: ./tests/css/compress.sh3.selectors.part2.test36.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test36.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test36.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test37.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test37.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test37.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test37.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test37.sh.log: ./tests/css/compress.sh3.selectors.part2.test37.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test37.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test37.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test38.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test38.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test38.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test38.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test38.sh.log: ./tests/css/compress.sh3.selectors.part2.test38.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test38.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test38.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test39.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test39.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test39.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test39.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test39.sh.log: ./tests/css/compress.sh3.selectors.part2.test39.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test39.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test39.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test4.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test4.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test4.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test4.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test4.sh.log: ./tests/css/compress.sh3.selectors.part2.test4.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test4.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test4.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test40.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test40.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test40.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test40.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test40.sh.log: ./tests/css/compress.sh3.selectors.part2.test40.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test40.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test40.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test41.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test41.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test41.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test41.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test41.sh.log: ./tests/css/compress.sh3.selectors.part2.test41.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test41.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test41.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test42.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test42.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test42.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test42.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test42.sh.log: ./tests/css/compress.sh3.selectors.part2.test42.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test42.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test42.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test5.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test5.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test5.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test5.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test5.sh.log: ./tests/css/compress.sh3.selectors.part2.test5.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test5.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test5.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test6.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test6.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test6.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test6.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test6.sh.log: ./tests/css/compress.sh3.selectors.part2.test6.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test6.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test6.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test7.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test7.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test7.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test7.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test7.sh.log: ./tests/css/compress.sh3.selectors.part2.test7.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test7.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test7.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test8.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test8.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test8.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test8.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test8.sh.log: ./tests/css/compress.sh3.selectors.part2.test8.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test8.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test8.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test9.c.sh.log: ./tests/css/compress.sh3.selectors.part2.test9.c.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test9.c.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test9.c.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.sh3.selectors.part2.test9.sh.log: ./tests/css/compress.sh3.selectors.part2.test9.sh
+	@p='./tests/css/compress.sh3.selectors.part2.test9.sh'; \
+	b='./tests/css/compress.sh3.selectors.part2.test9.sh'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
@@ -1604,6 +2685,13 @@ recheck: all
 ./tests/css/issue215.test1.sh.log: ./tests/css/issue215.test1.sh
 	@p='./tests/css/issue215.test1.sh'; \
 	b='./tests/css/issue215.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/issue226.test1.sh.log: ./tests/css/issue226.test1.sh
+	@p='./tests/css/issue226.test1.sh'; \
+	b='./tests/css/issue226.test1.sh'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

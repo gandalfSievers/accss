@@ -1,0 +1,8 @@
+body /deep/ .library-theme {
+    color:red;  
+}
+
+body /deep/ .library-theme {
+    color:blue;
+    background: red;
+}

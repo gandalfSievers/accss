@@ -1,6 +1,11 @@
+Version 1.1.2
+Fixed handling of dimensions
+Added support for /deep/ combinator
+Added support for colon in attribute names
+
 Version 1.1.1
 Fixed handling of UTF-8 with BOM.
-The Byte Order marked will be ignored and no BOM is written to the result.
+The Byte Order Mark will be ignored and no BOM is written to the result.
 
 Version 1.1
 Changed command line syntax to allow globbing and combining of multiple files.
