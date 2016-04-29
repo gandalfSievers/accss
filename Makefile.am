@@ -24,6 +24,8 @@ TESTS= ./tests/compat/backgroundcolor.ie8.test1.sh \
 ./tests/compat/rejoin.all.test1.sh \
 ./tests/compat/rejoin.all.test2.sh \
 ./tests/compat/rejoin.all.test3.sh \
+./tests/css/compress.attrib.colon.test1.sh \
+./tests/css/compress.attrib.colon.test2.sh \
 ./tests/css/compress.attrib.string.test1.sh \
 ./tests/css/compress.attrib.string.test2.sh \
 ./tests/css/compress.colormark.test1.sh \

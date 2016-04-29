@@ -506,6 +506,8 @@ TESTS = ./tests/compat/backgroundcolor.ie8.test1.sh \
 ./tests/compat/rejoin.all.test1.sh \
 ./tests/compat/rejoin.all.test2.sh \
 ./tests/compat/rejoin.all.test3.sh \
+./tests/css/compress.attrib.colon.test1.sh \
+./tests/css/compress.attrib.colon.test2.sh \
 ./tests/css/compress.attrib.string.test1.sh \
 ./tests/css/compress.attrib.string.test2.sh \
 ./tests/css/compress.colormark.test1.sh \
@@ -1116,6 +1118,20 @@ recheck: all
 ./tests/compat/rejoin.all.test3.sh.log: ./tests/compat/rejoin.all.test3.sh
 	@p='./tests/compat/rejoin.all.test3.sh'; \
 	b='./tests/compat/rejoin.all.test3.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.attrib.colon.test1.sh.log: ./tests/css/compress.attrib.colon.test1.sh
+	@p='./tests/css/compress.attrib.colon.test1.sh'; \
+	b='./tests/css/compress.attrib.colon.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.attrib.colon.test2.sh.log: ./tests/css/compress.attrib.colon.test2.sh
+	@p='./tests/css/compress.attrib.colon.test2.sh'; \
+	b='./tests/css/compress.attrib.colon.test2.sh'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \

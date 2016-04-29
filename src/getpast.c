@@ -71,8 +71,8 @@ size_t checkPseudoc(struct token_info* info, size_t pos);
 
 size_t checkDelim(struct token_info* info, size_t pos);
 
-size_t checkIdent(struct token_info* info, size_t pos);
-size_t checkIdentLowLine(struct token_info* info, size_t pos);
+size_t checkIdent(struct token_info* info, size_t pos, char isAttribute);
+size_t checkIdentLowLine(struct token_info* info, size_t pos, char isAttribute);
 
 size_t checkClazz(struct token_info* info, size_t pos);
 size_t checkShash(struct token_info* info, size_t pos);
@@ -740,7 +740,7 @@ size_t checkAttrib1(struct token_info* info, size_t pos)
         pos += l;
     }
 
-    if((l = checkIdent(info, pos)) != 0)
+    if((l = checkIdent(info, pos, 1)) != 0)
     {
         pos += l;
     }
@@ -768,7 +768,7 @@ size_t checkAttrib1(struct token_info* info, size_t pos)
         pos += l;
     }
 
-    if((l = checkIdent(info, pos)) != 0 || (l = checkString(info, pos)) != 0)
+    if((l = checkIdent(info, pos, 0)) != 0 || (l = checkString(info, pos)) != 0)
     {
         pos += l;
     }
@@ -805,7 +805,7 @@ size_t checkAttrib2(struct token_info* info, size_t pos)
         pos += l;
     }
 
-    if((l = checkIdent(info, pos)) != 0)
+    if((l = checkIdent(info, pos, 1)) != 0)
     {
         pos += l;
     }
@@ -886,7 +886,7 @@ size_t checkPseudoe(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if((l = checkIdent(info, pos)) != 0)
+    if((l = checkIdent(info, pos, 0)) != 0)
     {
         return l + 2;
     }
@@ -904,7 +904,7 @@ size_t checkPseudoc(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if(((l = checkFunction(info, pos)) != 0) || ((l = checkIdent(info, pos)) != 0))
+    if(((l = checkFunction(info, pos)) != 0) || ((l = checkIdent(info, pos, 0)) != 0))
     {
         return l + 1;
     }
@@ -912,7 +912,7 @@ size_t checkPseudoc(struct token_info* info, size_t pos)
     return 0;
 }
 
-size_t checkIdent(struct token_info* info, size_t pos)
+size_t checkIdent(struct token_info* info, size_t pos, char isAttribute)
 {
     size_t start = pos;
     char wasIdent = 0;
@@ -926,7 +926,7 @@ size_t checkIdent(struct token_info* info, size_t pos)
     tmp = getTokenByIndex(info, pos);
     if(tmp->type == TOKENTYPE_LOWLINE)
     {
-        return checkIdentLowLine(info, pos);
+        return checkIdentLowLine(info, pos, isAttribute);
     }
 
     if(tmp->type == TOKENTYPE_HYPHENMINUS
@@ -953,6 +953,7 @@ size_t checkIdent(struct token_info* info, size_t pos)
           )
         {
             if(tmp->type != TOKENTYPE_IDENTIFIER
+              && (tmp->type != TOKENTYPE_COLON || !isAttribute)
               && (tmp->type != TOKENTYPE_DECIMALNUMBER || !wasIdent)
               )
             {
@@ -976,7 +977,7 @@ size_t checkIdent(struct token_info* info, size_t pos)
     return pos - start;
 }
 
-size_t checkIdentLowLine(struct token_info* info, size_t pos)
+size_t checkIdentLowLine(struct token_info* info, size_t pos, char isAttribute)
 {
     size_t start = pos;
     struct token* tmp = NULL;
@@ -990,6 +991,7 @@ size_t checkIdentLowLine(struct token_info* info, size_t pos)
           && tmp->type != TOKENTYPE_DECIMALNUMBER
           && tmp->type != TOKENTYPE_LOWLINE
           && tmp->type != TOKENTYPE_IDENTIFIER
+          && (!isAttribute || tmp->type != TOKENTYPE_COLON)
           )
         {
             break;
@@ -1030,7 +1032,7 @@ size_t checkClazz(struct token_info* info, size_t pos)
 
     if(tmp->type == TOKENTYPE_FULLSTOP)
     {
-        if((l = checkIdent(info, pos + 1)) != 0)
+        if((l = checkIdent(info, pos + 1, 0)) != 0)
         {
             tmp->clazz_l = l + 1;
             return l + 1;
@@ -1277,7 +1279,7 @@ size_t checkAtkeyword(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if((l = checkIdent(info, pos)) != 0)
+    if((l = checkIdent(info, pos, 0)) != 0)
     {
         return l + 1;
     }
@@ -1431,7 +1433,7 @@ size_t checkAny(struct token_info* info, size_t pos)
     {
         return l;
     }
-    else if((l = checkIdent(info, pos)) != 0)
+    else if((l = checkIdent(info, pos, 0)) != 0)
     {
         return l;
     }
@@ -1595,7 +1597,7 @@ size_t checkFunctionExpression(struct token_info* info, size_t pos)
 size_t checkFunction(struct token_info* info, size_t pos)
 {
     size_t start = pos,
-    l = checkIdent(info, pos);
+    l = checkIdent(info, pos, 0);
     struct token* tmp = NULL;
 
     if(l == 0)
@@ -2016,7 +2018,7 @@ size_t checkProgid(struct token_info* info, size_t pos)
         return 0;
     }
 
-    if((l = checkIdent(info, pos)) != 0)
+    if((l = checkIdent(info, pos, 0)) != 0)
     {
         pos += l;
     }
@@ -2129,7 +2131,7 @@ size_t checkProperty(struct token_info* info, size_t pos)
     size_t start = pos,
     l = 0;
 
-    if((l = checkIdent(info, pos)) != 0)
+    if((l = checkIdent(info, pos, 0)) != 0)
     {
         pos += l;
     }
@@ -2798,7 +2800,7 @@ struct astnode* getAny(struct token_info* info, size_t* pos)
     {
         return getFunction(info, pos);
     }
-    else if((checkIdent(info, *pos)) != 0)
+    else if((checkIdent(info, *pos, 0)) != 0)
     {
         return getIdent(info, pos);
     }
