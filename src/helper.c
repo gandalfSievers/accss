@@ -27,11 +27,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "helper.h"
-
-void memoryFailure()
-{
-    fprintf(stderr, "Out of memory.\n");
-}
+#include "error.h"
 
 /*
  * Reimplement of non ansii function strcasecmp for portability
@@ -79,9 +75,9 @@ size_t casecmp(const char* str1, const char* str2)
     return k;
 }
 
-char* resizeValue(char* old, const char* new)
+char* resizeValue(char* old, const char* newValue)
 {
-    size_t len = strlen(new);
+    size_t len = strlen(newValue);
 
     char* tmp = realloc(old, sizeof(char)*(len+1));
     if(tmp == NULL)
@@ -91,7 +87,7 @@ char* resizeValue(char* old, const char* new)
     }
 
     old = tmp;
-    strcpy(old, new);
+    strcpy(old, newValue);
     return old;
 }
 
