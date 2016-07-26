@@ -1,6 +1,6 @@
 /*
  * ACCSS C Code Copyright (C) 2014 by Gandalf Sievers
- * Created by Gandalf Sievers on 23.08.14.
+ * Created by Gandalf Sievers on 25.07.16.
  *
  * MIT-License
  *
@@ -26,34 +26,10 @@
 #include <stdlib.h>
 #include <limits.h>
 
-#ifndef accss_helper_h
-#define accss_helper_h
+#ifndef accss_error_h
+#define accss_error_h
 
-#if defined(ULONG_MAX) && defined(SIZE_MAX)
-#if ULONG_MAX < SIZE_MAX
-#define SIZECASTTYPE unsigned long long
-#define SIZEPRI "%llu"
-#else
-#define SIZECASTTYPE unsigned long
-#define SIZEPRI "%lu"
-#endif
-#else
-#define SIZECASTTYPE unsigned long
-#define SIZEPRI "%lu"
-#endif
-
-
-#ifndef SIZE_MAX
-#define SIZE_MAX ((size_t)-1)
-#endif
-
-
-size_t casecmp(const char* str1, const char* str2);
-char* resizeValue(char* old, const char* newValue);
-char* copyValue(const char* value);
-char** copyCharList(char** charList);
-void freeCharList(char** charList);
-size_t charListLength(char** charList);
-char* lowerCase(char* string);
+void throwError(const char* s, int currentBlockLN);
+void memoryFailure();
 
 #endif

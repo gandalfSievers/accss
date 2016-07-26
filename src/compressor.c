@@ -32,6 +32,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "helper.h"
+#include "error.h"
 #include "debug.h"
 #include "compressor.h"
 #include "translator.h"

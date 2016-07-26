@@ -29,7 +29,7 @@
  */
 
 #include <stdlib.h>
- 
+
 #ifndef accss_gettokens_h
 #define accss_gettokens_h
 
@@ -53,12 +53,12 @@ struct token
     char* value;
     size_t left;
     size_t right;
-    
+
     char ws;
     char sc;
     size_t ws_last;
     size_t sc_last;
-    
+
     size_t ruleset_l;
     size_t selector_end;
     size_t nth_last;
@@ -72,7 +72,7 @@ struct token
     size_t filterp_l;
     size_t last_progid;
     size_t progid_end;
-    
+
     char bd_type;
     char bd_filter;
     char bd_decl;

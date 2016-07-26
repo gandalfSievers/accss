@@ -24,6 +24,7 @@
  */
 
 #include "iohelper.h"
+#include "error.h"
 
 #define MAX_FILEBUFFER_SIZE SIZE_MAX-2
 #define STDBUFFERSIZE 2048
@@ -56,15 +57,15 @@ char getStringFromFile(const char* filename, char** string, size_t *len)
     if(file)
     {
         size_t bufferlen = 0;
-        
+
         fseek(file, 0, SEEK_END);
         bufferlen = ftell(file);
         rewind(file);
-        
+
         if(bufferlen<MAX_FILEBUFFER_SIZE)
         {
             char* filebuffer = (char*)malloc(sizeof(char)*(bufferlen+1));
-            
+
             if(filebuffer==NULL)
             {
                 fprintf(stderr, "Out of memory!\n");
@@ -85,16 +86,16 @@ char getStringFromFile(const char* filename, char** string, size_t *len)
                 {
                     char* tmp = NULL;
                     char* stringbuffer = filebuffer;
-                    
+
                     stringbuffer[bufferlen] = '\0';
-                    
+
                     /* Just ignore BOM */
                     if(stringbuffer[0] == '\xef' && stringbuffer[1] == '\xbb' && stringbuffer[2] == '\xbf')
                     {
                         stringbuffer += 3;
                         bufferlen -= 3;
                     }
-                    
+
                     tmp = realloc(*string, *len+bufferlen+1);
                     if(tmp == NULL)
                     {
@@ -102,10 +103,10 @@ char getStringFromFile(const char* filename, char** string, size_t *len)
                         exit(1);
                     }
                     *string = tmp;
-                    
+
                     memcpy(&(*string)[*len], stringbuffer, bufferlen+1);
                     free(filebuffer);
-                    
+
                     *len += bufferlen;
                 }
             }
@@ -116,7 +117,7 @@ char getStringFromFile(const char* filename, char** string, size_t *len)
             fclose(file);
             return 0;
         }
-        
+
         fclose(file);
     }
     else
@@ -138,7 +139,7 @@ char getStringFromStdin(char** string, size_t* len)
     {
         char* tmp = NULL,
         *start = NULL;
-        
+
         oldlen = *len;
         *len += readlen;
         tmp = realloc(*string, sizeof(char)*(*len+1));
@@ -147,12 +148,12 @@ char getStringFromStdin(char** string, size_t* len)
             memoryFailure();
             exit(EXIT_FAILURE);
         }
-        
+
         *string = tmp;
         start = *string + oldlen;
-        
+
         memcpy(start, buffer, readlen);
-        
+
     }
     if(*len > 0)
     {

@@ -1,6 +1,6 @@
 /*
  * ACCSS C Code Copyright (C) 2014 by Gandalf Sievers
- * Created by Gandalf Sievers on 23.08.14.
+ * Created by Gandalf Sievers on 25.07.16.
  *
  * MIT-License
  *
@@ -23,37 +23,17 @@
  * THE SOFTWARE.
  */
 
+
+#include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
+#include "error.h"
 
-#ifndef accss_helper_h
-#define accss_helper_h
+void throwError(const char* s, int currentBlockLN)
+{
+    fprintf(stderr, "%s: Please check the validity of the CSS block starting from the line #%i\n", s, currentBlockLN);
+}
 
-#if defined(ULONG_MAX) && defined(SIZE_MAX)
-#if ULONG_MAX < SIZE_MAX
-#define SIZECASTTYPE unsigned long long
-#define SIZEPRI "%llu"
-#else
-#define SIZECASTTYPE unsigned long
-#define SIZEPRI "%lu"
-#endif
-#else
-#define SIZECASTTYPE unsigned long
-#define SIZEPRI "%lu"
-#endif
-
-
-#ifndef SIZE_MAX
-#define SIZE_MAX ((size_t)-1)
-#endif
-
-
-size_t casecmp(const char* str1, const char* str2);
-char* resizeValue(char* old, const char* newValue);
-char* copyValue(const char* value);
-char** copyCharList(char** charList);
-void freeCharList(char** charList);
-size_t charListLength(char** charList);
-char* lowerCase(char* string);
-
-#endif
+void memoryFailure()
+{
+    fprintf(stderr, "Out of memory.\n");
+}

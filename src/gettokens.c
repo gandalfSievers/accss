@@ -32,6 +32,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "helper.h"
+#include "error.h"
 #include "gettokens.h"
 #include "tokentypes.h"
 

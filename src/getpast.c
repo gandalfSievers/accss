@@ -32,13 +32,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "helper.h"
+#include "error.h"
 #include "getpast.h"
 #include "tokentypes.h"
 #include "gettokens.h"
+#include "error.h"
 #include "debug.h"
 
 void markSC(struct token_info* info);
-void throwError(const char* s, int currentBlockLN);
 
 char* joinValues(struct token_info* info, size_t start, size_t finish);
 
@@ -312,11 +313,6 @@ void markSC(struct token_info* info)
         struct token* tmp = getTokenByIndex(info, sc);
         tmp->sc_last = i - 1;
     }
-}
-
-void throwError(const char* s, int currentBlockLN)
-{
-    fprintf(stderr, "%s: Please check the validity of the CSS block starting from the line #%i\n", s, currentBlockLN);
 }
 
 char* joinValues(struct token_info* info, size_t start, size_t finish)

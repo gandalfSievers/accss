@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "helper.h"
+#include "error.h"
 #include "ast.h"
 #include "debug.h"
 

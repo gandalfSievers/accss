@@ -33,6 +33,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include "helper.h"
+#include "error.h"
 #include "translator.h"
 #include "ast.h"
 
