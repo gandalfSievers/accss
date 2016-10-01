@@ -57,6 +57,8 @@
 #define ACCSSVENDOR_APPLE "a"
 #define ACCSSVENDOR_XV "x"
 #define ACCSSVENDOR_WAP "p"
+#define ACCSSVENDOR_RIM "r"
+#define ACCSSVENDOR_KHTML "k"
 
 struct analyze
 {
