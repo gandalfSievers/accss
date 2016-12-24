@@ -886,7 +886,7 @@ struct astnode* compressNumber(struct compdeps* deps, struct astnode* node, char
             p++;
         }
 
-        memcpy(x, &x[p], len-p);
+        memmove(x, &x[p], len-p);
         x[len-p] = '\0';
         xtmp = realloc(x, sizeof(char)*(strlen(x)+1));
         if(xtmp == NULL)
