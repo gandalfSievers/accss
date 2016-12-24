@@ -43,11 +43,11 @@
 #include "iohelper.h"
 
 #ifdef _M_X64
-#define VERSION "1.1.1 x86_64 Win"
+#define VERSION "1.1.4 x86_64 Win"
 #elif __x86_64__
-#define VERSION "1.1.1 x86_64"
+#define VERSION "1.1.4 x86_64"
 #else
-#define VERSION "1.1.1"
+#define VERSION "1.1.4"
 #endif
 
 void usage(const char* name)

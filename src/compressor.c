@@ -886,7 +886,7 @@ struct astnode* compressNumber(struct compdeps* deps, struct astnode* node, char
             p++;
         }
 
-        memcpy(x, &x[p], len-p);
+        memmove(x, &x[p], len-p);
         x[len-p] = '\0';
         xtmp = realloc(x, sizeof(char)*(strlen(x)+1));
         if(xtmp == NULL)
@@ -3079,6 +3079,14 @@ char* vendorID(char* string)
     else if(casecmp(string, "-wap-") == 0)
     {
         return copyValue(ACCSSVENDOR_WAP);
+    }
+    else if(casecmp(string, "-rim-") == 0)
+    {
+        return copyValue(ACCSSVENDOR_RIM);
+    }
+    else if(casecmp(string, "-khtml-") == 0)
+    {
+        return copyValue(ACCSSVENDOR_KHTML);
     }
 
     return NULL;
