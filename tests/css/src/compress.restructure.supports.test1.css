@@ -1,0 +1,32 @@
+.a {
+    color: red;
+}
+
+@media foo {
+    @supports (a: 1) {
+        .b {
+            color: blue;
+        }
+    }
+    @supports (a: 1) {
+        .b {
+            fads: blue;
+        }
+    }
+}
+
+.c {
+    color: red;
+}
+
+@supports (b: 1) {
+    @media bar {
+        .d {
+            color: blue;
+        }
+    }
+}
+
+.e {
+    color: red;
+}

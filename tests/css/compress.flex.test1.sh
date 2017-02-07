@@ -1,0 +1,1 @@
+./tests/css.sh tests/css/src/compress.flex.test1.css
