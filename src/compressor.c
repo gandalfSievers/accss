@@ -1272,13 +1272,13 @@ struct astnode* compressDimension(struct compdeps* deps, struct astnode* node, c
         {
             char* currentProperty = NULL;
             struct astnode* prop = parent->children[0];
-            size_t i, ilen = listLength(prop->children);
+            size_t k, klen = listLength(prop->children);
 
-            for(i = 0; i < ilen; i++)
+            for(k = 0; k < klen; k++)
             {
-                if(prop->children[i]->type == ACCSSNODETYPE_IDENT)
+                if(prop->children[k]->type == ACCSSNODETYPE_IDENT)
                 {
-                    currentProperty = prop->children[i]->content;
+                    currentProperty = prop->children[k]->content;
                     break;
                 }
             }
