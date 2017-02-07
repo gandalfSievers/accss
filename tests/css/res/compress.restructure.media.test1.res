@@ -1,0 +1,1 @@
+@media (max-width:767px){.rule1,.rule2{margin-top:10px}}.rule2{margin-top:54px}

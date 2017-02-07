@@ -1,0 +1,1 @@
+./tests/css.sh tests/css/src/compress.ms.filter.test1.css

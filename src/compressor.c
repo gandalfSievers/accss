@@ -755,6 +755,29 @@ char braceFollowedByIdent (struct astnode* container, char pr, char nr)
     return container->type == ACCSSNODETYPE_ATRULERQ && pr == ACCSSNODETYPE_BRACES && nr == ACCSSNODETYPE_IDENT;
 }
 
+char inCalc(struct astnode* container, size_t index, char pr, char nr)
+{
+    if (container->type == ACCSSNODETYPE_FUNCTIONBODY || container->type == ACCSSNODETYPE_BRACES) {
+        if(pr == ACCSSNODETYPE_IDENT)
+        {
+            if( nr == ACCSSNODETYPE_PERCENTAGE || nr == ACCSSNODETYPE_NUMBER || nr == ACCSSNODETYPE_DIMENSION)
+            {
+                return 1;
+            }
+        } else if (nr == ACCSSNODETYPE_IDENT && (pr == ACCSSNODETYPE_NUMBER || pr == ACCSSNODETYPE_PERCENTAGE || pr == ACCSSNODETYPE_DIMENSION)) {
+            struct astnode* next = container->children[index+1];
+
+            if(next != NULL && next->content != NULL && strcmp(next->content, "*") == 0)
+            {
+                return 1;
+            }
+
+        }
+
+    }
+    return 0;
+}
+
 char _cleanWhitespace(char r, char left)
 {
     switch(r)
@@ -821,7 +844,9 @@ struct astnode* cleanWhitespace(struct compdeps* deps, struct astnode* node, cha
         {
             if(nr != 0 && pr != 0)
             {
-                if(_cleanWhitespace(nr, 0) || _cleanWhitespace(pr, 1))
+                if(_cleanWhitespace(nr, 0) || _cleanWhitespace(pr, 1)
+                    || inCalc(container, index, pr, nr)
+                   )
                 {
                     return NULL;
                 }
@@ -1227,10 +1252,37 @@ struct astnode* compressDimension(struct compdeps* deps, struct astnode* node, c
         char* haystack[] = {"deg","grad","rad","turn","s","ms","Hz","kHz","dpi","dpcm","dppx"};
         int len = sizeof(haystack)/sizeof(haystack[0]);
         int i;
+        struct astnode* parent = node->parent;
+
 
         for(i = 0; i < len; ++i)
         {
             if(!strcmp(haystack[i], node->children[1]->content))
+            {
+                return node;
+            }
+        }
+
+        while (parent != NULL && parent->type != ACCSSNODETYPE_DECLARATION)
+        {
+            parent = parent->parent;
+        }
+
+        if(parent != NULL && parent->type == ACCSSNODETYPE_DECLARATION)
+        {
+            char* currentProperty = NULL;
+            struct astnode* prop = parent->children[0];
+            size_t k, klen = listLength(prop->children);
+
+            for(k = 0; k < klen; k++)
+            {
+                if(prop->children[k]->type == ACCSSNODETYPE_IDENT)
+                {
+                    currentProperty = prop->children[k]->content;
+                    break;
+                }
+            }
+            if(currentProperty != NULL && strcmp(currentProperty, "flex") == 0)
             {
                 return node;
             }
@@ -1492,7 +1544,7 @@ struct astnode* reAddSpaces(struct compdeps* deps, struct astnode* node, char ru
             if((node->children[llen]->type == ACCSSNODETYPE_VHASH
                || node->children[llen]->type == ACCSSNODETYPE_PERCENTAGE
                || node->children[llen]->type == ACCSSNODETYPE_NUMBER
-               || node->children[llen]->type == ACCSSNODETYPE_IDENT
+               || (node->children[llen]->type == ACCSSNODETYPE_IDENT && strcmp(node->children[llen]->content, "*") != 0)
                )
               && (node->children[llen-1]->type == ACCSSNODETYPE_VHASH
                  || node->children[llen-1]->type == ACCSSNODETYPE_PERCENTAGE
@@ -3879,6 +3931,33 @@ struct astnode* delimBlocks(struct compdeps* deps, struct astnode* node, char ru
     return node;
 }
 
+struct astnode* joinMedia(struct compdeps* deps, struct astnode* node, char rule, struct astnode* container, size_t index, const char* path)
+{
+    if (listLength(node->children) > 2)
+    {
+        if(strcmp(node->children[0]->s, "@media") == 0 || strcmp(node->children[0]->s, "@supports") == 0 )
+        {
+            char* type = node->children[0]->s;
+            char* rule = node->children[1]->s;
+
+            struct astnode** current = container->children + index + 1;
+
+            while (*current != NULL) {
+                if ((*current)->type == ACCSSNODETYPE_ATRULER
+                    && listLength((*current)->children) > 2
+                    && strcmp((*current)->children[0]->s, type) == 0
+                    && strcmp((*current)->children[1]->s, rule) == 0)
+                {
+                    node->children[2]->children = mergeList(node->children[2]->children, (*current)->children[2]->children);
+                    (*current)->children[2]->children = NULL;
+                }
+                current++;
+            }
+        }
+    }
+    return node;
+}
+
 struct astnode* ccrules(struct compdeps* deps, struct astnode* x1, char rule, struct astnode* container, size_t index, const char* path)
 {
     if(rule == ACCSSNODETYPE_COMMENT)
@@ -4007,6 +4086,8 @@ struct astnode* prules(struct compdeps* deps, struct astnode* x1, char rule, str
         case ACCSSNODETYPE_PERCENTAGE:
         case ACCSSNODETYPE_DIMENSION:
         case ACCSSNODETYPE_IDENT:
+        case ACCSSNODETYPE_ATKEYWORD:
+        case ACCSSNODETYPE_ATRULERQ:
         {
             x1 = preTranslate(deps, x1, rule, container, index, path);
         }
@@ -4167,6 +4248,25 @@ struct astnode* frules(struct compdeps* deps, struct astnode* x1, char rule, str
     return x1;
 }
 
+struct astnode* jmrules(struct compdeps* deps, struct astnode* x1, char rule, struct astnode* container, size_t index, const char* path)
+{
+    switch(rule)
+    {
+
+        case ACCSSNODETYPE_ATRULER:
+        {
+            x1 = joinMedia(deps, x1, rule, container, index, path);
+        }
+        case ACCSSNODETYPE_RULESET:
+        case ACCSSNODETYPE_ATRULEB:
+        {
+            x1 = cleanEmpty(deps, x1, rule, container, index, path);
+        }
+            break;
+    }
+    return x1;
+}
+
 struct astnode* walk(struct compdeps* deps, struct astnode* (*rules)(struct compdeps* deps, struct astnode*, char, struct astnode*, size_t, const char*), struct astnode* node, const char* path)
 {
     struct astnode* t, *x;
@@ -4225,8 +4325,9 @@ struct astnode* walk(struct compdeps* deps, struct astnode* (*rules)(struct comp
     {
         return node;
     }
-
 }
+
+
 
 struct astnode* compress(struct astnode* tree, unsigned char restructure, unsigned char mergesplitted, unsigned char compat)
 {
@@ -4242,10 +4343,23 @@ struct astnode* compress(struct astnode* tree, unsigned char restructure, unsign
     deps.lastShortGroupID = 0;
 
     x = walk(&deps, &ccrules, x, "/0");
+#ifdef DEBUG
+    printf("\n\n===================after cc======================================\n\n");
+    printASTNodeJSON(x, 0);
+    printf("\n\n=========================================================\n");
+    fflush(stdout);
+#endif
     x = walk(&deps, &crules, x, "/0");
+#ifdef DEBUG
+    printf("\n\n===================after c======================================\n\n");
+    printASTNodeJSON(x, 0);
+    printf("\n\n=========================================================\n");
+    fflush(stdout);
+#endif
     x = walk(&deps, &srules, x, "/0");
     x = walk(&deps, &prules, x, "/0");
     x = walk(&deps, &frrules, x, "/0");
+
 
     if(restructure)
     {
@@ -4254,9 +4368,11 @@ struct astnode* compress(struct astnode* tree, unsigned char restructure, unsign
 #endif
         size_t l0, l1 = SIZE_MAX, ls;
         struct astnode *x0 = NULL, *xs = NULL;
-        char* str = translate(x);
+        char* str;
 
+        x = walk(&deps, &jmrules, x, "/0");
 
+        str = translate(x);
         ls = strlen(str);
         free(str);
 

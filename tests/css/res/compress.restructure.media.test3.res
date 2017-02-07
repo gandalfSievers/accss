@@ -1,0 +1,1 @@
+@media (min-width:768px) and (max-width:991px){.article-facebook-container,.article-facebook-container_betainfo{width:auto}}

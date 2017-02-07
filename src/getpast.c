@@ -3138,10 +3138,28 @@ struct astnode* getFilterp(struct token_info* info, size_t* pos)
     struct token* tmp = getTokenByIndex(info, *pos);
     struct astnode* ident = createASTNodeWithType(ACCSSNODETYPE_IDENT);
     struct astnode* filterp = createASTNodeWithType(ACCSSNODETYPE_PROPERTY);
-
-    ident->content = copyValue(tmp->value);
-
+    int nextPos = (*pos)+1;
+    char* value = copyValue(tmp->value);
+    size_t vlen = strlen(value);
     *pos += tmp->filterp_l;
+    
+    for(;nextPos < *pos; nextPos++)
+    {
+        struct token* tmp2 = getTokenByIndex(info, nextPos);
+        size_t len = strlen(tmp2->value);
+        
+        char* tmpStr = realloc(value, sizeof(char)*(vlen+len+1));
+        if(tmp == NULL)
+        {
+            memoryFailure();
+            exit(EXIT_FAILURE);
+        }
+        value = tmpStr;
+        memcpy(&value[vlen], tmp2->value, len+1);
+        vlen+=len;
+    }
+
+    ident->content = value;
 
     filterp->children = pushASTNode(filterp->children, ident);
     filterp->children = mergeList(filterp->children, getSC(info, pos));
