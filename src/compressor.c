@@ -766,14 +766,14 @@ char inCalc(struct astnode* container, size_t index, char pr, char nr)
             }
         } else if (nr == ACCSSNODETYPE_IDENT && (pr == ACCSSNODETYPE_NUMBER || pr == ACCSSNODETYPE_PERCENTAGE || pr == ACCSSNODETYPE_DIMENSION)) {
             struct astnode* next = container->children[index+1];
-            
+
             if(next != NULL && next->content != NULL && strcmp(next->content, "*") == 0)
             {
                 return 1;
             }
-            
+
         }
-        
+
     }
     return 0;
 }
@@ -1253,7 +1253,7 @@ struct astnode* compressDimension(struct compdeps* deps, struct astnode* node, c
         int len = sizeof(haystack)/sizeof(haystack[0]);
         int i;
         struct astnode* parent = node->parent;
-        
+
 
         for(i = 0; i < len; ++i)
         {
@@ -1262,19 +1262,19 @@ struct astnode* compressDimension(struct compdeps* deps, struct astnode* node, c
                 return node;
             }
         }
-        
+
         while (parent != NULL && parent->type != ACCSSNODETYPE_DECLARATION)
         {
             parent = parent->parent;
         }
-        
+
         if(parent != NULL && parent->type == ACCSSNODETYPE_DECLARATION)
         {
             char* currentProperty = NULL;
             struct astnode* prop = parent->children[0];
-            size_t ilen = listLength(prop->children);
-            
-            for(size_t i = 0; i < ilen; i++)
+            size_t i, ilen = listLength(prop->children);
+
+            for(i = 0; i < ilen; i++)
             {
                 if(prop->children[i]->type == ACCSSNODETYPE_IDENT)
                 {
@@ -1287,7 +1287,7 @@ struct astnode* compressDimension(struct compdeps* deps, struct astnode* node, c
                 return node;
             }
         }
-        
+
         deleteASTList(node->children);
         node->children = NULL;
         node->type = ACCSSNODETYPE_NUMBER;
@@ -3939,9 +3939,9 @@ struct astnode* joinMedia(struct compdeps* deps, struct astnode* node, char rule
         {
             char* type = node->children[0]->s;
             char* rule = node->children[1]->s;
-            
+
             struct astnode** current = container->children + index + 1;
-            
+
             while (*current != NULL) {
                 if ((*current)->type == ACCSSNODETYPE_ATRULER
                     && listLength((*current)->children) > 2
@@ -4252,7 +4252,7 @@ struct astnode* jmrules(struct compdeps* deps, struct astnode* x1, char rule, st
 {
     switch(rule)
     {
-            
+
         case ACCSSNODETYPE_ATRULER:
         {
             x1 = joinMedia(deps, x1, rule, container, index, path);
@@ -4359,7 +4359,7 @@ struct astnode* compress(struct astnode* tree, unsigned char restructure, unsign
     x = walk(&deps, &srules, x, "/0");
     x = walk(&deps, &prules, x, "/0");
     x = walk(&deps, &frrules, x, "/0");
-    
+
 
     if(restructure)
     {
@@ -4371,7 +4371,7 @@ struct astnode* compress(struct astnode* tree, unsigned char restructure, unsign
         char* str;
 
         x = walk(&deps, &jmrules, x, "/0");
-        
+
         str = translate(x);
         ls = strlen(str);
         free(str);
