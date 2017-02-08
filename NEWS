@@ -1,3 +1,6 @@
+Version 1.2.1
+Fixed small error in calc compression introduced in 1.2.0
+
 Version 1.2
 Compress @media and @supports rules with same qualifier
 Keep units on flex properties
