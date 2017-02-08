@@ -755,6 +755,11 @@ char braceFollowedByIdent (struct astnode* container, char pr, char nr)
     return container->type == ACCSSNODETYPE_ATRULERQ && pr == ACCSSNODETYPE_BRACES && nr == ACCSSNODETYPE_IDENT;
 }
 
+char braceFollowedByUnary (struct astnode* container, char pr, char nr)
+{
+    return (container->type == ACCSSNODETYPE_FUNCTIONBODY || container->type == ACCSSNODETYPE_BRACES) && pr == ACCSSNODETYPE_BRACES && nr == ACCSSNODETYPE_UNARY;
+}
+
 char inCalc(struct astnode* container, size_t index, char pr, char nr)
 {
     if (container->type == ACCSSNODETYPE_FUNCTIONBODY || container->type == ACCSSNODETYPE_BRACES) {
@@ -764,7 +769,7 @@ char inCalc(struct astnode* container, size_t index, char pr, char nr)
             {
                 return 1;
             }
-        } else if (nr == ACCSSNODETYPE_IDENT && (pr == ACCSSNODETYPE_NUMBER || pr == ACCSSNODETYPE_PERCENTAGE || pr == ACCSSNODETYPE_DIMENSION)) {
+        } else if (nr == ACCSSNODETYPE_IDENT && (pr == ACCSSNODETYPE_NUMBER || pr == ACCSSNODETYPE_PERCENTAGE)) {
             struct astnode* next = container->children[index+1];
 
             if(next != NULL && next->content != NULL && strcmp(next->content, "*") == 0)
@@ -840,7 +845,7 @@ struct astnode* cleanWhitespace(struct compdeps* deps, struct astnode* node, cha
     }
     else
     {
-        if(!(container->type == ACCSSNODETYPE_ATRULERQ && pr == 0) && !previousIsURI(container, index) && !braceFollowedByIdent(container, pr, nr))
+        if(!(container->type == ACCSSNODETYPE_ATRULERQ && pr == 0) && !previousIsURI(container, index) && !braceFollowedByIdent(container, pr, nr) && !braceFollowedByUnary(container, pr, nr))
         {
             if(nr != 0 && pr != 0)
             {
@@ -1541,7 +1546,7 @@ struct astnode* reAddSpaces(struct compdeps* deps, struct astnode* node, char ru
     {
         for(llen--; llen > 0; llen--)
         {
-            if((node->children[llen]->type == ACCSSNODETYPE_VHASH
+            if(((node->children[llen]->type == ACCSSNODETYPE_VHASH
                || node->children[llen]->type == ACCSSNODETYPE_PERCENTAGE
                || node->children[llen]->type == ACCSSNODETYPE_NUMBER
                || (node->children[llen]->type == ACCSSNODETYPE_IDENT && strcmp(node->children[llen]->content, "*") != 0)
@@ -1550,7 +1555,8 @@ struct astnode* reAddSpaces(struct compdeps* deps, struct astnode* node, char ru
                  || node->children[llen-1]->type == ACCSSNODETYPE_PERCENTAGE
                  || node->children[llen-1]->type == ACCSSNODETYPE_NUMBER
                  )
-              )
+              ) || ( node->children[llen-1]->type == ACCSSNODETYPE_DIMENSION && node->children[llen]->type == ACCSSNODETYPE_OPERATOR && strcmp(node->children[llen]->content, "/") == 0)
+               )
             {
                 struct astnode* s = createASTNodeWithType(ACCSSNODETYPE_S);
                 s->content = copyValue(" ");
@@ -4060,6 +4066,14 @@ struct astnode* srules(struct compdeps* deps, struct astnode* x1, char rule, str
         case ACCSSNODETYPE_FUNCTIONBODY:
         {
             x1 = reAddSpaces(deps, x1, rule, container, index, path);
+        }
+            break;
+        case ACCSSNODETYPE_BRACES:
+        {
+            if(x1->parent->type == ACCSSNODETYPE_FUNCTIONBODY)
+            {
+                x1 = reAddSpaces(deps, x1, rule, container, index, path);
+            }
         }
             break;
     }

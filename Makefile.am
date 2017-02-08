@@ -29,6 +29,7 @@ TESTS= ./tests/compat/backgroundcolor.ie8.test1.sh \
 ./tests/css/compress.attrib.string.test1.sh \
 ./tests/css/compress.attrib.string.test2.sh \
 ./tests/css/compress.calc.test1.sh \
+./tests/css/compress.calc.test2.sh \
 ./tests/css/compress.colormark.test1.sh \
 ./tests/css/compress.dont.background.test1.sh \
 ./tests/css/compress.dont.background.test2.sh \
