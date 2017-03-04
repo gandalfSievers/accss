@@ -1,1 +1,1 @@
-.ab{background:linear-gradient(to bottom,rgba(0,0,0,.7)0%,transparent100%);-ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(0, 0, 0, 0.7)', endColorstr='transparent', GradientType=0)}
+.ab{background:linear-gradient(to bottom,rgba(0,0,0,.7)0%,transparent 100%);-ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='rgba(0, 0, 0, 0.7)', endColorstr='transparent', GradientType=0)}

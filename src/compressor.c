@@ -760,6 +760,16 @@ char braceFollowedByUnary (struct astnode* container, char pr, char nr)
     return (container->type == ACCSSNODETYPE_FUNCTIONBODY || container->type == ACCSSNODETYPE_BRACES) && pr == ACCSSNODETYPE_BRACES && nr == ACCSSNODETYPE_UNARY;
 }
 
+char identFollowedByNumberDimensionInFunction(struct astnode* container, size_t index, char pr, char nr)
+{
+    struct astnode* prev = index != 0 ? container->children[index-1] : NULL;
+    if(prev != NULL && prev->content != NULL && strcmp(prev->content, "*") == 0)
+    {
+        return 0;
+    }
+    return (container->type == ACCSSNODETYPE_FUNCTIONBODY || container->type == ACCSSNODETYPE_BRACES) && pr == ACCSSNODETYPE_IDENT && (nr == ACCSSNODETYPE_PERCENTAGE || nr == ACCSSNODETYPE_DIMENSION || nr == ACCSSNODETYPE_NUMBER);
+}
+
 char inCalc(struct astnode* container, size_t index, char pr, char nr)
 {
     if (container->type == ACCSSNODETYPE_FUNCTIONBODY || container->type == ACCSSNODETYPE_BRACES) {
@@ -845,7 +855,7 @@ struct astnode* cleanWhitespace(struct compdeps* deps, struct astnode* node, cha
     }
     else
     {
-        if(!(container->type == ACCSSNODETYPE_ATRULERQ && pr == 0) && !previousIsURI(container, index) && !braceFollowedByIdent(container, pr, nr) && !braceFollowedByUnary(container, pr, nr))
+        if(!(container->type == ACCSSNODETYPE_ATRULERQ && pr == 0) && !previousIsURI(container, index) && !braceFollowedByIdent(container, pr, nr) && !braceFollowedByUnary(container, pr, nr)  && !identFollowedByNumberDimensionInFunction(container, index, pr, nr))
         {
             if(nr != 0 && pr != 0)
             {

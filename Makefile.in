@@ -517,6 +517,7 @@ TESTS = ./tests/compat/backgroundcolor.ie8.test1.sh \
 ./tests/css/compress.dont.background.test2.sh \
 ./tests/css/compress.dont.test1.sh \
 ./tests/css/compress.flex.test1.sh \
+./tests/css/compress.function.background.test1.sh \
 ./tests/css/compress.initial.background.test1.sh \
 ./tests/css/compress.initial.font.test1.sh \
 ./tests/css/compress.mess.test1.sh \
@@ -1335,6 +1336,13 @@ recheck: all
 ./tests/css/compress.flex.test1.sh.log: ./tests/css/compress.flex.test1.sh
 	@p='./tests/css/compress.flex.test1.sh'; \
 	b='./tests/css/compress.flex.test1.sh'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+./tests/css/compress.function.background.test1.sh.log: ./tests/css/compress.function.background.test1.sh
+	@p='./tests/css/compress.function.background.test1.sh'; \
+	b='./tests/css/compress.function.background.test1.sh'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
