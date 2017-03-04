@@ -1,3 +1,6 @@
+Version 1.2.2
+Fixed error in background function compression, added whitespace when number/dimension follows identifier
+
 Version 1.2.1
 Fixed small error in calc compression introduced in 1.2.0
 

@@ -35,6 +35,7 @@ TESTS= ./tests/compat/backgroundcolor.ie8.test1.sh \
 ./tests/css/compress.dont.background.test2.sh \
 ./tests/css/compress.dont.test1.sh \
 ./tests/css/compress.flex.test1.sh \
+./tests/css/compress.function.background.test1.sh \
 ./tests/css/compress.initial.background.test1.sh \
 ./tests/css/compress.initial.font.test1.sh \
 ./tests/css/compress.mess.test1.sh \
